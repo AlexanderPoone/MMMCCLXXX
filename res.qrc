@@ -17,5 +17,6 @@
         <file>button.qml</file>
         <file>dark.png</file>
         <file>darker.png</file>
+        <file>jukebox.png</file>
     </qresource>
 </RCC>

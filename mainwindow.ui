@@ -15,7 +15,10 @@
   </property>
   <property name="windowIcon">
    <iconset resource="res.qrc">
-    <normaloff>:/roofGarden.png</normaloff>:/roofGarden.png</iconset>
+    <normaloff>:/jukebox.png</normaloff>:/jukebox.png</iconset>
+  </property>
+  <property name="windowOpacity">
+   <double>0.900000000000000</double>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
@@ -573,7 +576,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QSlider" name="horizontalSlider">
+           <widget class="QSlider" name="volumeSlider">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -666,7 +669,7 @@
          <string notr="true">background: black</string>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="tab">
          <property name="styleSheet">
@@ -686,7 +689,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>650</width>
+              <width>670</width>
               <height>0</height>
              </size>
             </property>
@@ -698,7 +701,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>650</width>
+               <width>670</width>
                <height>371</height>
               </rect>
              </property>
@@ -708,7 +711,7 @@
                 <property name="font">
                  <font>
                   <family>Myriad Pro</family>
-                  <pointsize>9</pointsize>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
                 <property name="styleSheet">
@@ -837,22 +840,5 @@ color: rgb(0, 170, 0);</string>
  <resources>
   <include location="res.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>seekSlider</sender>
-   <signal>sliderMoved(int)</signal>
-   <receiver>seekSlider</receiver>
-   <slot>show()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>787</x>
-     <y>479</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>787</x>
-     <y>479</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

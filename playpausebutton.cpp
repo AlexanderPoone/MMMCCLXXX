@@ -76,7 +76,15 @@ void PlayPauseButton::paint(QPainter *painter, const QStyleOptionGraphicsItem *i
 }
 
 void PlayPauseButton::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
-    Button::hoverEnterEvent(event);
+    if (state) Button::hoverEnterEvent(event);
+    else {
+        // DANGER: SHOULD BE MEMBER!
+        auto effect=new QGraphicsDropShadowEffect();
+    //    effect->setColor(QColor(0xC5, 0xB3, 0x58));
+        effect->setColor(QColor(0x7D, 0xF9, 0xFF)); //Electric blue
+        effect->setBlurRadius(40.);
+        setGraphicsEffect(effect);
+    }
     qDebug("Hover");
 }
 
@@ -86,8 +94,21 @@ void PlayPauseButton::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
 }
 
 void PlayPauseButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-    if (state) state=false;
-    else state=true;
+    if (state) {
+        state=false;
+        auto effect=new QGraphicsDropShadowEffect();
+        effect->setColor(QColor(0x7D, 0xF9, 0xFF)); //Electric blue
+        effect->setBlurRadius(40.);
+        setGraphicsEffect(effect);
+    }
+    else {
+        state=true;
+        auto effect=new QGraphicsDropShadowEffect();
+    //    effect->setColor(QColor(0xC5, 0xB3, 0x58));
+        effect->setColor(QColor(0xFF, 0xBF, 0)); //Amber
+        effect->setBlurRadius(40.);
+        setGraphicsEffect(effect);
+    }
     qDebug("%d", state);
     update();
 }
