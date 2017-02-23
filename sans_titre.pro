@@ -28,13 +28,15 @@ SOURCES += main.cpp\
     button.cpp \
     stopbutton.cpp \
     playpausebutton.cpp \
-    geniusmanager.cpp
+    geniusmanager.cpp \
+    gloweffect.cpp
 
 HEADERS  += mainwindow.h \
     button.h \
     stopbutton.h \
     playpausebutton.h \
-    geniusmanager.h
+    geniusmanager.h \
+    gloweffect.h
 
 FORMS    += mainwindow.ui
 

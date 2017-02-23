@@ -1,4 +1,5 @@
 #include "button.h"
+#include "gloweffect.h"
 
 Button::Button()
 {
