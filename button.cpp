@@ -15,7 +15,8 @@ Button::Button()
     nihiloPen.setColor(Qt::transparent);
 
     prepareGeometryChange();
-    this->setGraphicsEffect(new QGraphicsDropShadowEffect());
+    auto effect=new QGraphicsDropShadowEffect();
+    this->setGraphicsEffect(effect);
 }
 
 //The clickable area of a QGraphicsItem is defined by its boundingRect and shape functions.
@@ -51,6 +52,18 @@ void Button::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWid
     path1.cubicTo(12.54*20-60, 4.32*20-60, 4*20-60, 9.48*20-60, 2.63*20-60, 6.6*20-60);
     path1.closeSubpath();
     painter->drawPath(path1);
+}
+
+void Button::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
+    auto effect=new QGraphicsDropShadowEffect();
+//    effect->setColor(QColor(0xC5, 0xB3, 0x58));
+    effect->setColor(QColor(0xFF, 0xBF, 0)); //Amber
+    effect->setBlurRadius(40.);
+    setGraphicsEffect(effect);
+}
+
+void Button::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
+    setGraphicsEffect(NULL);
 }
 
 void Button::mousePressEvent(QGraphicsSceneMouseEvent *event)

@@ -76,10 +76,12 @@ void PlayPauseButton::paint(QPainter *painter, const QStyleOptionGraphicsItem *i
 }
 
 void PlayPauseButton::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
+    Button::hoverEnterEvent(event);
     qDebug("Hover");
 }
 
 void PlayPauseButton::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
+    Button::hoverLeaveEvent(event);
     qDebug("Hover");
 }
 
