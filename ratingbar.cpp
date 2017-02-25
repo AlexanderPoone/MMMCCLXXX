@@ -1,6 +1,7 @@
 #include "ratingbar.h"
 
 RatingBar::RatingBar()
+    :rating(5.)
 {
     setAcceptHoverEvents(true);
     siennaPen.setColor(QColor(0xCB, 0xA1, 0x35)); //Metallic gold
@@ -8,93 +9,96 @@ RatingBar::RatingBar()
     siennaPen.setWidth(2);
     siennaPen.setJoinStyle(Qt::RoundJoin);
 
-    QPainterPath tmpPath;
-    tmpPath.moveTo(1.56*9-48, 2.88*9+25);
-    tmpPath.lineTo(.2*9-48,1.85*9+25);
-    tmpPath.lineTo(1.9*9-48,1.85*9+25);
-    tmpPath.lineTo(2.5*9-48,.2*9+25);
-    tmpPath.lineTo(3.1*9-48,1.85*9+25);
-    tmpPath.lineTo(4.8*9-48,1.85*9+25);
-    tmpPath.lineTo(3.44*9-48,2.88*9+25);
-    tmpPath.lineTo(3.92*9-48,4.52*9+25);
-    tmpPath.lineTo(2.5*9-48,3.54*9+25);
-    tmpPath.lineTo(1.12*9-48,4.52*9+25);
-    tmpPath.closeSubpath();
-    wholeStarPath.addPath(tmpPath);
+    wholeStarPath.moveTo(1.56*9-48, 2.88*9+25);
+    wholeStarPath.lineTo(.2*9-48,1.85*9+25);
+    wholeStarPath.lineTo(1.9*9-48,1.85*9+25);
+    wholeStarPath.lineTo(2.5*9-48,.2*9+25);
+    wholeStarPath.lineTo(3.1*9-48,1.85*9+25);
+    wholeStarPath.lineTo(4.8*9-48,1.85*9+25);
+    wholeStarPath.lineTo(3.44*9-48,2.88*9+25);
+    wholeStarPath.lineTo(3.92*9-48,4.52*9+25);
+    wholeStarPath.lineTo(2.5*9-48,3.54*9+25);
+    wholeStarPath.lineTo(1.12*9-48,4.52*9+25);
+    wholeStarPath.closeSubpath();
+    QPainterPath tmpPath(wholeStarPath);
+    backPath.addPath(tmpPath);
     tmpPath.translate(48.,0);
-    wholeStarPath.addPath(tmpPath);
+    backPath.addPath(tmpPath);
     tmpPath.translate(48.,0);
-    wholeStarPath.addPath(tmpPath);
+    backPath.addPath(tmpPath);
     tmpPath.translate(48.,0);
-    wholeStarPath.addPath(tmpPath);
+    backPath.addPath(tmpPath);
     tmpPath.translate(48.,0);
-    wholeStarPath.addPath(tmpPath);
-    ~tmpPath();
-    halfStarPath.moveTo(1.56*9-48, 2.88*9+25);
-    halfStarPath.lineTo(.2*9-48,1.85*9+25);
-    halfStarPath.lineTo(1.9*9-48,1.85*9+25);
-    halfStarPath.lineTo(2.5*9-48,.2*9+25);
-    halfStarPath.lineTo(2.5*9-48,3.54*9+25);
-    halfStarPath.lineTo(1.12*9-48,4.52*9+25);
-    halfStarPath.closeSubpath();
-    halfStarPath.translate(48.,0);
-
-
-    //    wholeStarPath.moveTo(1.56*9-48, 2.88*9+25);
-    //    wholeStarPath.lineTo(.2*9-48,1.85*9+25);
-    //    wholeStarPath.lineTo(1.9*9-48,1.85*9+25);
-    //    wholeStarPath.lineTo(2.5*9-48,.2*9+25);
-    //    wholeStarPath.lineTo(3.1*9-48,1.85*9+25);
-    //    wholeStarPath.lineTo(4.8*9-48,1.85*9+25);
-    //    wholeStarPath.lineTo(3.44*9-48,2.88*9+25);
-    //    wholeStarPath.lineTo(3.92*9-48,4.52*9+25);
-    //    wholeStarPath.lineTo(2.5*9-48,3.54*9+25);
-    //    wholeStarPath.lineTo(1.12*9-48,4.52*9+25);
-    //    wholeStarPath.closeSubpath();
-    //    wholeStarPath.moveTo(1.56*9-3, 2.88*9+25);
-    //    wholeStarPath.lineTo(.2*9-3,1.85*9+25);
-    //    wholeStarPath.lineTo(1.9*9-3,1.85*9+25);
-    //    wholeStarPath.lineTo(2.5*9-3,.2*9+25);
-    //    wholeStarPath.lineTo(3.1*9-3,1.85*9+25);
-    //    wholeStarPath.lineTo(4.8*9-3,1.85*9+25);
-    //    wholeStarPath.lineTo(3.44*9-3,2.88*9+25);
-    //    wholeStarPath.lineTo(3.92*9-3,4.52*9+25);
-    //    wholeStarPath.lineTo(2.5*9-3,3.54*9+25);
-    //    wholeStarPath.lineTo(1.12*9-3,4.52*9+25);
-    //    wholeStarPath.closeSubpath();
-    //    wholeStarPath.moveTo(1.56*9+42, 2.88*9+25);
-    //    wholeStarPath.lineTo(.2*9+42,1.85*9+25);
-    //    wholeStarPath.lineTo(1.9*9+42,1.85*9+25);
-    //    wholeStarPath.lineTo(2.5*9+42,.2*9+25);
-    //    wholeStarPath.lineTo(3.1*9+42,1.85*9+25);
-    //    wholeStarPath.lineTo(4.8*9+42,1.85*9+25);
-    //    wholeStarPath.lineTo(3.44*9+42,2.88*9+25);
-    //    wholeStarPath.lineTo(3.92*9+42,4.52*9+25);
-    //    wholeStarPath.lineTo(2.5*9+42,3.54*9+25);
-    //    wholeStarPath.lineTo(1.12*9+42,4.52*9+25);
-    //    wholeStarPath.closeSubpath();
-    //    wholeStarPath.moveTo(1.56*9+87, 2.88*9+25);
-    //    wholeStarPath.lineTo(.2*9+87,1.85*9+25);
-    //    wholeStarPath.lineTo(1.9*9+87,1.85*9+25);
-    //    wholeStarPath.lineTo(2.5*9+87,.2*9+25);
-    //    wholeStarPath.lineTo(3.1*9+87,1.85*9+25);
-    //    wholeStarPath.lineTo(4.8*9+87,1.85*9+25);
-    //    wholeStarPath.lineTo(3.44*9+87,2.88*9+25);
-    //    wholeStarPath.lineTo(3.92*9+87,4.52*9+25);
-    //    wholeStarPath.lineTo(2.5*9+87,3.54*9+25);
-    //    wholeStarPath.lineTo(1.12*9+87,4.52*9+25);
-    //    wholeStarPath.closeSubpath();
-    //    wholeStarPath.moveTo(1.56*9+132, 2.88*9+25);
-    //    wholeStarPath.lineTo(.2*9+132,1.85*9+25);
-    //    wholeStarPath.lineTo(1.9*9+132,1.85*9+25);
-    //    wholeStarPath.lineTo(2.5*9+132,.2*9+25);
-    //    wholeStarPath.lineTo(3.1*9+132,1.85*9+25);
-    //    wholeStarPath.lineTo(4.8*9+132,1.85*9+25);
-    //    wholeStarPath.lineTo(3.44*9+132,2.88*9+25);
-    //    wholeStarPath.lineTo(3.92*9+132,4.52*9+25);
-    //    wholeStarPath.lineTo(2.5*9+132,3.54*9+25);
-    //    wholeStarPath.lineTo(1.12*9+132,4.52*9+25);
-    //    wholeStarPath.closeSubpath();
+    backPath.addPath(tmpPath);
+    halfStarLPath.moveTo(1.56*9-48, 2.88*9+25);
+    halfStarLPath.lineTo(.2*9-48,1.85*9+25);
+    halfStarLPath.lineTo(1.9*9-48,1.85*9+25);
+    halfStarLPath.lineTo(2.5*9-48,.2*9+25);
+    halfStarLPath.lineTo(2.5*9-48,3.54*9+25);
+    halfStarLPath.lineTo(1.12*9-48,4.52*9+25);
+    halfStarLPath.closeSubpath();
+    halfStarRPath.moveTo(2.5*9*2 -1.56*9-48, 2.88*9+25);
+    halfStarRPath.lineTo(2.5*9*2 -.2*9-48,1.85*9+25);
+    halfStarRPath.lineTo(2.5*9*2 -1.9*9-48,1.85*9+25);
+    halfStarRPath.lineTo(2.5*9*2 -2.5*9-48,.2*9+25);
+    halfStarRPath.lineTo(2.5*9*2 -2.5*9-48,3.54*9+25);
+    halfStarRPath.lineTo(2.5*9*2 -1.12*9-48,4.52*9+25);
+    halfStarRPath.closeSubpath();
+    //    backPath.moveTo(1.56*9-48, 2.88*9+25);
+    //    backPath.lineTo(.2*9-48,1.85*9+25);
+    //    backPath.lineTo(1.9*9-48,1.85*9+25);
+    //    backPath.lineTo(2.5*9-48,.2*9+25);
+    //    backPath.lineTo(3.1*9-48,1.85*9+25);
+    //    backPath.lineTo(4.8*9-48,1.85*9+25);
+    //    backPath.lineTo(3.44*9-48,2.88*9+25);
+    //    backPath.lineTo(3.92*9-48,4.52*9+25);
+    //    backPath.lineTo(2.5*9-48,3.54*9+25);
+    //    backPath.lineTo(1.12*9-48,4.52*9+25);
+    //    backPath.closeSubpath();
+    //    backPath.moveTo(1.56*9-3, 2.88*9+25);
+    //    backPath.lineTo(.2*9-3,1.85*9+25);
+    //    backPath.lineTo(1.9*9-3,1.85*9+25);
+    //    backPath.lineTo(2.5*9-3,.2*9+25);
+    //    backPath.lineTo(3.1*9-3,1.85*9+25);
+    //    backPath.lineTo(4.8*9-3,1.85*9+25);
+    //    backPath.lineTo(3.44*9-3,2.88*9+25);
+    //    backPath.lineTo(3.92*9-3,4.52*9+25);
+    //    backPath.lineTo(2.5*9-3,3.54*9+25);
+    //    backPath.lineTo(1.12*9-3,4.52*9+25);
+    //    backPath.closeSubpath();
+    //    backPath.moveTo(1.56*9+42, 2.88*9+25);
+    //    backPath.lineTo(.2*9+42,1.85*9+25);
+    //    backPath.lineTo(1.9*9+42,1.85*9+25);
+    //    backPath.lineTo(2.5*9+42,.2*9+25);
+    //    backPath.lineTo(3.1*9+42,1.85*9+25);
+    //    backPath.lineTo(4.8*9+42,1.85*9+25);
+    //    backPath.lineTo(3.44*9+42,2.88*9+25);
+    //    backPath.lineTo(3.92*9+42,4.52*9+25);
+    //    backPath.lineTo(2.5*9+42,3.54*9+25);
+    //    backPath.lineTo(1.12*9+42,4.52*9+25);
+    //    backPath.closeSubpath();
+    //    backPath.moveTo(1.56*9+87, 2.88*9+25);
+    //    backPath.lineTo(.2*9+87,1.85*9+25);
+    //    backPath.lineTo(1.9*9+87,1.85*9+25);
+    //    backPath.lineTo(2.5*9+87,.2*9+25);
+    //    backPath.lineTo(3.1*9+87,1.85*9+25);
+    //    backPath.lineTo(4.8*9+87,1.85*9+25);
+    //    backPath.lineTo(3.44*9+87,2.88*9+25);
+    //    backPath.lineTo(3.92*9+87,4.52*9+25);
+    //    backPath.lineTo(2.5*9+87,3.54*9+25);
+    //    backPath.lineTo(1.12*9+87,4.52*9+25);
+    //    backPath.closeSubpath();
+    //    backPath.moveTo(1.56*9+132, 2.88*9+25);
+    //    backPath.lineTo(.2*9+132,1.85*9+25);
+    //    backPath.lineTo(1.9*9+132,1.85*9+25);
+    //    backPath.lineTo(2.5*9+132,.2*9+25);
+    //    backPath.lineTo(3.1*9+132,1.85*9+25);
+    //    backPath.lineTo(4.8*9+132,1.85*9+25);
+    //    backPath.lineTo(3.44*9+132,2.88*9+25);
+    //    backPath.lineTo(3.92*9+132,4.52*9+25);
+    //    backPath.lineTo(2.5*9+132,3.54*9+25);
+    //    backPath.lineTo(1.12*9+132,4.52*9+25);
+    //    backPath.closeSubpath();
 }
 
 QRectF RatingBar::boundingRect() const
@@ -113,25 +117,110 @@ void RatingBar::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, Q
     Q_UNUSED(widget);
     painter->setBrush(Qt::lightGray);
     painter->setPen(siennaPen);
-    painter->drawPath(wholeStarPath);
+    painter->drawPath(backPath);
+    //2 for loops
+    QPainterPath tmpHalfPath(halfStarLPath);
+    QPainterPath tmpWholePath(wholeStarPath);
     painter->setBrush(Qt::yellow);
-    painter->drawPath(halfStarPath);
+    if (hoverRating==.5f) {
+        painter->drawPath(tmpHalfPath);
+    }
+    else if (hoverRating==1.f) {
+        painter->drawPath(tmpWholePath);
+    }
+    else if (hoverRating==1.5f) {
+        painter->drawPath(tmpWholePath);
+        tmpHalfPath.translate(48.,0);
+        painter->drawPath(tmpHalfPath);
+    }
+    else if (hoverRating==2.f) {
+        painter->drawPath(tmpWholePath);
+        tmpWholePath.translate(48.,0);
+        painter->drawPath(tmpWholePath);
+    }
+    else if (hoverRating==2.5f) {
+        painter->drawPath(tmpWholePath);
+        tmpWholePath.translate(48.,0);
+        painter->drawPath(tmpWholePath);
+        tmpHalfPath.translate(48.*2,0);
+        painter->drawPath(tmpHalfPath);
+    }
+    else if (hoverRating==3.f) {
+        painter->drawPath(tmpWholePath);
+        tmpWholePath.translate(48.,0);
+        painter->drawPath(tmpWholePath);
+        tmpWholePath.translate(48.,0);
+        painter->drawPath(tmpWholePath);
+    }
+    else if (hoverRating==3.5f) {
+        painter->drawPath(tmpWholePath);
+        tmpWholePath.translate(48.,0);
+        painter->drawPath(tmpWholePath);
+        tmpWholePath.translate(48.,0);
+        painter->drawPath(tmpWholePath);
+        tmpHalfPath.translate(48.*3,0);
+        painter->drawPath(tmpHalfPath);
+    }
+    else if (hoverRating==4.f) {
+        painter->drawPath(tmpWholePath);
+        tmpWholePath.translate(48.,0);
+        painter->drawPath(tmpWholePath);
+        tmpWholePath.translate(48.,0);
+        painter->drawPath(tmpWholePath);
+        tmpWholePath.translate(48.,0);
+        painter->drawPath(tmpWholePath);
+    }
+    else if (hoverRating==4.5f) {
+        painter->drawPath(tmpWholePath);
+        tmpWholePath.translate(48.,0);
+        painter->drawPath(tmpWholePath);
+        tmpWholePath.translate(48.,0);
+        painter->drawPath(tmpWholePath);
+        tmpWholePath.translate(48.,0);
+        painter->drawPath(tmpWholePath);
+        tmpHalfPath.translate(48.*4,0);
+        painter->drawPath(tmpHalfPath);
+    }
+    else if (hoverRating==5.f) {
+        painter->drawPath(tmpWholePath);
+        tmpWholePath.translate(48.,0);
+        painter->drawPath(tmpWholePath);
+        tmpWholePath.translate(48.,0);
+        painter->drawPath(tmpWholePath);
+        tmpWholePath.translate(48.,0);
+        painter->drawPath(tmpWholePath);
+        tmpWholePath.translate(48.,0);
+        painter->drawPath(tmpWholePath);
+    }
 
-    //    wholeStarPath.translate(45.,0);
-    //    painter->drawPath(wholeStarPath);
-    //    wholeStarPath.translate(45.,0);
-    //    painter->drawPath(wholeStarPath);
-    //    wholeStarPath.translate(45.,0);
-    //    painter->drawPath(wholeStarPath);
-    //    wholeStarPath.translate(45,0);
-    //    painter->drawPath(wholeStarPath);
+    //    backPath.translate(48.,0);
+    //    painter->drawPath(backPath);
+    //    backPath.translate(48.,0);
+    //    painter->drawPath(backPath);
+    //    backPath.translate(48.,0);
+    //    painter->drawPath(backPath);
+    //    backPath.translate(48.,0);
+    //    painter->drawPath(backPath);
 }
 
 void RatingBar::hoverMoveEvent(QGraphicsSceneHoverEvent *event) {
-//    qreal x, y;
-    if (halfStarPath.contains(QPoint(event->pos().x(), event->pos().y()))) {
-        qDebug("%f %f", event->pos().x(), event->pos().y());
+    //    qreal x, y;
+    QPainterPath tmpLPath(halfStarLPath);
+    QPainterPath tmpRPath(halfStarRPath);
+    for (float foo=0.5f; foo<=4.5f; foo++) {
+        if (tmpLPath.contains(QPoint(event->pos().x(), event->pos().y()))) {
+            hoverRating=foo;
+        }
+        tmpLPath.translate(48., 0);
     }
+    for (float foo=1.f; foo<=5.f; foo++) {
+        if (tmpRPath.contains(QPoint(event->pos().x(), event->pos().y()))) {
+            hoverRating=foo;
+        }
+        tmpRPath.translate(48., 0);
+    }
+    update(-50,-50,300,300);
+    //    qDebug("%f %f", event->pos().x(), event->pos().y());
 }
 
 void RatingBar::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
