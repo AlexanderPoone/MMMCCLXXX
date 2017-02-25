@@ -60,10 +60,12 @@ void Button::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
     effect->setColor(QColor(0xFF, 0xBF, 0)); //Amber
     effect->setBlurRadius(40.);
     setGraphicsEffect(effect);
+    setCursor(Qt::PointingHandCursor);
 }
 
 void Button::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
-    setGraphicsEffect(NULL);
+    setGraphicsEffect(new QGraphicsDropShadowEffect());
+//    setGraphicsEffect(NULL);
 }
 
 void Button::mousePressEvent(QGraphicsSceneMouseEvent *event)

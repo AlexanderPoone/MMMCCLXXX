@@ -17,9 +17,6 @@
    <iconset resource="res.qrc">
     <normaloff>:/jukebox.png</normaloff>:/jukebox.png</iconset>
   </property>
-  <property name="windowOpacity">
-   <double>0.900000000000000</double>
-  </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
     <string notr="true">background: transparent;</string>
@@ -452,7 +449,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <layout class="QVBoxLayout" name="verticalLayout_3" stretch="100,0">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <property name="spacing">
@@ -669,7 +666,7 @@
          <string notr="true">background: black</string>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="tab">
          <property name="styleSheet">
@@ -689,7 +686,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>670</width>
+              <width>690</width>
               <height>0</height>
              </size>
             </property>
@@ -701,7 +698,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>670</width>
+               <width>690</width>
                <height>371</height>
               </rect>
              </property>
@@ -757,7 +754,67 @@ Und halten mit das Abendmahl.</string>
                <height>369</height>
               </rect>
              </property>
-             <layout class="QFormLayout" name="formLayout">
+             <layout class="QGridLayout" name="gridLayout_2">
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_20">
+                <property name="styleSheet">
+                 <string notr="true">color: white</string>
+                </property>
+                <property name="text">
+                 <string>2005</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QComboBox" name="comboBox">
+                <property name="styleSheet">
+                 <string notr="true">color: white</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="lineEdit">
+                <property name="styleSheet">
+                 <string notr="true">color: white</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_19">
+                <property name="styleSheet">
+                 <string notr="true">color: white</string>
+                </property>
+                <property name="text">
+                 <string>Quiet Songs</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_17">
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: white</string>
+                </property>
+                <property name="text">
+                 <string>Despertar</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_18">
+                <property name="styleSheet">
+                 <string notr="true">color: white</string>
+                </property>
+                <property name="text">
+                 <string>Aisha Duo</string>
+                </property>
+               </widget>
+              </item>
               <item row="0" column="0">
                <widget class="QToolButton" name="toolButton">
                 <property name="styleSheet">
@@ -776,25 +833,40 @@ color: rgb(0, 170, 0);</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_17">
+              <item row="6" column="0">
+               <widget class="QLabel" name="label_22">
+                <property name="styleSheet">
+                 <string notr="true">color: white</string>
+                </property>
                 <property name="text">
-                 <string>TextLabel</string>
+                 <string>Jazz</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="lineEdit"/>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_18">
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_21">
+                <property name="styleSheet">
+                 <string notr="true">color: white</string>
+                </property>
                 <property name="text">
-                 <string>TextLabel</string>
+                 <string>11</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
-               <widget class="QComboBox" name="comboBox"/>
+              <item row="7" column="0">
+               <widget class="QLabel" name="label_23">
+                <property name="font">
+                 <font>
+                  <pointsize>7</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: white</string>
+                </property>
+                <property name="text">
+                 <string>WMA 44.1 kHz, 160k, Stereo, 5:07</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -825,15 +897,22 @@ color: rgb(0, 170, 0);</string>
      <string notr="true">background: lightGray</string>
     </property>
     <property name="title">
-     <string>Taper ici</string>
+     <string>&amp;File</string>
     </property>
-    <addaction name="actionTaper_ici"/>
+    <addaction name="action_Open"/>
    </widget>
    <addaction name="menuTaper_ici"/>
   </widget>
-  <action name="actionTaper_ici">
+  <action name="action_Open">
+   <property name="icon">
+    <iconset theme="edit-undo">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
    <property name="text">
-    <string>Taper ici</string>
+    <string>&amp;Open...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
  </widget>

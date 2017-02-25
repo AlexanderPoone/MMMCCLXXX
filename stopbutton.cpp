@@ -27,3 +27,11 @@ void StopButton::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, 
     painter->setBrush(stopGradient);
     painter->drawPath(stopPath);
 }
+
+void StopButton::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
+    auto effect=new QGraphicsDropShadowEffect();
+    effect->setColor(QColor(0xC8, 0x1D, 0x11)); //Persian red
+    effect->setBlurRadius(40.);
+    setGraphicsEffect(effect);
+    setCursor(Qt::PointingHandCursor);
+}

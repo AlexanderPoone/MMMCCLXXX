@@ -85,6 +85,7 @@ void PlayPauseButton::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
         effect->setBlurRadius(40.);
         setGraphicsEffect(effect);
     }
+    setCursor(Qt::PointingHandCursor);
     qDebug("Hover");
 }
 

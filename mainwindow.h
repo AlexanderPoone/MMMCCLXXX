@@ -22,12 +22,13 @@ private slots:
     void on_volumeSlider_valueChanged(int value);
 
 private:
-    Ui::MainWindow *ui;
     void changeTooltip();
+    bool event(QEvent *event) override;
     void populateScene();
+    Ui::MainWindow *ui;
     QGraphicsScene *playPauseScene;
     QGraphicsScene *stopScene;
-
+    QGraphicsScene *ratingBarScene;
 };
 
 #endif // MAINWINDOW_H
