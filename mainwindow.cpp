@@ -42,11 +42,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ratingBarScene->addItem(ratingBarItem);
 
     populateScene();
+    useGeniusAPI();
     qDebug() << QStyleFactory::keys();
     setStyle(QStyleFactory::create("Fusion")); //remember it's double colon
     on_seekSlider_valueChanged(0);
     on_volumeSlider_valueChanged(0);
     //TODO: Style the groove
+}
+
+void MainWindow::useGeniusAPI() {
+    auto gManager=new GeniusManager();
 }
 
 void MainWindow::on_seekSlider_valueChanged(int value) {
@@ -59,17 +64,6 @@ void MainWindow::on_volumeSlider_valueChanged(int value) {
     ui->volumeSlider->setToolTip(QStringLiteral("Volume: %1").arg(ui->volumeSlider->value()));
 }
 
-
-
-void MainWindow::changeTooltip() {
-    this->setStyleSheet("background-image: url(:/dark.png);");
-}
-
-
-void MainWindow::populateScene() {
-    this->setStyleSheet("background-image: url(:/dark.png);");
-}
-
 bool MainWindow::event(QEvent *event) {
     QMainWindow::event(event);
     if (event->type() == QEvent::WindowActivate) { //QEvent::Enter
@@ -79,6 +73,11 @@ bool MainWindow::event(QEvent *event) {
     }
     return true;
 }
+
+void MainWindow::populateScene() {
+    this->setStyleSheet("background-image: url(:/dark.png);");
+}
+
 
 MainWindow::~MainWindow()
 {

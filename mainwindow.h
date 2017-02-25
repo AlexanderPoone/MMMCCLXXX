@@ -22,9 +22,9 @@ private slots:
     void on_volumeSlider_valueChanged(int value);
 
 private:
-    void changeTooltip();
     bool event(QEvent *event) override;
     void populateScene();
+    void useGeniusAPI();
     Ui::MainWindow *ui;
     QGraphicsScene *playPauseScene;
     QGraphicsScene *stopScene;

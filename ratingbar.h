@@ -12,10 +12,12 @@ public:
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
 protected:
-    QPainterPath ratingBarPath;
+    QPainterPath halfStarLPath;
+    QPainterPath halfStarRPath;
+    QPainterPath wholeStarPath;
     QRadialGradient ratingBarGradient;
     QPen siennaPen;
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
