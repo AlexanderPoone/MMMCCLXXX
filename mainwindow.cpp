@@ -83,6 +83,9 @@ void MainWindow::on_seekSlider_valueChanged(int value) {
 void MainWindow::on_volumeSlider_valueChanged(int value) {
     Q_UNUSED(value);
     ui->volumeSlider->setToolTip(QStringLiteral("Volume: %1").arg(ui->volumeSlider->value()));
+    //waveOutSetVolume(HWAVEOUT hwo, DWORD dwVolume);
+    //Volume: between 0xFFFF (255 255) and 0x0000, int qRound(2.55*volumeSlider.value()) << 8;
+    //Left two bits
 }
 
 bool MainWindow::event(QEvent *event) {

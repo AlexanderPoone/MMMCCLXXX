@@ -45,7 +45,8 @@ private:
     //Also waveOutWrite (HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh);
     //mmioClose (HMMIO h, UINT wflags); too.
     //Don't forget waveOutClose (HWAVEOUT hwo);
-    //Volume: between 0xFFFF (65535) and 0x0000, int qRound(655.35*volumeSlider.value());
+    //Volume: between 0xFFFF (255 255) and 0x0000, int qRound(2.55*volumeSlider.value()) << 8;
+    //Left two bits: left-channel, right two bits: right-channel
 };
 
 #endif // MAINWINDOW_H
