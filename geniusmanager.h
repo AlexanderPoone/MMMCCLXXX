@@ -7,6 +7,7 @@ class GeniusManager : public QNetworkAccessManager
 {
 public:
     GeniusManager();
+    void result();
 };
 
 #endif // GENIUSMANAGER_H

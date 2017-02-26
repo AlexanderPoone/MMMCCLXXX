@@ -117,7 +117,10 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event) {
 }
 
 void MainWindow::dropEvent(QDropEvent *event) {
-    qDebug() << event->mimeData()->text();
+    qDebug() << event->mimeData()->urls();
+    QMimeDatabase db;
+    QMimeType type = db.mimeTypeForFile(event->mimeData()->text());
+    qDebug() << "Mime type:" << type.name();
 }
 
 
