@@ -26,6 +26,8 @@ private slots:
 
 private:
     bool event(QEvent *event) override;
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
     void populateScene();
     void useGeniusAPI();
     Ui::MainWindow *ui;

@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     playpausebutton.cpp \
     geniusmanager.cpp \
     gloweffect.cpp \
-    ratingbar.cpp
+    ratingbar.cpp \
+    albumentry.cpp
 
 HEADERS  += mainwindow.h \
     button.h \
@@ -38,7 +39,8 @@ HEADERS  += mainwindow.h \
     playpausebutton.h \
     geniusmanager.h \
     gloweffect.h \
-    ratingbar.h
+    ratingbar.h \
+    albumentry.h
 
 FORMS    += mainwindow.ui
 

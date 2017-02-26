@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     on_seekSlider_valueChanged(0);
     on_volumeSlider_valueChanged(0);
     //TODO: Style the groove
+    setAcceptDrops(true);
 }
 
 //void MainWindow::initWav() {
@@ -85,7 +86,7 @@ void MainWindow::on_volumeSlider_valueChanged(int value) {
     ui->volumeSlider->setToolTip(QStringLiteral("Volume: %1").arg(ui->volumeSlider->value()));
     //waveOutSetVolume(HWAVEOUT hwo, DWORD dwVolume);
     //Volume: between 0xFFFF (255 255) and 0x0000, int qRound(2.55*volumeSlider.value()) << 8;
-    //Left two bits
+    //Left two bits: left-channel, right two bits: right-channel
 }
 
 bool MainWindow::event(QEvent *event) {
@@ -101,6 +102,7 @@ bool MainWindow::event(QEvent *event) {
         qDebug("App closed.");
         HWAVEOUT hAudioOut;
         waveOutClose(hAudioOut);
+        break;
     }
     //    if (event->type() == QEvent::WindowActivate) { //QEvent::Enter
     //        this->setWindowOpacity(1);
@@ -109,6 +111,15 @@ bool MainWindow::event(QEvent *event) {
     //    } else if
     return true;
 }
+
+void MainWindow::dragEnterEvent(QDragEnterEvent *event) {
+   event->accept();
+}
+
+void MainWindow::dropEvent(QDropEvent *event) {
+    qDebug() << event->mimeData()->text();
+}
+
 
 void MainWindow::populateScene() {
     this->setStyleSheet("background-image: url(:/dark.png);");
