@@ -16,10 +16,11 @@ protected:
     QRadialGradient ratingBarGradient;
     QPen siennaPen;
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 private:
+    bool isHover;
     qreal hoverRating;
     qreal rating;
 };

@@ -3,7 +3,10 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <windows.h>
+#include <mmsystem.h>
 
+#pragma comment(lib, "winmm.lib")
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +32,20 @@ private:
     QGraphicsScene *playPauseScene;
     QGraphicsScene *stopScene;
     QGraphicsScene *ratingBarScene;
+    HMMIO *hmmioIn; // HMMIO mmioOpen (LPSTR filename, LPMMIOINFO info, DWORD flags);
+    LPMMCKINFO *pckInRIFF; // mmioDescend (HMMIO h, LPMMCKINO lpck, LPMMCKINFO lpckParent, UNIT flags);
+    HPSTR *pcmWaveFormat; // LONG mmioRead (HMMIO h, HPSTR pch, LONG cch);
+    LONG waveFormatSize; // Ditto.
+    LPMMCKINFO *ckIn; // mmioAscend(HMMIO h, LPMMCKINFO lpck, UINT flags);
+    LPHWAVEOUT *hAudioOut; // waveOutOpen(LPHWAVEOUT phwo, UINT uDeviceID, LPWAVEFORMATEX pwfx, DWORD dwCallback, DWORD Instance, DWORD fdwOpen );
+    LPWAVEFORMATEX *pcmWaveFormat1; // Ditto.
+    DWORD playSamples; // Ditto. DWORD dwCallback.
+    LPSTR *errorMsg; // waveOutGetErrorText(MMRESULT mmrError, LPSTR pszText, UINT cchText);
+    LPWAVEHDR *dataBufferElement; // waveOutPrepareHeader(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh);
+    //Also waveOutWrite (HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh);
+    //mmioClose (HMMIO h, UINT wflags); too.
+    //Don't forget waveOutClose (HWAVEOUT hwo);
+    //Volume: between 0xFFFF (65535) and 0x0000, int qRound(655.35*volumeSlider.value());
 };
 
 #endif // MAINWINDOW_H

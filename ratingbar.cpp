@@ -1,7 +1,7 @@
 #include "ratingbar.h"
 
 RatingBar::RatingBar()
-    :rating(5.)
+    :rating(0.)
 {
     setAcceptHoverEvents(true);
     siennaPen.setColor(QColor(0xCB, 0xA1, 0x35)); //Metallic gold
@@ -121,78 +121,151 @@ void RatingBar::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, Q
     //2 for loops
     QPainterPath tmpHalfPath(halfStarLPath);
     QPainterPath tmpWholePath(wholeStarPath);
-    painter->setBrush(Qt::yellow);
-    if (hoverRating==.5f) {
-        painter->drawPath(tmpHalfPath);
+    if (isHover) {
+        painter->setBrush(Qt::yellow);
+        if (hoverRating==.5f) {
+            painter->drawPath(tmpHalfPath);
+        }
+        else if (hoverRating==1.f) {
+            painter->drawPath(tmpWholePath);
+        }
+        else if (hoverRating==1.5f) {
+            painter->drawPath(tmpWholePath);
+            tmpHalfPath.translate(48.,0);
+            painter->drawPath(tmpHalfPath);
+        }
+        else if (hoverRating==2.f) {
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+        }
+        else if (hoverRating==2.5f) {
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpHalfPath.translate(48.*2,0);
+            painter->drawPath(tmpHalfPath);
+        }
+        else if (hoverRating==3.f) {
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+        }
+        else if (hoverRating==3.5f) {
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpHalfPath.translate(48.*3,0);
+            painter->drawPath(tmpHalfPath);
+        }
+        else if (hoverRating==4.f) {
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+        }
+        else if (hoverRating==4.5f) {
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpHalfPath.translate(48.*4,0);
+            painter->drawPath(tmpHalfPath);
+        }
+        else if (hoverRating==5.f) {
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+        }
+    } else {
+        painter->setBrush(QColor(0xFC, 0xC2, 0x00));
+        if (rating==.5f) {
+            painter->drawPath(tmpHalfPath);
+        }
+        else if (rating==1.f) {
+            painter->drawPath(tmpWholePath);
+        }
+        else if (rating==1.5f) {
+            painter->drawPath(tmpWholePath);
+            tmpHalfPath.translate(48.,0);
+            painter->drawPath(tmpHalfPath);
+        }
+        else if (rating==2.f) {
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+        }
+        else if (rating==2.5f) {
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpHalfPath.translate(48.*2,0);
+            painter->drawPath(tmpHalfPath);
+        }
+        else if (rating==3.f) {
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+        }
+        else if (rating==3.5f) {
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpHalfPath.translate(48.*3,0);
+            painter->drawPath(tmpHalfPath);
+        }
+        else if (rating==4.f) {
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+        }
+        else if (rating==4.5f) {
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpHalfPath.translate(48.*4,0);
+            painter->drawPath(tmpHalfPath);
+        }
+        else if (rating==5.f) {
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+            tmpWholePath.translate(48.,0);
+            painter->drawPath(tmpWholePath);
+        }
     }
-    else if (hoverRating==1.f) {
-        painter->drawPath(tmpWholePath);
-    }
-    else if (hoverRating==1.5f) {
-        painter->drawPath(tmpWholePath);
-        tmpHalfPath.translate(48.,0);
-        painter->drawPath(tmpHalfPath);
-    }
-    else if (hoverRating==2.f) {
-        painter->drawPath(tmpWholePath);
-        tmpWholePath.translate(48.,0);
-        painter->drawPath(tmpWholePath);
-    }
-    else if (hoverRating==2.5f) {
-        painter->drawPath(tmpWholePath);
-        tmpWholePath.translate(48.,0);
-        painter->drawPath(tmpWholePath);
-        tmpHalfPath.translate(48.*2,0);
-        painter->drawPath(tmpHalfPath);
-    }
-    else if (hoverRating==3.f) {
-        painter->drawPath(tmpWholePath);
-        tmpWholePath.translate(48.,0);
-        painter->drawPath(tmpWholePath);
-        tmpWholePath.translate(48.,0);
-        painter->drawPath(tmpWholePath);
-    }
-    else if (hoverRating==3.5f) {
-        painter->drawPath(tmpWholePath);
-        tmpWholePath.translate(48.,0);
-        painter->drawPath(tmpWholePath);
-        tmpWholePath.translate(48.,0);
-        painter->drawPath(tmpWholePath);
-        tmpHalfPath.translate(48.*3,0);
-        painter->drawPath(tmpHalfPath);
-    }
-    else if (hoverRating==4.f) {
-        painter->drawPath(tmpWholePath);
-        tmpWholePath.translate(48.,0);
-        painter->drawPath(tmpWholePath);
-        tmpWholePath.translate(48.,0);
-        painter->drawPath(tmpWholePath);
-        tmpWholePath.translate(48.,0);
-        painter->drawPath(tmpWholePath);
-    }
-    else if (hoverRating==4.5f) {
-        painter->drawPath(tmpWholePath);
-        tmpWholePath.translate(48.,0);
-        painter->drawPath(tmpWholePath);
-        tmpWholePath.translate(48.,0);
-        painter->drawPath(tmpWholePath);
-        tmpWholePath.translate(48.,0);
-        painter->drawPath(tmpWholePath);
-        tmpHalfPath.translate(48.*4,0);
-        painter->drawPath(tmpHalfPath);
-    }
-    else if (hoverRating==5.f) {
-        painter->drawPath(tmpWholePath);
-        tmpWholePath.translate(48.,0);
-        painter->drawPath(tmpWholePath);
-        tmpWholePath.translate(48.,0);
-        painter->drawPath(tmpWholePath);
-        tmpWholePath.translate(48.,0);
-        painter->drawPath(tmpWholePath);
-        tmpWholePath.translate(48.,0);
-        painter->drawPath(tmpWholePath);
-    }
-
     //    backPath.translate(48.,0);
     //    painter->drawPath(backPath);
     //    backPath.translate(48.,0);
@@ -207,15 +280,18 @@ void RatingBar::hoverMoveEvent(QGraphicsSceneHoverEvent *event) {
     //    qreal x, y;
     QPainterPath tmpLPath(halfStarLPath);
     QPainterPath tmpRPath(halfStarRPath);
+    isHover=false;
     for (float foo=0.5f; foo<=4.5f; foo++) {
         if (tmpLPath.contains(QPoint(event->pos().x(), event->pos().y()))) {
             hoverRating=foo;
+            isHover=true;
         }
         tmpLPath.translate(48., 0);
     }
     for (float foo=1.f; foo<=5.f; foo++) {
         if (tmpRPath.contains(QPoint(event->pos().x(), event->pos().y()))) {
             hoverRating=foo;
+            isHover=true;
         }
         tmpRPath.translate(48., 0);
     }
@@ -224,13 +300,24 @@ void RatingBar::hoverMoveEvent(QGraphicsSceneHoverEvent *event) {
 }
 
 void RatingBar::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
-
 }
 
 void RatingBar::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-
+    QPainterPath tmpLPath(halfStarLPath);
+    QPainterPath tmpRPath(halfStarRPath);
+    for (float foo=0.5f; foo<=4.5f; foo++) {
+        if (tmpLPath.contains(QPoint(event->pos().x(), event->pos().y()))) {
+            rating=foo;
+        }
+        tmpLPath.translate(48., 0);
+    }
+    for (float foo=1.f; foo<=5.f; foo++) {
+        if (tmpRPath.contains(QPoint(event->pos().x(), event->pos().y()))) {
+            rating=foo;
+        }
+        tmpRPath.translate(48., 0);
+    }
 }
 
 void RatingBar::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-
 }

@@ -4,10 +4,6 @@
 #include "playpausebutton.h"
 #include "ratingbar.h"
 #include "stopbutton.h"
-#include <windows.h>
-#include <mmsystem.h>
-
-#pragma comment(lib, "winmm.lib")
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -50,6 +46,31 @@ MainWindow::MainWindow(QWidget *parent) :
     //TODO: Style the groove
 }
 
+//void MainWindow::initWav() {
+////    auto gManager=new GeniusManager();
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void MainWindow::useGeniusAPI() {
     auto gManager=new GeniusManager();
 }
@@ -66,11 +87,23 @@ void MainWindow::on_volumeSlider_valueChanged(int value) {
 
 bool MainWindow::event(QEvent *event) {
     QMainWindow::event(event);
-    if (event->type() == QEvent::WindowActivate) { //QEvent::Enter
+    switch (event->type()) {
+    case QEvent::WindowActivate: //QEvent::Enter
         this->setWindowOpacity(1);
-    } else if (event->type() == QEvent::WindowDeactivate) { // QEvent::Leave
+        break;
+    case QEvent::WindowDeactivate: //QEvent::Leave
         this->setWindowOpacity(0.8);
+        break;
+    case QEvent::Close:
+        qDebug("App closed.");
+        HWAVEOUT hAudioOut;
+        waveOutClose(hAudioOut);
     }
+    //    if (event->type() == QEvent::WindowActivate) { //QEvent::Enter
+    //        this->setWindowOpacity(1);
+    //    } else if (event->type() == QEvent::WindowDeactivate) { // QEvent::Leave
+    //        this->setWindowOpacity(0.8);
+    //    } else if
     return true;
 }
 
