@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
     artist=QString("Zaz");
     songTitle=QString("Les passants");
     ui->trackNameTag->setText(songTitle);
@@ -65,6 +66,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::useGeniusAPI() {
     auto gManager=new GeniusManager(ui->lyricsLabel, artist, songTitle);
+}
+
+void MainWindow::openFile() {
+    QString loc=QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
+    QStringList fileList = QFileDialog::getOpenFileNames(this, "Open File", loc, "WAVE files (*.wav *.wave);;MP3 files (*.mp3)");
+    qDebug() << fileList[0];
 }
 
 void MainWindow::on_seekSlider_valueChanged(int value) {

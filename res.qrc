@@ -18,5 +18,6 @@
         <file>dark.png</file>
         <file>darker.png</file>
         <file>jukebox.png</file>
+        <file>openFile.png</file>
     </qresource>
 </RCC>

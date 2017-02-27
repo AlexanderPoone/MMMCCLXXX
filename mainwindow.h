@@ -23,6 +23,7 @@ public:
 private slots:
     void on_seekSlider_valueChanged(int value);
     void on_volumeSlider_valueChanged(int value);
+    void openFile();
 
 private:
     bool event(QEvent *event) override;
