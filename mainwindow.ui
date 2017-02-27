@@ -480,7 +480,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>Play</string>
+             <string>Play/Pause</string>
             </property>
             <property name="styleSheet">
              <string notr="true">background: transparent; border-style: none;</string>
@@ -488,7 +488,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QGraphicsView" name="forwardView">
+           <widget class="QGraphicsView" name="nextView">
             <property name="minimumSize">
              <size>
               <width>300</width>
@@ -497,6 +497,22 @@
             </property>
             <property name="toolTip">
              <string>Forward</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background: transparent; border-style: none;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="stopView">
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>300</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Stop playback</string>
             </property>
             <property name="styleSheet">
              <string notr="true">background: transparent; border-style: none;</string>
@@ -618,7 +634,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>Repeat Off</string>
+             <string>Rating</string>
             </property>
             <property name="styleSheet">
              <string notr="true">background: transparent; border-style: none;</string>

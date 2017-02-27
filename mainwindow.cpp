@@ -1,10 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "geniusmanager.h"
-#include "playpausebutton.h"
 #include "previousbutton.h"
-#include "ratingbar.h"
+#include "playpausebutton.h"
+#include "nextbutton.h"
 #include "stopbutton.h"
+#include "ratingbar.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -21,27 +22,31 @@ MainWindow::MainWindow(QWidget *parent) :
                 "padding: -30px -25px 0px -25px;}");
     previousScene=new QGraphicsScene(this);
     playPauseScene=new QGraphicsScene(this);
+    nextScene=new QGraphicsScene(this);
     stopScene=new QGraphicsScene(this);
 
     ratingBarScene=new QGraphicsScene(this);
 
-    ui->playPauseView->setScene(playPauseScene);
     ui->backwardView->setScene(previousScene);
-    ui->forwardView->setScene(stopScene);
+    ui->playPauseView->setScene(playPauseScene);
+    ui->nextView->setScene(nextScene);
+    ui->stopView->setScene(stopScene);
     ui->repeatView->setScene(ratingBarScene);
     ui->playPauseView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     ui->backwardView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    ui->forwardView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    ui->nextView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    ui->stopView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     ui->repeatView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    QGraphicsItem *playPauseItem = new PlayPauseButton();
-    QGraphicsItem *stopItem = new StopButton();
     QGraphicsItem *previousItem = new PreviousButton();
+    QGraphicsItem *playPauseItem = new PlayPauseButton();
+    QGraphicsItem *nextItem = new NextButton();
+    QGraphicsItem *stopItem = new StopButton();
     QGraphicsItem *ratingBarItem = new RatingBar();
     previousScene->addItem(previousItem);
     playPauseScene->addItem(playPauseItem);
+    nextScene->addItem(nextItem);
     stopScene->addItem(stopItem);
     ratingBarScene->addItem(ratingBarItem);
-
     populateScene();
     useGeniusAPI();
     qDebug() << QStyleFactory::keys();

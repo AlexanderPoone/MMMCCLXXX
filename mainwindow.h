@@ -33,6 +33,7 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene *previousScene;
     QGraphicsScene *playPauseScene;
+    QGraphicsScene *nextScene;
     QGraphicsScene *stopScene;
     QGraphicsScene *ratingBarScene;
     HMMIO *hmmioIn; // HMMIO mmioOpen (LPSTR filename, LPMMIOINFO info, DWORD flags);
