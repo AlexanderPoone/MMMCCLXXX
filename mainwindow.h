@@ -31,6 +31,8 @@ private:
     void dropEvent(QDropEvent *event) override;
     void populateScene();
     void useGeniusAPI();
+    void setArtist(QString artist);
+    void setSongTitle(QString songTitle);
     Ui::MainWindow *ui;
     QGraphicsScene *previousScene;
     QGraphicsScene *playPauseScene;

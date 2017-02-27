@@ -66,6 +66,9 @@ void GeniusManager::httpFinished() {
     lyricsRe.indexIn(text);
     lyrics = lyricsRe.cap(1);
     qDebug() << lyrics.left(120);
+    QRegExp stripAHref("(<a href.*>|</a>)");
+    stripAHref.setMinimal(true);
+    lyrics.replace(stripAHref,"");
     holder->setText(lyrics);
 }
 

@@ -13,10 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
-    artist=QString("Zaz");
-    songTitle=QString("Les passants");
-    ui->trackNameTag->setText(songTitle);
-    ui->artistTag->setText(artist);
+    setArtist(QString("Sia"));
+    setSongTitle(QString("Chandelier"));
     ui->playPauseView->setStyleSheet("background: transparent; border-style: none;");
     ui->seekSlider->setStyleSheet(
                 "QSlider::handle:horizontal { image: url(:/noteSlider.png); "
@@ -68,10 +66,27 @@ void MainWindow::useGeniusAPI() {
     auto gManager=new GeniusManager(ui->lyricsLabel, artist, songTitle);
 }
 
+void MainWindow::setArtist(QString artist) {
+    ui->artistTag->setText(artist);
+    this->artist=artist;
+}
+
+void MainWindow::setSongTitle(QString songTitle) {
+    ui->trackNameTag->setText(songTitle);
+    this->songTitle=songTitle;
+}
+
 void MainWindow::openFile() {
     QString loc=QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
     QStringList fileList = QFileDialog::getOpenFileNames(this, "Open File", loc, "WAVE files (*.wav *.wave);;MP3 files (*.mp3)");
-    qDebug() << fileList[0];
+    if (!fileList.isEmpty()) {
+        qDebug() << fileList[0];
+    QFileInfo info(fileList[0]);
+    songTitle=info.baseName();
+    setSongTitle(songTitle);
+    setArtist(QString());
+    useGeniusAPI();
+    }
 }
 
 void MainWindow::on_seekSlider_valueChanged(int value) {
