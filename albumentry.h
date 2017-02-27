@@ -1,11 +1,10 @@
 #ifndef ALBUMENTRY_H
 #define ALBUMENTRY_H
 
-#include <QWidget>
+#include <QtWidgets>
 
 class AlbumEntry : public QLayout
 {
-    Q_OBJECT
 public:
     //explicit
     AlbumEntry();

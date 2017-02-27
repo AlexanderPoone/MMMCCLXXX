@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -31,7 +31,9 @@ SOURCES += main.cpp\
     geniusmanager.cpp \
     gloweffect.cpp \
     ratingbar.cpp \
-    albumentry.cpp
+    albumentry.cpp \
+    previousbuton.cpp \
+    nextbutton.cpp
 
 HEADERS  += mainwindow.h \
     button.h \
@@ -40,7 +42,9 @@ HEADERS  += mainwindow.h \
     geniusmanager.h \
     gloweffect.h \
     ratingbar.h \
-    albumentry.h
+    albumentry.h \
+    previousbuton.h \
+    nextbutton.h
 
 FORMS    += mainwindow.ui
 

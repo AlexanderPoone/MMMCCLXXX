@@ -658,7 +658,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>650</width>
+          <width>730</width>
           <height>0</height>
          </size>
         </property>
@@ -666,7 +666,7 @@
          <string notr="true">background: black</string>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="tab">
          <property name="styleSheet">
@@ -704,7 +704,7 @@
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>
-               <widget class="QLabel" name="label_13">
+               <widget class="QLabel" name="lyricsLabel">
                 <property name="font">
                  <font>
                   <family>Myriad Pro</family>
@@ -750,7 +750,7 @@ Und halten mit das Abendmahl.</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>630</width>
+               <width>710</width>
                <height>369</height>
               </rect>
              </property>

@@ -48,32 +48,10 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 //void MainWindow::initWav() {
-////    auto gManager=new GeniusManager();
 //}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void MainWindow::useGeniusAPI() {
-    auto gManager=new GeniusManager();
+    auto gManager=new GeniusManager(ui->lyricsLabel, QString("Zaz"), QString("les passants"));
 }
 
 void MainWindow::on_seekSlider_valueChanged(int value) {
