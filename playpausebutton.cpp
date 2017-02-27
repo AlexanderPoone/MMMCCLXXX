@@ -60,6 +60,7 @@ PlayPauseButton::PlayPauseButton()
 
 void PlayPauseButton::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) {
     //    painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
+    Q_UNUSED(item);
     Q_UNUSED(widget);
     painter->setPen(nihiloPen);
     painter->setBrush(baseGradient);
@@ -93,6 +94,7 @@ void PlayPauseButton::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
 }
 
 void PlayPauseButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+    Q_UNUSED(event);
     if (state) {
         state=false;
         auto effect=new QGraphicsDropShadowEffect();
@@ -113,5 +115,6 @@ void PlayPauseButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 }
 
 void PlayPauseButton::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+    Q_UNUSED(event);
     update();
 }
