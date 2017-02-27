@@ -535,7 +535,7 @@
                <string notr="true">background: transparent; border-style: none; color: white</string>
               </property>
               <property name="text">
-               <string>Track 1</string>
+               <string/>
               </property>
               <property name="alignment">
                <set>Qt::AlignBottom|Qt::AlignHCenter</set>
@@ -560,7 +560,7 @@
                <string>background: transparent; border-style: none; color: white</string>
               </property>
               <property name="text">
-               <string>Joe Bloggs</string>
+               <string/>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>

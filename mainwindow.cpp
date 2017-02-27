@@ -12,7 +12,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //    ui->seekTag->setText("No!");
+    artist=QString("Zaz");
+    songTitle=QString("Les passants");
+    ui->trackNameTag->setText(songTitle);
+    ui->artistTag->setText(artist);
     ui->playPauseView->setStyleSheet("background: transparent; border-style: none;");
     ui->seekSlider->setStyleSheet(
                 "QSlider::handle:horizontal { image: url(:/noteSlider.png); "
@@ -61,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //}
 
 void MainWindow::useGeniusAPI() {
-    auto gManager=new GeniusManager(ui->lyricsLabel, QString("Zaz"), QString("les passants"));
+    auto gManager=new GeniusManager(ui->lyricsLabel, artist, songTitle);
 }
 
 void MainWindow::on_seekSlider_valueChanged(int value) {
@@ -101,7 +104,7 @@ bool MainWindow::event(QEvent *event) {
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event) {
-   event->accept();
+    event->accept();
 }
 
 void MainWindow::dropEvent(QDropEvent *event) {

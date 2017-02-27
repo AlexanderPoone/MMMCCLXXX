@@ -36,6 +36,9 @@ private:
     QGraphicsScene *nextScene;
     QGraphicsScene *stopScene;
     QGraphicsScene *ratingBarScene;
+    QString artist;
+    QString songTitle;
+    enum genre; //yet to be implemented
     HMMIO *hmmioIn; // HMMIO mmioOpen (LPSTR filename, LPMMIOINFO info, DWORD flags);
     LPMMCKINFO *pckInRIFF; // mmioDescend (HMMIO h, LPMMCKINO lpck, LPMMCKINFO lpckParent, UNIT flags);
     HPSTR *pcmWaveFormat; // LONG mmioRead (HMMIO h, HPSTR pch, LONG cch);
