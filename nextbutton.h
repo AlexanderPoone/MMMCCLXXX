@@ -1,14 +1,15 @@
 #ifndef NEXTBUTTON_H
 #define NEXTBUTTON_H
 
+#include "button.h"
 
-class nextButton
+class NextButton : public Button
 {
 public:
-    nextButton();
+    NextButton();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
 protected:
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
+//    void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
     QLinearGradient nextGradient;
     QPainterPath nextPath;
 };

@@ -1,14 +1,16 @@
 #ifndef PREVIOUSBUTON_H
 #define PREVIOUSBUTON_H
 
+#include "button.h"
 
-class previousButon : public Button
+class PreviousButton : public Button
 {
 public:
-    previousButon();
+    PreviousButton();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
 protected:
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     QLinearGradient previousGradient;
     QPainterPath previousPath;
 };

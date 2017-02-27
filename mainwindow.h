@@ -31,6 +31,7 @@ private:
     void populateScene();
     void useGeniusAPI();
     Ui::MainWindow *ui;
+    QGraphicsScene *previousScene;
     QGraphicsScene *playPauseScene;
     QGraphicsScene *stopScene;
     QGraphicsScene *ratingBarScene;

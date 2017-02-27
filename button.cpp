@@ -71,8 +71,8 @@ void Button::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
 void Button::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mousePressEvent(event);
-    update();
     qDebug("%f %f",event->pos().x(),event->pos().y());
+    update();
 }
 
 void Button::mouseMoveEvent(QGraphicsSceneMouseEvent *event)

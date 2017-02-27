@@ -86,12 +86,10 @@ void PlayPauseButton::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
         setGraphicsEffect(effect);
     }
     setCursor(Qt::PointingHandCursor);
-    qDebug("Hover");
 }
 
 void PlayPauseButton::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
     Button::hoverLeaveEvent(event);
-    qDebug("Hover");
 }
 
 void PlayPauseButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {

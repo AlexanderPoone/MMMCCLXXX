@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "geniusmanager.h"
 #include "playpausebutton.h"
+#include "previousbutton.h"
 #include "ratingbar.h"
 #include "stopbutton.h"
 
@@ -18,12 +19,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->volumeSlider->setStyleSheet(
                 "QSlider::handle:horizontal { image: url(:/phonographSlider.png); "
                 "padding: -30px -25px 0px -25px;}");
+    previousScene=new QGraphicsScene(this);
     playPauseScene=new QGraphicsScene(this);
     stopScene=new QGraphicsScene(this);
+
     ratingBarScene=new QGraphicsScene(this);
 
     ui->playPauseView->setScene(playPauseScene);
-    ui->backwardView->setScene(stopScene);
+    ui->backwardView->setScene(previousScene);
     ui->forwardView->setScene(stopScene);
     ui->repeatView->setScene(ratingBarScene);
     ui->playPauseView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
@@ -32,7 +35,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->repeatView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     QGraphicsItem *playPauseItem = new PlayPauseButton();
     QGraphicsItem *stopItem = new StopButton();
+    QGraphicsItem *previousItem = new PreviousButton();
     QGraphicsItem *ratingBarItem = new RatingBar();
+    previousScene->addItem(previousItem);
     playPauseScene->addItem(playPauseItem);
     stopScene->addItem(stopItem);
     ratingBarScene->addItem(ratingBarItem);

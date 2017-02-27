@@ -36,6 +36,7 @@ void StopButton::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
     setCursor(Qt::PointingHandCursor);
 }
 
-void StopButton::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+void StopButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     qDebug() << "Stop function to be implemented!";
+    update();
 }

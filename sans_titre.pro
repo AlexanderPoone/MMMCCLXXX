@@ -32,8 +32,8 @@ SOURCES += main.cpp\
     gloweffect.cpp \
     ratingbar.cpp \
     albumentry.cpp \
-    previousbuton.cpp \
-    nextbutton.cpp
+    nextbutton.cpp \
+    previousbutton.cpp
 
 HEADERS  += mainwindow.h \
     button.h \
@@ -43,8 +43,8 @@ HEADERS  += mainwindow.h \
     gloweffect.h \
     ratingbar.h \
     albumentry.h \
-    previousbuton.h \
-    nextbutton.h
+    nextbutton.h \
+    previousbutton.h
 
 FORMS    += mainwindow.ui
 
