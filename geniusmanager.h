@@ -2,7 +2,8 @@
 #define GENIUSMANAGER_H
 
 #include <QtNetwork>
-#include <QtWebEngineWidgets>
+#include <QtWidgets>
+//#include <QtWebEngineWidgets>
 
 class GeniusManager : public QNetworkAccessManager
 {
