@@ -68,11 +68,13 @@ void MainWindow::useGeniusAPI() {
 
 void MainWindow::setArtist(QString artist) {
     ui->artistTag->setText(artist);
+    ui->metadataArtistLabel->setText(artist);
     this->artist=artist;
 }
 
 void MainWindow::setSongTitle(QString songTitle) {
     ui->trackNameTag->setText(songTitle);
+    ui->metadataSongTitleLabel->setText(songTitle);
     this->songTitle=songTitle;
 }
 
@@ -82,10 +84,10 @@ void MainWindow::openFile() {
     if (!fileList.isEmpty()) {
         qDebug() << fileList[0];
     QFileInfo info(fileList[0]);
-    songTitle=info.baseName();
+    songTitle=info.baseName(); //Just placeholder code. To be deleted
     setSongTitle(songTitle);
     setArtist(QString());
-    useGeniusAPI();
+    useGeniusAPI(); //Just placeholder code. To be deleted
     }
 }
 

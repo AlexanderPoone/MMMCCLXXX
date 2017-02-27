@@ -33,6 +33,7 @@ private:
     void useGeniusAPI();
     void setArtist(QString artist);
     void setSongTitle(QString songTitle);
+    void initWavFile(QString location);
     Ui::MainWindow *ui;
     QGraphicsScene *previousScene;
     QGraphicsScene *playPauseScene;
