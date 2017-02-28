@@ -131,7 +131,7 @@ void PlayPauseButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
 void PlayPauseButton::scrollScroller() {
     if (timer->isActive())
-    lyricsScroll->verticalScrollBar()->setValue(lyricsScroll->verticalScrollBar()->value()+20);
+    lyricsScroll->verticalScrollBar()->setValue(lyricsScroll->verticalScrollBar()->value()+35);
 }
 
 void PlayPauseButton::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
