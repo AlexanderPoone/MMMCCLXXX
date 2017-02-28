@@ -14,8 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
     createSysTray();
-    setArtist(QString("Shakira"));
-    setSongTitle(QString("Antes de las seis"));
+    setArtist(QString("Séverine"));
+    setSongTitle(QString("Un banc, un arbre, une rue"));
     ui->playPauseView->setStyleSheet("background: transparent; border-style: none;");
     ui->seekSlider->setStyleSheet(
                 "QSlider::handle:horizontal { image: url(:/noteSlider.png); "

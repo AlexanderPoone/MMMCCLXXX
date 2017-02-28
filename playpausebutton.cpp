@@ -102,7 +102,8 @@ void PlayPauseButton::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
 
 void PlayPauseButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     Q_UNUSED(event);
-//    QTimer timer;
+    QTimer *timer;
+    timer=new QTimer();
     if (state) {
         state=false;
         auto effect=new QGraphicsDropShadowEffect();
@@ -111,8 +112,8 @@ void PlayPauseButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
         setGraphicsEffect(effect);
         update();
         setToolTip(QString("Pause"));
-//        QObject::connect(&timer,SIGNAL(timeout()),this,SLOT(scrollScroller()));
-//        timer.start(2000);
+        QObject::connect(timer,&QTimer::timeout,this,&PlayPauseButton::scrollScroller);
+        timer->start(2000);
     }
     else {
         state=true;

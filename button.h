@@ -5,7 +5,7 @@
 #include <QtWidgets>
 
 
-class Button : public QGraphicsItem
+class Button : public QGraphicsObject
 {
 public:
     Button();
