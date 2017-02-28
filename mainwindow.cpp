@@ -102,7 +102,10 @@ void MainWindow::createSysTray() {
     contextMenu=new QMenu(QString("3280MP"),this);
     contextMenu->addAction(QString("3280MP v.0")); //addSection does not work!
     contextMenu->addSeparator();
-    contextMenu->addAction(QString("Meh!"));
+    QAction *mehAction;
+mehAction=new QAction(QString("Meh!"), this);
+mehAction->setDisabled(true);
+    contextMenu->addAction(mehAction);
     QAction *quitAction;
     quitAction=new QAction(QString("&Quit"), this);
     QFont font=quitAction->font();
