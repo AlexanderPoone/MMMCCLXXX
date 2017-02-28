@@ -3,7 +3,7 @@
 
 StopButton::StopButton() {
     Button::Button();
-
+    setToolTip(QString("Stop playback"));
     stopGradient.setStart(.0,.0);
     stopGradient.setFinalStop(100.,100);
     stopGradient.setColorAt(0.4, QColor(0xFF,0x08,0,0x9A)); //Candy apple red

@@ -19,13 +19,13 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
-    <string notr="true">background: transparent;</string>
+    <string notr="true">background-image: url(:/dark.png);</string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QLabel" name="logo">
       <property name="styleSheet">
-       <string notr="true">color: white</string>
+       <string notr="true">color: white; background: transparent</string>
       </property>
       <property name="text">
        <string>Logo/Decoration here</string>
@@ -463,7 +463,7 @@
       <property name="minimumSize">
        <size>
         <width>730</width>
-        <height>700</height>
+        <height>900</height>
        </size>
       </property>
       <property name="styleSheet">
@@ -481,7 +481,7 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
-         <widget class="QScrollArea" name="scrollArea_2">
+         <widget class="QScrollArea" name="lyricsScrollArea">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -503,7 +503,7 @@
              <x>0</x>
              <y>0</y>
              <width>2598</width>
-             <height>662</height>
+             <height>862</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -555,12 +555,21 @@ Und halten mit das Abendmahl.</string>
        </layout>
       </widget>
       <widget class="QWidget" name="tab_2">
+       <property name="styleSheet">
+        <string notr="true">border-style: none;</string>
+       </property>
        <attribute name="title">
         <string>Metadata</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
          <widget class="QScrollArea" name="scrollArea_3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="widgetResizable">
            <bool>true</bool>
           </property>
@@ -569,8 +578,8 @@ Und halten mit das Abendmahl.</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>2596</width>
-             <height>660</height>
+             <width>2598</width>
+             <height>167</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_2">
@@ -712,8 +721,8 @@ color: rgb(0, 170, 0);</string>
               <height>300</height>
              </size>
             </property>
-            <property name="toolTip">
-             <string>Backward</string>
+            <property name="acceptDrops">
+             <bool>false</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">background: transparent; border-style: none;</string>
@@ -728,8 +737,8 @@ color: rgb(0, 170, 0);</string>
               <height>300</height>
              </size>
             </property>
-            <property name="toolTip">
-             <string>Play/Pause</string>
+            <property name="acceptDrops">
+             <bool>false</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">background: transparent; border-style: none;</string>
@@ -744,8 +753,8 @@ color: rgb(0, 170, 0);</string>
               <height>300</height>
              </size>
             </property>
-            <property name="toolTip">
-             <string>Forward</string>
+            <property name="acceptDrops">
+             <bool>false</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">background: transparent; border-style: none;</string>
@@ -760,8 +769,8 @@ color: rgb(0, 170, 0);</string>
               <height>300</height>
              </size>
             </property>
-            <property name="toolTip">
-             <string>Stop playback</string>
+            <property name="acceptDrops">
+             <bool>false</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">background: transparent; border-style: none;</string>
@@ -881,6 +890,9 @@ color: rgb(0, 170, 0);</string>
               <width>300</width>
               <height>300</height>
              </size>
+            </property>
+            <property name="acceptDrops">
+             <bool>false</bool>
             </property>
             <property name="toolTip">
              <string>Rating</string>

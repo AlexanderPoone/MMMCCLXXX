@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
+    createSysTray();
     setArtist(QString("Shakira"));
     setSongTitle(QString("Antes de las seis"));
     ui->playPauseView->setStyleSheet("background: transparent; border-style: none;");
@@ -40,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->stopView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     ui->repeatView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     QGraphicsItem *previousItem = new PreviousButton();
-    QGraphicsItem *playPauseItem = new PlayPauseButton();
+    QGraphicsItem *playPauseItem = new PlayPauseButton(ui->lyricsScrollArea);
     QGraphicsItem *nextItem = new NextButton();
     QGraphicsItem *stopItem = new StopButton();
     QGraphicsItem *ratingBarItem = new RatingBar();
@@ -57,9 +58,12 @@ MainWindow::MainWindow(QWidget *parent) :
     on_volumeSlider_valueChanged(0);
     //TODO: Style the groove
     setAcceptDrops(true);
+    //    for (int i=0;i<ui->scrollArea->size().height();i++) {
+    //    ui->lyricsScrollArea->scroll(0,10);
+    //    }
 }
 
-//void MainWindow::initWav() {
+//QString MainWindow::initWavFile() {
 //}
 
 void MainWindow::useGeniusAPI() {
@@ -83,12 +87,27 @@ void MainWindow::openFile() {
     QStringList fileList = QFileDialog::getOpenFileNames(this, "Open File", loc, "WAVE files (*.wav *.wave);;MP3 files (*.mp3)");
     if (!fileList.isEmpty()) {
         qDebug() << fileList[0];
-    QFileInfo info(fileList[0]);
-    songTitle=info.baseName(); //Just placeholder code. To be deleted
-    setSongTitle(songTitle);
-    setArtist(QString());
-    useGeniusAPI(); //Just placeholder code. To be deleted
+        QFileInfo info(fileList[0]);
+        songTitle=info.baseName(); //Just placeholder code. To be deleted
+        setSongTitle(songTitle);
+        setArtist(QString());
+        useGeniusAPI(); //Just placeholder code. To be deleted
     }
+}
+
+void MainWindow::createSysTray() {
+    QSystemTrayIcon *sysTray;
+    sysTray=new QSystemTrayIcon(this);
+    QMenu *contextMenu;
+    contextMenu=new QMenu(QString("3280MP"),this);
+    contextMenu->addAction(QString("3280MP v.0")); //addSection does not work!
+    contextMenu->addSeparator();
+    contextMenu->addAction(QString("Meh!"));
+//    contextMenu->addAction(this->&close);
+    sysTray->setIcon(QIcon(":/jukebox.png"));
+    sysTray->setToolTip(QString("3280 Music Player"));
+    sysTray->setContextMenu(contextMenu);
+    sysTray->show();
 }
 
 void MainWindow::on_seekSlider_valueChanged(int value) {
@@ -118,6 +137,30 @@ bool MainWindow::event(QEvent *event) {
         HWAVEOUT hAudioOut;
         waveOutClose(hAudioOut);
         break;
+    case QEvent::WindowStateChange:
+        if (isMinimized()) {
+            QMessageBox reply;
+//            reply.setObjectName(QString("asdf"));
+//            reply.setStyleSheet(QString("background-image:\"\";"));
+//            reply.setStyle(NULL);
+            reply.information(this, QString("Systray"), QString("The program will keep running in the system tray. To "
+                                                                "terminate the program, choose <b>Quit</b> in the "
+                                                                "context menu of the system tray entry."));
+            this->hide();
+//            event->ignore();
+
+            //                    reply.show();
+            //        reply=QMessageBox::information(this, QString("Systray"),
+            //                                         QString("The program will keep running in the system tray. To "
+            //                                                 "terminate the program, choose <b>Quit</b> in the "
+            //                                                 "context menu of the system tray entry."));
+            //        QMessageBox.information(this, "Systray", "asdf").show();
+            //        QMessageBox.information(this, "Systray",
+            //                "The program will keep running in the system tray. To "
+            //                "terminate the program, choose <b>Quit</b> in the "
+            //                "context menu of the system tray entry.");
+            break;
+        }
     }
     //    if (event->type() == QEvent::WindowActivate) { //QEvent::Enter
     //        this->setWindowOpacity(1);
@@ -140,7 +183,7 @@ void MainWindow::dropEvent(QDropEvent *event) {
 
 
 void MainWindow::populateScene() {
-    this->setStyleSheet("background-image: url(:/dark.png);");
+    ui->centralwidget->setStyleSheet("background-image: url(:/dark.png);");
 }
 
 

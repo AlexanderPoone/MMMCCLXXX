@@ -30,6 +30,7 @@ private:
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *event) override;
     void populateScene();
+    void createSysTray();
     void useGeniusAPI();
     void setArtist(QString artist);
     void setSongTitle(QString songTitle);

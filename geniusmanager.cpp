@@ -9,6 +9,8 @@ QNetworkReply* res;
 QNetworkReply* resLyrics;
 QString lyrics;
 
+//TODO: Handle instrumental songs
+
 GeniusManager::GeniusManager(QLabel *label, QString artist, QString songTitle)
 {
     QNetworkAccessManager::QNetworkAccessManager();
@@ -45,6 +47,7 @@ void GeniusManager::result() {
     QJsonDocument json = QJsonDocument::fromJson(res->readAll());
     QJsonArray hits = json.object().value("response").toObject().value("hits").toArray();
     QJsonObject result = hits.at(0).toObject().value("result").toObject();
+    if (result.isEmpty()) holder->setText("No lyrics available");
     qDebug() << result.value("primary_artist").toObject().value("name").toString();
     qDebug() << result.value("title").toString();
     qDebug() << result.value("url").toString();

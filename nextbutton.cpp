@@ -4,7 +4,7 @@
 NextButton::NextButton()
 {
     Button::Button();
-
+    setToolTip(QString("Forward"));
     nextGradient.setStart(.0,.0);
     nextGradient.setFinalStop(100.,100);
     nextGradient.setColorAt(0.4, QColor(0xFF,0x79,0,0x9A)); //Safety orange

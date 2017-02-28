@@ -1,11 +1,14 @@
 #include "playpausebutton.h"
 #include <QtWidgets>
 
-PlayPauseButton::PlayPauseButton()
+QScrollArea *lyricsScroll;
+
+PlayPauseButton::PlayPauseButton(QScrollArea *scrollArea)
     :state(true) {
 
     Button::Button();
-
+    setToolTip(QString("Play"));
+    lyricsScroll=scrollArea;
     playGradient.setStart(.0,.0);
     playGradient.setFinalStop(100.,100);
     playGradient.setColorAt(0.4, QColor(0xFF,0xFF,0,0x9A));
@@ -58,6 +61,10 @@ PlayPauseButton::PlayPauseButton()
 
 }
 
+bool PlayPauseButton::isPlaying() {
+    return state;
+}
+
 void PlayPauseButton::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) {
     //    painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
     Q_UNUSED(item);
@@ -95,12 +102,17 @@ void PlayPauseButton::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
 
 void PlayPauseButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     Q_UNUSED(event);
+//    QTimer timer;
     if (state) {
         state=false;
         auto effect=new QGraphicsDropShadowEffect();
         effect->setColor(QColor(0x7D, 0xF9, 0xFF)); //Electric blue
         effect->setBlurRadius(40.);
         setGraphicsEffect(effect);
+        update();
+        setToolTip(QString("Pause"));
+//        QObject::connect(&timer,SIGNAL(timeout()),this,SLOT(scrollScroller()));
+//        timer.start(2000);
     }
     else {
         state=true;
@@ -109,9 +121,14 @@ void PlayPauseButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
         effect->setColor(QColor(0xFF, 0xBF, 0)); //Amber
         effect->setBlurRadius(40.);
         setGraphicsEffect(effect);
+        update();
+        setToolTip(QString("Play"));
     }
     qDebug("%d", state);
-    update();
+}
+
+void PlayPauseButton::scrollScroller() {
+    lyricsScroll->verticalScrollBar()->setValue(lyricsScroll->verticalScrollBar()->value()+100);
 }
 
 void PlayPauseButton::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {

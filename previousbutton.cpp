@@ -4,7 +4,7 @@
 PreviousButton::PreviousButton()
 {
     Button::Button();
-
+    setToolTip(QString("Backward"));
     previousGradient.setStart(.0,.0);
     previousGradient.setFinalStop(100.,100);
     previousGradient.setColorAt(0.4, QColor(0xC9,0xA0,0xDC,0x9A)); //Wisteria

@@ -5,8 +5,10 @@
 
 class PlayPauseButton : public Button
 {
+//    Q_OBJECT
 public:
-    PlayPauseButton();
+    PlayPauseButton(QScrollArea *scrollArea);
+    bool isPlaying();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
 protected:
 //    void focusInEvent(QKeyEvent *event) override;
@@ -14,6 +16,8 @@ protected:
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+//protected slots:
+    void scrollScroller();
 
 private:
     bool state;
