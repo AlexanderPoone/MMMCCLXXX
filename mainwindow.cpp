@@ -103,11 +103,22 @@ void MainWindow::createSysTray() {
     contextMenu->addAction(QString("3280MP v.0")); //addSection does not work!
     contextMenu->addSeparator();
     contextMenu->addAction(QString("Meh!"));
-//    contextMenu->addAction(this->&close);
+    //    contextMenu->addAction(this->&close);
     sysTray->setIcon(QIcon(":/jukebox.png"));
     sysTray->setToolTip(QString("3280 Music Player"));
     sysTray->setContextMenu(contextMenu);
     sysTray->show();
+    connect(sysTray, &QSystemTrayIcon::activated, this, &MainWindow::trayIconActivated);
+}
+
+
+void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+    if (reason==QSystemTrayIcon::DoubleClick) {
+        this->show();
+        setWindowState(Qt::WindowActive);
+//        this->raise();
+    }
 }
 
 void MainWindow::on_seekSlider_valueChanged(int value) {
@@ -140,14 +151,14 @@ bool MainWindow::event(QEvent *event) {
     case QEvent::WindowStateChange:
         if (isMinimized()) {
             QMessageBox reply;
-//            reply.setObjectName(QString("asdf"));
-//            reply.setStyleSheet(QString("background-image:\"\";"));
-//            reply.setStyle(NULL);
+            //            reply.setObjectName(QString("asdf"));
+            //            reply.setStyleSheet(QString("background-image:\"\";"));
+            //            reply.setStyle(NULL);
             reply.information(this, QString("Systray"), QString("The program will keep running in the system tray. To "
                                                                 "terminate the program, choose <b>Quit</b> in the "
                                                                 "context menu of the system tray entry."));
             this->hide();
-//            event->ignore();
+            //            event->ignore();
 
             //                    reply.show();
             //        reply=QMessageBox::information(this, QString("Systray"),

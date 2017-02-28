@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <QSystemTrayIcon>
 #include <windows.h>
 #include <mmsystem.h>
 
@@ -24,6 +25,7 @@ private slots:
     void on_seekSlider_valueChanged(int value);
     void on_volumeSlider_valueChanged(int value);
     void openFile();
+    void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
 private:
     bool event(QEvent *event) override;
