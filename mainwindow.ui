@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>2630</width>
-    <height>915</height>
+    <height>1820</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -579,7 +579,7 @@ Und halten mit das Abendmahl.</string>
              <x>0</x>
              <y>0</y>
              <width>2598</width>
-             <height>167</height>
+             <height>151</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_2">
@@ -894,11 +894,27 @@ color: rgb(0, 170, 0);</string>
             <property name="acceptDrops">
              <bool>false</bool>
             </property>
-            <property name="toolTip">
-             <string>Rating</string>
-            </property>
             <property name="styleSheet">
              <string notr="true">background: transparent; border-style: none;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDial" name="scrollSpeedDial">
+            <property name="minimumSize">
+             <size>
+              <width>165</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximum">
+             <number>60</number>
+            </property>
+            <property name="value">
+             <number>10</number>
+            </property>
+            <property name="notchesVisible">
+             <bool>true</bool>
             </property>
            </widget>
           </item>

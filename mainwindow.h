@@ -24,6 +24,7 @@ public:
 private slots:
     void on_seekSlider_valueChanged(int value);
     void on_volumeSlider_valueChanged(int value);
+    void on_scrollSpeedDial_valueChanged(int value);
     void openFile();
     void quitSlot();
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);

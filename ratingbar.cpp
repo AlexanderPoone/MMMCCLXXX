@@ -4,6 +4,7 @@ RatingBar::RatingBar()
     :rating(0.)
 {
     setAcceptHoverEvents(true);
+    setToolTip(QStringLiteral("Rate this song"));
     siennaPen.setColor(QColor(0xCB, 0xA1, 0x35)); //Metallic gold
     //    siennaPen.setColor(QColor(0xA0,0x52,0x2D)); //Sienna
     siennaPen.setWidth(2);
@@ -317,6 +318,7 @@ void RatingBar::mousePressEvent(QGraphicsSceneMouseEvent *event) {
         }
         tmpRPath.translate(48., 0);
     }
+    setToolTip(QStringLiteral("Rating: %1").arg(rating));
 }
 
 void RatingBar::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {

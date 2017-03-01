@@ -113,7 +113,7 @@ void PlayPauseButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
         setGraphicsEffect(effect);
         update();
         setToolTip(QString("Pause"));
-        if (!(timer->isActive())) timer->start(1000);
+        if (!(timer->isActive())) timer->start(750);
     }
     else {
         state=true;
@@ -131,7 +131,7 @@ void PlayPauseButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
 void PlayPauseButton::scrollScroller() {
     if (timer->isActive())
-    lyricsScroll->verticalScrollBar()->setValue(lyricsScroll->verticalScrollBar()->value()+35);
+    lyricsScroll->verticalScrollBar()->setValue(lyricsScroll->verticalScrollBar()->value()+10);
 }
 
 void PlayPauseButton::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {

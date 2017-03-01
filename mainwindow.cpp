@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     createSysTray();
     setArtist(QString("Séverine"));
     setSongTitle(QString("Un banc, un arbre, une rue"));
+    ui->scrollSpeedDial->setToolTip(QStringLiteral("Scroll speed: 10"));
     ui->playPauseView->setStyleSheet("background: transparent; border-style: none;");
     ui->seekSlider->setStyleSheet(
                 "QSlider::handle:horizontal { image: url(:/noteSlider.png); "
@@ -144,6 +145,10 @@ void MainWindow::on_volumeSlider_valueChanged(int value) {
     //waveOutSetVolume(HWAVEOUT hwo, DWORD dwVolume);
     //Volume: between 0xFFFF (255 255) and 0x0000, int qRound(2.55*volumeSlider.value()) << 8;
     //Left two bits: left-channel, right two bits: right-channel
+}
+
+void MainWindow::on_scrollSpeedDial_valueChanged(int value) {
+    ui->scrollSpeedDial->setToolTip(QStringLiteral("Scroll speed: %1").arg(value));
 }
 
 bool MainWindow::event(QEvent *event) {
