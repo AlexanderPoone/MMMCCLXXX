@@ -5,16 +5,23 @@ static const char *id="NL14RZ5i4tDImb8fPWBMXz1iAG8_86HJeyrllKdfaVkGaSWkYBdZjGpTp
 static const char *secret="1OqgKFHflhdd9kOZpxE-nzt-HKnq6GuoZCXjeUwYyNWNz8tMVMHOBND96pPbm4ajDR7_lO_Hc9rdgSlUJLYvHA";
 
 QLabel* holder;
+QLabel* artistPhotoHolder;
+QLabel* albumArtHolder;
 QNetworkReply* res;
 QNetworkReply* resLyrics;
+QNetworkReply* resArtistPhoto;
+QNetworkReply* resAlbumArt;
 QString lyrics;
 
 //TODO: Handle instrumental songs
+//TODO: Handle exceptions
 
-GeniusManager::GeniusManager(QLabel *label, QString artist, QString songTitle)
+GeniusManager::GeniusManager(QLabel *label, QLabel *artistPhotoL, QLabel *albumArtL, QString artist, QString songTitle)
 {
     QNetworkAccessManager::QNetworkAccessManager();
     holder=label;
+    artistPhotoHolder=artistPhotoL;
+    albumArtHolder=albumArtL;
     holder->setTextFormat(Qt::RichText);
     holder->setText("Loading lyrics...");
     //    QNetworkConfigurationManager mgr;
@@ -48,13 +55,26 @@ void GeniusManager::result() {
     QJsonArray hits = json.object().value("response").toObject().value("hits").toArray();
     QJsonObject result = hits.at(0).toObject().value("result").toObject();
     if (result.isEmpty()) holder->setText("No lyrics available");
-    qDebug() << result.value("primary_artist").toObject().value("name").toString();
-    qDebug() << result.value("title").toString();
-    qDebug() << result.value("url").toString();
+
+//    qDebug() << result.value("header_image_thumbnail_url").toString();
+//    qDebug() << result.value("primary_artist").toObject().value("image_url").toString();
+
+//    qDebug() << result.value("primary_artist").toObject().value("name").toString();
+//    qDebug() << result.value("title").toString();
+//    qDebug() << result.value("url").toString();
     QNetworkRequest reqLyrics(QUrl(result.value("url").toString()));
     resLyrics = get(reqLyrics);
     connect(resLyrics, SIGNAL(finished()), this, SLOT(httpFinished()));
     //    connect(resLyrics, &resLyrics::finished, this, &GeniusManager::resultLyrics);
+
+    QNetworkRequest reqArtistPhoto(QUrl(result.value("header_image_thumbnail_url").toString()));
+    resArtistPhoto = get(reqArtistPhoto);
+    connect(resArtistPhoto, SIGNAL(finished()), this, SLOT(artistPhotoFetched()));
+
+    QNetworkRequest reqAlbumArt(QUrl(result.value("primary_artist").toObject().value("image_url").toString()));
+    resAlbumArt = get(reqAlbumArt);
+    connect(resAlbumArt, SIGNAL(finished()), this, SLOT(albumArtFetched()));
+
 }
 
 void GeniusManager::httpFinished() {
@@ -89,3 +109,15 @@ void GeniusManager::httpFinished() {
 //    page.settings()->setAttribute(QWebSettings::JavascriptEnabled, false);
 //    page.mainFrame()->setHtml(resL->readAll());
 //    QWebElement lyricbox = page.mainFrame()->findFirstElement("lyrics[class=lyrics]")
+
+void GeniusManager::artistPhotoFetched() {
+    QPixmap pixmap;
+    pixmap.loadFromData(resArtistPhoto->readAll());
+    artistPhotoHolder->setPixmap(pixmap);
+}
+
+void GeniusManager::albumArtFetched() {
+    QPixmap pixmap;
+    pixmap.loadFromData(resAlbumArt->readAll());
+    albumArtHolder->setPixmap(pixmap);
+}

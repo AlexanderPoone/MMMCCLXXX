@@ -19,5 +19,6 @@
         <file>darker.png</file>
         <file>jukebox.png</file>
         <file>openFile.png</file>
+        <file>unlock-24.png</file>
     </qresource>
 </RCC>

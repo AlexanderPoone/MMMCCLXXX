@@ -14,8 +14,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
     createSysTray();
-    setArtist(QString("Séverine"));
-    setSongTitle(QString("Un banc, un arbre, une rue"));
+    setArtist(QString("Adele"));
+    setSongTitle(QString("Hello"));
+//    setArtist(QString("Séverine"));
+//    setSongTitle(QString("Un banc, un arbre, une rue"));
     ui->scrollSpeedDial->setToolTip(QStringLiteral("Auto-scroll speed: 10"));
     ui->playPauseView->setStyleSheet("background: transparent; border-style: none;");
     ui->seekSlider->setStyleSheet(
@@ -68,7 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //}
 
 void MainWindow::useGeniusAPI() {
-    auto gManager=new GeniusManager(ui->lyricsLabel, artist, songTitle);
+    auto gManager=new GeniusManager(ui->lyricsLabel, ui->metadataAlbumArtLabel, ui->metadataArtistPhotoLabel, artist, songTitle);
 }
 
 void MainWindow::setArtist(QString artist) {
