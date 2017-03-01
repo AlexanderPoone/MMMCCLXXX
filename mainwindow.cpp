@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     createSysTray();
     setArtist(QString("Séverine"));
     setSongTitle(QString("Un banc, un arbre, une rue"));
-    ui->scrollSpeedDial->setToolTip(QStringLiteral("Scroll speed: 10"));
+    ui->scrollSpeedDial->setToolTip(QStringLiteral("Auto-scroll speed: 10"));
     ui->playPauseView->setStyleSheet("background: transparent; border-style: none;");
     ui->seekSlider->setStyleSheet(
                 "QSlider::handle:horizontal { image: url(:/noteSlider.png); "
@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->stopView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     ui->repeatView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     QGraphicsItem *previousItem = new PreviousButton();
-    QGraphicsItem *playPauseItem = new PlayPauseButton(ui->lyricsScrollArea);
+    QGraphicsItem *playPauseItem = new PlayPauseButton(ui->lyricsScrollArea, ui->scrollSpeedDial);
     QGraphicsItem *nextItem = new NextButton();
     QGraphicsItem *stopItem = new StopButton();
     QGraphicsItem *ratingBarItem = new RatingBar();
@@ -147,9 +147,9 @@ void MainWindow::on_volumeSlider_valueChanged(int value) {
     //Left two bits: left-channel, right two bits: right-channel
 }
 
-void MainWindow::on_scrollSpeedDial_valueChanged(int value) {
-    ui->scrollSpeedDial->setToolTip(QStringLiteral("Scroll speed: %1").arg(value));
-}
+//void MainWindow::on_scrollSpeedDial_valueChanged(int value) {
+//    ui->scrollSpeedDial->setToolTip(QStringLiteral("Scroll speed: %1").arg(value));
+//}
 
 bool MainWindow::event(QEvent *event) {
     QMainWindow::event(event);

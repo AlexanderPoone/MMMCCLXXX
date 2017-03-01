@@ -2,16 +2,20 @@
 #include <QtWidgets>
 
 QScrollArea *lyricsScroll;
+QDial *controller;
 QTimer *timer;
 
-PlayPauseButton::PlayPauseButton(QScrollArea *scrollArea)
-    :state(true) {
+PlayPauseButton::PlayPauseButton(QScrollArea *scrollArea, QDial *dial)
+    :state(true), speed(10) {
 
     Button::Button();
     setToolTip(QString("Play"));
     lyricsScroll=scrollArea;
+    controller=dial;
     timer=new QTimer();
-    QObject::connect(timer,&QTimer::timeout,this,&PlayPauseButton::scrollScroller);
+    connect(dial,&QDial::valueChanged,this,&PlayPauseButton::setScrollSpeed);
+//    QObject::
+    connect(timer,&QTimer::timeout,this,&PlayPauseButton::scrollScroller);
     playGradient.setStart(.0,.0);
     playGradient.setFinalStop(100.,100);
     playGradient.setColorAt(0.4, QColor(0xFF,0xFF,0,0x9A));
@@ -129,9 +133,14 @@ void PlayPauseButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     qDebug("%d", state);
 }
 
+void PlayPauseButton::setScrollSpeed() {
+    speed=controller->value();
+    controller->setToolTip(QStringLiteral("Auto-scroll speed: %1").arg(speed));
+}
+
 void PlayPauseButton::scrollScroller() {
     if (timer->isActive())
-    lyricsScroll->verticalScrollBar()->setValue(lyricsScroll->verticalScrollBar()->value()+10);
+    lyricsScroll->verticalScrollBar()->setValue(lyricsScroll->verticalScrollBar()->value()+speed);
 }
 
 void PlayPauseButton::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
