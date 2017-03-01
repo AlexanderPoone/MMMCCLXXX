@@ -14,8 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
     createSysTray();
-    setArtist(QString("Adele"));
-    setSongTitle(QString("Hello"));
+    setArtist(QString("Brigitte"));
+    setSongTitle(QString("À bouche que veux-tu"));
 //    setArtist(QString("Séverine"));
 //    setSongTitle(QString("Un banc, un arbre, une rue"));
     ui->scrollSpeedDial->setToolTip(QStringLiteral("Auto-scroll speed: 10"));
