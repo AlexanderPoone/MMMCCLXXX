@@ -113,7 +113,7 @@ void PlayPauseButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
         setGraphicsEffect(effect);
         update();
         setToolTip(QString("Pause"));
-        timer->start(1000);
+        if (!(timer->isActive())) timer->start(1000);
     }
     else {
         state=true;
