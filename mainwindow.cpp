@@ -166,14 +166,14 @@ bool MainWindow::event(QEvent *event) {
             //            reply.setObjectName(QString("asdf"));
             //            reply.setStyleSheet(QString("background-image:\"\";"));
             //            reply.setStyle(NULL);
-            reply.information(this, QString("Systray"), QString("The music player will keep running in the system tray. To "
+            reply.information(this, QString("3280 Music Player"), QString("The music player will keep running in the system tray. To "
                                                                 "terminate the program, choose <b>Quit</b> in the "
                                                                 "context menu of the system tray entry."));
             this->hide();
             //            event->ignore();
 
             //                    reply.show();
-            //        reply=QMessageBox::information(this, QString("Systray"),
+            //        reply=QMessageBox::information(this, QString("3280 Music Player"),
             //                                         QString("The program will keep running in the system tray. To "
             //                                                 "terminate the program, choose <b>Quit</b> in the "
             //                                                 "context menu of the system tray entry."));
