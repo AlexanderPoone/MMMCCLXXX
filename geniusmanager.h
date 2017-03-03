@@ -16,6 +16,7 @@ private slots:
     void httpFinished();
     void artistPhotoFetched();
     void albumArtFetched();
+    void getSongDetails();
 };
 
 #endif // GENIUSMANAGER_H

@@ -12,10 +12,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    initWinsock();
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
     createSysTray();
-    setArtist(QString("Brigitte"));
-    setSongTitle(QString("À bouche que veux-tu"));
+    setArtist(QString("Shakira"));
+    setSongTitle(QString("Loba"));
 //    setArtist(QString("Séverine"));
 //    setSongTitle(QString("Un banc, un arbre, une rue"));
     ui->scrollSpeedDial->setToolTip(QStringLiteral("Auto-scroll speed: 10"));
@@ -66,8 +67,36 @@ MainWindow::MainWindow(QWidget *parent) :
     //    }
 }
 
-//QString MainWindow::initWavFile() {
-//}
+void MainWindow::initWavFile(QString fileLocation) {
+    hmmioIn=new HMMIO();
+}
+
+void MainWindow::initWinsock() {
+    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+    if (iResult != 0) {
+        qDebug() << "WSAStartup failed: " << iResult;
+    } else {
+        qDebug() << "WSAStartup succeeded!";
+        setupWinsockClient();
+    }
+}
+
+void MainWindow::setupWinsockClient() {
+    ZeroMemory( &hints, sizeof(hints) );
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_UDP;
+    // Resolve the server address and port
+//    iResult = getaddrinfo(argv[1], DEFAULT_PORT, &hints, &result);
+    if (iResult != 0) {
+        printf("getaddrinfo failed: %d\n", iResult);
+        WSACleanup();
+    }
+}
+
+void MainWindow::setupWinsockServer() {
+
+}
 
 void MainWindow::useGeniusAPI() {
     auto gManager=new GeniusManager(ui->lyricsLabel, ui->metadataAlbumArtLabel, ui->metadataArtistPhotoLabel, artist, songTitle);

@@ -1,13 +1,23 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#ifndef WIN32_LEAN_AND_MEAN         //Required, or else Winsock will override Windows.h and cause error.
+#define WIN32_LEAN_AND_MEAN
+#endif
+
+#define DEFAULT_PORT "2017"
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QSystemTrayIcon>
-#include <windows.h>
-#include <mmsystem.h>
+#include <windows.h>                //WAV
+#include <winsock2.h>               //Winsock (P2P)
+#include <ws2tcpip.h>               //Winsock (P2P)
+//#include <iphlpapi.h>
+#include <stdio.h>                  //Winsock (P2P)
+#include <mmsystem.h>               //WAV
 
-#pragma comment(lib, "winmm.lib")
+#pragma comment(lib, "winmm.lib")   //WAV
+#pragma comment(lib, "Ws2_32.lib")  //Winsock (P2P)
 
 namespace Ui {
 class MainWindow;
@@ -38,7 +48,12 @@ private:
     void useGeniusAPI();
     void setArtist(QString artist);
     void setSongTitle(QString songTitle);
-    void initWavFile(QString location);
+    void initWavFile(QString fileLocation);
+    //[Phase 2
+    void initWinsock();
+    void setupWinsockClient();
+    void setupWinsockServer();
+    //]
     Ui::MainWindow *ui;
     QGraphicsScene *previousScene;
     QGraphicsScene *playPauseScene;
@@ -48,6 +63,8 @@ private:
     QString artist;
     QString songTitle;
     enum genre; //yet to be implemented
+    //
+    //
     HMMIO *hmmioIn; // HMMIO mmioOpen (LPSTR filename, LPMMIOINFO info, DWORD flags);
     LPMMCKINFO *pckInRIFF; // mmioDescend (HMMIO h, LPMMCKINO lpck, LPMMCKINFO lpckParent, UNIT flags);
     HPSTR *pcmWaveFormat; // LONG mmioRead (HMMIO h, HPSTR pch, LONG cch);
@@ -63,6 +80,11 @@ private:
     //Don't forget waveOutClose (HWAVEOUT hwo);
     //Volume: between 0xFFFF (255 255) and 0x0000, int qRound(2.55*volumeSlider.value()) << 8;
     //Left two bits: left-channel, right two bits: right-channel
+    //
+    //
+    int iResult;
+    WSADATA wsaData;
+    struct addrinfo *result = NULL, *ptr = NULL, hints;
 };
 
 #endif // MAINWINDOW_H

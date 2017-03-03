@@ -7,7 +7,9 @@ static const char *secret="1OqgKFHflhdd9kOZpxE-nzt-HKnq6GuoZCXjeUwYyNWNz8tMVMHOB
 QLabel* holder;
 QLabel* artistPhotoHolder;
 QLabel* albumArtHolder;
+QNetworkRequest req;
 QNetworkReply* res;
+QNetworkReply* resDetails;
 QNetworkReply* resLyrics;
 QNetworkReply* resArtistPhoto;
 QNetworkReply* resAlbumArt;
@@ -29,11 +31,11 @@ GeniusManager::GeniusManager(QLabel *label, QLabel *artistPhotoL, QLabel *albumA
     //    QNetworkSession *session = new QNetworkSession(ap);
     //    session->open();
     //    qDebug() << session->error();
-    QUrl url("https://api.genius.com/search");
+    QUrl url(QStringLiteral("%1/search").arg(base));
     QUrlQuery query;
     query.addQueryItem(QStringLiteral("q"), QStringLiteral("%1 %2").arg(artist).arg(songTitle));
     url.setQuery(query);
-    QNetworkRequest req(url);
+    req.setUrl(url);
     req.setRawHeader(QByteArray("client_id"), QByteArray("NL14RZ5i4tDImb8fPWBMXz1iAG8_86HJeyrllKdfaVkGaSWkYBdZjGpTpbTnVKPd"));
     req.setRawHeader(QByteArray("client_secret"), QByteArray("1OqgKFHflhdd9kOZpxE-nzt-HKnq6GuoZCXjeUwYyNWNz8tMVMHOBND96pPbm4ajDR7_lO_Hc9rdgSlUJLYvHA"));
     req.setRawHeader(QByteArray("Authorization"), QStringLiteral("Bearer %1").arg("oyb9YtIexk-TqF-1rITrR3XdTVjKE60XythFwfDoqr52eRXcjR1SdrnkqDDRhQb7").toLatin1());
@@ -42,7 +44,6 @@ GeniusManager::GeniusManager(QLabel *label, QLabel *artistPhotoL, QLabel *albumA
 }
 
 void GeniusManager::result() {
-    //    qDebug() << "Fuck!";
     //    qDebug() << res->isOpen();
     if (res->error() == QNetworkReply::NoError) {
         qDebug() << "No errors!";
@@ -55,7 +56,6 @@ void GeniusManager::result() {
     QJsonArray hits = json.object().value("response").toObject().value("hits").toArray();
     QJsonObject result = hits.at(0).toObject().value("result").toObject();
     if (result.isEmpty()) holder->setText("No lyrics available");
-
 //    qDebug() << result.value("header_image_thumbnail_url").toString();
 //    qDebug() << result.value("primary_artist").toObject().value("image_url").toString();
 
@@ -75,6 +75,12 @@ void GeniusManager::result() {
     resAlbumArt = get(reqAlbumArt);
     connect(resAlbumArt, SIGNAL(finished()), this, SLOT(albumArtFetched()));
 
+    //TODO:
+    QUrl songUrl(QStringLiteral("%1%2").arg(base).arg(result.value("api_path").toString()));
+    qDebug() << songUrl;
+    req.setUrl(songUrl);
+//    resDetails = get(req);
+//    connect(resDetails, SIGNAL(finished()), this, SLOT(getSongDetails()));
 }
 
 void GeniusManager::httpFinished() {
@@ -89,6 +95,11 @@ void GeniusManager::httpFinished() {
     lyricsRe.indexIn(text);
     lyrics = lyricsRe.cap(1);
     qDebug() << lyrics.left(120);
+
+    //TODO
+//    QRegExp albumTitleRe("\"Primary Album\":\"(.*)\"");
+    //TODO
+
     QRegExp stripAHref("(<a href.*>|</a>)");
     stripAHref.setMinimal(true);
     lyrics.remove(stripAHref);
@@ -120,4 +131,9 @@ void GeniusManager::albumArtFetched() {
     QPixmap pixmap;
     pixmap.loadFromData(resAlbumArt->readAll());
     albumArtHolder->setPixmap(pixmap);
+}
+
+void GeniusManager::getSongDetails() {
+    QJsonDocument json = QJsonDocument::fromJson(res->readAll());
+    qDebug() << json.isEmpty() << json.isNull();
 }
