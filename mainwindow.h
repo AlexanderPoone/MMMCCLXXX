@@ -15,7 +15,7 @@
 //#include <iphlpapi.h>
 #include <stdio.h>                  //Winsock (P2P)
 #include <mmsystem.h>               //WAV
-
+//We use QThread for multithreading.
 #pragma comment(lib, "winmm.lib")   //WAV
 #pragma comment(lib, "Ws2_32.lib")  //Winsock (P2P)
 
@@ -85,6 +85,7 @@ private:
     int iResult;
     WSADATA wsaData;
     struct addrinfo *result = NULL, *ptr = NULL, hints;
+    SOCKET ConnectSocket;
 };
 
 #endif // MAINWINDOW_H

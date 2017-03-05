@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     ratingbar.cpp \
     albumentry.cpp \
     nextbutton.cpp \
-    previousbutton.cpp
+    previousbutton.cpp \
+    musiclibrary.cpp
 
 HEADERS  += mainwindow.h \
     button.h \
@@ -45,7 +46,8 @@ HEADERS  += mainwindow.h \
     ratingbar.h \
     albumentry.h \
     nextbutton.h \
-    previousbutton.h
+    previousbutton.h \
+    musiclibrary.h
 
 FORMS    += mainwindow.ui
 

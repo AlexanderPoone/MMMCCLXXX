@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "albumentry.h"
+#include "musiclibrary.h"
 #include "geniusmanager.h"
 #include "previousbutton.h"
 #include "playpausebutton.h"
@@ -12,13 +14,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    auto musicLibrary=new MusicLibrary(ui->albumGridLayout, this);
+//    setWindowFlags(Qt::FramelessWindowHint);
     initWinsock();
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
     createSysTray();
-    setArtist(QString("Shakira"));
-    setSongTitle(QString("Loba"));
-//    setArtist(QString("Séverine"));
-//    setSongTitle(QString("Un banc, un arbre, une rue"));
+    setArtist(QString("ABBA"));
+    setSongTitle(QString("Happy New Year"));
+    //    setArtist(QString("Séverine"));
+    //    setSongTitle(QString("Un banc, un arbre, une rue"));
     ui->scrollSpeedDial->setToolTip(QStringLiteral("Auto-scroll speed: 10"));
     ui->playPauseView->setStyleSheet("background: transparent; border-style: none;");
     ui->seekSlider->setStyleSheet(
@@ -79,19 +83,25 @@ void MainWindow::initWinsock() {
         qDebug() << "WSAStartup succeeded!";
         setupWinsockClient();
     }
+    ConnectSocket = INVALID_SOCKET;
 }
 
 void MainWindow::setupWinsockClient() {
-    ZeroMemory( &hints, sizeof(hints) );
+    ZeroMemory(&hints, sizeof(hints));
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_protocol = IPPROTO_UDP;
     // Resolve the server address and port
-//    iResult = getaddrinfo(argv[1], DEFAULT_PORT, &hints, &result);
+    iResult = getaddrinfo("https://www.google.com", DEFAULT_PORT, &hints, &result);
     if (iResult != 0) {
         printf("getaddrinfo failed: %d\n", iResult);
         WSACleanup();
     }
+    // Attempt to connect to the first address returned by the call to getaddrinfo
+    ptr=result;
+
+    //    // Create a SOCKET for connecting to server
+    //    ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
 }
 
 void MainWindow::setupWinsockServer() {
@@ -135,8 +145,8 @@ void MainWindow::createSysTray() {
     contextMenu->addAction(QString("3280MP v.0")); //addSection does not work!
     contextMenu->addSeparator();
     QAction *mehAction;
-mehAction=new QAction(QString("Meh!"), this);
-mehAction->setDisabled(true);
+    mehAction=new QAction(QString("Meh!"), this);
+    mehAction->setDisabled(true);
     contextMenu->addAction(mehAction);
     QAction *quitAction;
     quitAction=new QAction(QString("&Quit"), this);
@@ -161,7 +171,7 @@ void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
     if (reason==QSystemTrayIcon::DoubleClick) {
         this->show();
         setWindowState(Qt::WindowActive);
-//        this->raise();
+        //        this->raise();
     }
 }
 
@@ -203,8 +213,8 @@ bool MainWindow::event(QEvent *event) {
             //            reply.setStyleSheet(QString("background-image:\"\";"));
             //            reply.setStyle(NULL);
             reply.information(this, QString("3280 Music Player"), QString("The music player will keep running in the system tray. To "
-                                                                "terminate the program, choose <b>Quit</b> in the "
-                                                                "context menu of the system tray entry."));
+                                                                          "terminate the program, choose <b>Quit</b> in the "
+                                                                          "context menu of the system tray entry."));
             this->hide();
             //            event->ignore();
 
