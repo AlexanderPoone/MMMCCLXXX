@@ -683,6 +683,11 @@ color: Gainsboro;</string>
         <string>Album Info</string>
        </attribute>
       </widget>
+      <widget class="QWidget" name="tab_bulletScreen">
+       <attribute name="title">
+        <string>Bullet screen</string>
+       </attribute>
+      </widget>
      </widget>
     </item>
    </layout>
