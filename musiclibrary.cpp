@@ -5,6 +5,7 @@ QLayout *mesh;
 MusicLibrary::MusicLibrary(QGridLayout *container, QWidget *parent) {
     //TODO: PICKLE ALL THESE
     mesh=container;
+    scan();
     for (int i; i<9; i++) {
         AlbumEntry *entry;
         entry=new AlbumEntry(parent);
@@ -16,6 +17,12 @@ MusicLibrary::MusicLibrary(QGridLayout *container, QWidget *parent) {
     }
 }
 
-MusicLibrary::scan() {
+void MusicLibrary::scan() {
     //Scan paths in the QStringList scanDirs to add song entries.
+    scanDirs << QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
+    QDir tmpDir(scanDirs[0]);
+    QStringList filters;
+    filters << "*.wav" << "*.wave" << "*.mp3";
+    tmpDir.setNameFilters(filters);
+    qDebug() << tmpDir.entryList(); //entryInfoList();
 }
