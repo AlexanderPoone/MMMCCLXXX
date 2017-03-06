@@ -24,5 +24,12 @@ void MusicLibrary::scan() {
     QStringList filters;
     filters << "*.wav" << "*.wave" << "*.mp3";
     tmpDir.setNameFilters(filters);
-    qDebug() << tmpDir.entryList(); //entryInfoList();
+//    qDebug() << tmpDir.entryList(); //entryInfoList();
+    QFile dc(QStringLiteral("db.json"));
+    dc.open(QFile::ReadWrite | QFile::Text);
+    QByteArray contents=dc.readAll();
+    qDebug() << contents.left(100);
+    qDebug() << dc.exists();
+    QJsonDocument internalDoc;
+//    internalDoc=QJsonDocument::fromJson(doc.readAll());
 }

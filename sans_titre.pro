@@ -59,3 +59,11 @@ MOBILITY =
 RESOURCES += \
     res.qrc
 
+#install_it.path = $$OUT_PWD
+#install_it.files = $$PWD\*.dll
+
+#INSTALLS += \
+#    install_it
+
+QMAKE_POST_LINK += $${QMAKE_COPY} $${PWD}/libeay32.dll $$shadowed($$PWD)/libeay32.dll
+QMAKE_POST_LINK += $${QMAKE_COPY} $${PWD}/ssleay32.dll $$shadowed($$PWD)/ssleay32.dll

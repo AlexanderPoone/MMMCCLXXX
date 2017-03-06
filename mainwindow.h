@@ -51,8 +51,10 @@ private:
     void initWavFile(QString fileLocation);
     //[Phase 2
     void initWinsock();
-    void setupWinsockClient();
     void setupWinsockServer();
+    void winsockServerBindSocket();
+    void setupWinsockClient();
+    SOCKET ListenSocket;
     //]
     Ui::MainWindow *ui;
     QGraphicsScene *previousScene;

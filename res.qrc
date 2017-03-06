@@ -20,5 +20,6 @@
         <file>jukebox.png</file>
         <file>openFile.png</file>
         <file>unlock-24.png</file>
+        <file>trumpetInstrumental.png</file>
     </qresource>
 </RCC>

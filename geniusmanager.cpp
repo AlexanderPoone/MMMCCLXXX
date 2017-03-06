@@ -103,7 +103,12 @@ void GeniusManager::httpFinished() {
     QRegExp stripAHref("(<a href.*>|</a>)");
     stripAHref.setMinimal(true);
     lyrics.remove(stripAHref);
+//    QRegExp instrumentalTest("(Instrumental)");
+//    instrumentalTest.setCaseSensitivity(Qt::CaseSensitive);
     holder->setText(lyrics);
+    if (lyrics.left(100).contains("Instrumental",Qt::CaseSensitive)) {
+        holder->setText(QStringLiteral("<img src=\":/trumpetInstrumental.png\"><p><font color=\"yellow\">INSTRUMENTAL</font></p><p><font color=\"lemonChiffon\">Let the music play</font></p>"));
+    }
 }
 
 //    int statusCode = resLyrics->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();

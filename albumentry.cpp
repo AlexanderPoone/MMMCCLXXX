@@ -8,8 +8,8 @@ AlbumEntry::AlbumEntry(QWidget *parent) {
     albumArtL=new QLabel(parent);
     albumTitleL=new QLabel(parent);
     artistNameL=new QLabel(parent);
-    albumArtL->setFixedWidth(460);
-    albumArtL->setFixedHeight(460);
+    albumArtL->setFixedWidth(400);
+    albumArtL->setFixedHeight(400);
     albumArtL->setScaledContents(true);
     albumArtL->setStyleSheet(QStringLiteral("border: 10px ridge Violet;"));
     albumTitleL->setStyleSheet(QStringLiteral("background: transparent; font: 48px \"Futura PT\""));

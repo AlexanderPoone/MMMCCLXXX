@@ -104,13 +104,13 @@ RatingBar::RatingBar()
 
 QRectF RatingBar::boundingRect() const
 {
-    return QRectF(-50, -50, 300, 300);
+    return QRectF(-50, -50, 250, 250);
 }
 
 QPainterPath RatingBar::shape() const
 {
     QPainterPath path;
-    path.addRect(-50, -50, 300, 300);
+    path.addRect(-50, -50, 250, 250);
     return path;
 }
 

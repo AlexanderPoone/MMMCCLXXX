@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2630</width>
-    <height>1820</height>
+    <width>2080</width>
+    <height>1770</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -63,7 +63,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>2596</width>
+         <width>2046</width>
          <height>430</height>
         </rect>
        </property>
@@ -85,7 +85,7 @@
             <property name="minimumSize">
              <size>
               <width>300</width>
-              <height>300</height>
+              <height>250</height>
              </size>
             </property>
             <property name="acceptDrops">
@@ -101,7 +101,7 @@
             <property name="minimumSize">
              <size>
               <width>300</width>
-              <height>300</height>
+              <height>250</height>
              </size>
             </property>
             <property name="acceptDrops">
@@ -117,7 +117,7 @@
             <property name="minimumSize">
              <size>
               <width>300</width>
-              <height>300</height>
+              <height>250</height>
              </size>
             </property>
             <property name="acceptDrops">
@@ -133,7 +133,7 @@
             <property name="minimumSize">
              <size>
               <width>300</width>
-              <height>300</height>
+              <height>250</height>
              </size>
             </property>
             <property name="acceptDrops">
@@ -255,7 +255,7 @@
             <property name="minimumSize">
              <size>
               <width>300</width>
-              <height>300</height>
+              <height>250</height>
              </size>
             </property>
             <property name="acceptDrops">
@@ -360,7 +360,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>2598</width>
+             <width>2048</width>
              <height>862</height>
             </rect>
            </property>
@@ -436,7 +436,7 @@ Und halten mit das Abendmahl.</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>2587</width>
+             <width>2037</width>
              <height>798</height>
             </rect>
            </property>
@@ -697,7 +697,7 @@ color: Gainsboro;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>2630</width>
+     <width>2080</width>
      <height>19</height>
     </rect>
    </property>
