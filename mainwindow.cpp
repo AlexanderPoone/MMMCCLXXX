@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     initWinsock();
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
     createSysTray();
-    setArtist(QString("Carpenters"));
+    setArtist(QString("The Carpenters"));
     setSongTitle(QString("Flat Baroque"));
     //    setArtist(QString("Séverine"));
     //    setSongTitle(QString("Un banc, un arbre, une rue"));
@@ -152,6 +152,7 @@ void MainWindow::useGeniusAPI() {
 }
 
 void MainWindow::setArtist(QString artist) {
+    if (artist.compare("The Carpenters")==0) artist="Carpenters";
     ui->artistTag->setText(artist);
     ui->metadataArtistLabel->setText(artist);
     this->artist=artist;
