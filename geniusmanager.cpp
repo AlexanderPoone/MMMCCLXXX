@@ -104,9 +104,9 @@ void GeniusManager::httpFinished() {
     stripAHref.setMinimal(true);
     lyrics.remove(stripAHref);
 //    QRegExp instrumentalTest("(Instrumental)");
-//    instrumentalTest.setCaseSensitivity(Qt::CaseSensitive);
+//    instrumentalTest.setCaseSensitivity(Qt::CaseInsensitive);
     holder->setText(lyrics);
-    if (lyrics.left(100).contains("Instrumental",Qt::CaseSensitive)) {
+    if (lyrics.left(100).contains("Instrumental",Qt::CaseInsensitive)) {
         holder->setText(QStringLiteral("<img src=\":/trumpetInstrumental.png\"><p><font color=\"yellow\">INSTRUMENTAL</font></p><p><font color=\"lemonChiffon\">Let the music play</font></p>"));
     }
 }
