@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     nextbutton.cpp \
     previousbutton.cpp \
     musiclibrary.cpp \
-    tracklistbubble.cpp
+    tracklistbubble.cpp \
+    bulletscreen.cpp
 
 HEADERS  += mainwindow.h \
     button.h \
@@ -49,7 +50,8 @@ HEADERS  += mainwindow.h \
     nextbutton.h \
     previousbutton.h \
     musiclibrary.h \
-    tracklistbubble.h
+    tracklistbubble.h \
+    bulletscreen.h
 
 FORMS    += mainwindow.ui
 

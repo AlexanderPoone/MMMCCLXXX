@@ -34,6 +34,7 @@ public:
 private slots:
     void on_seekSlider_valueChanged(int value);
     void on_volumeSlider_valueChanged(int value);
+    void on_sendButton_clicked();
 //    void on_scrollSpeedDial_valueChanged(int value);
     void openFile();
     void quitSlot();
@@ -57,11 +58,14 @@ private:
     SOCKET ListenSocket;
     //]
     Ui::MainWindow *ui;
+    QSystemTrayIcon *sysTray;
     QGraphicsScene *previousScene;
     QGraphicsScene *playPauseScene;
     QGraphicsScene *nextScene;
     QGraphicsScene *stopScene;
     QGraphicsScene *ratingBarScene;
+    QGraphicsScene *bulletScrScene;
+
     QString artist;
     QString songTitle;
     enum genre; //yet to be implemented

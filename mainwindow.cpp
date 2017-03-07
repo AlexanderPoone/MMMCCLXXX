@@ -8,6 +8,7 @@
 #include "nextbutton.h"
 #include "stopbutton.h"
 #include "ratingbar.h"
+#include "bulletscreen.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -19,10 +20,12 @@ MainWindow::MainWindow(QWidget *parent) :
     initWinsock();
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
     createSysTray();
-    setArtist(QString("The Carpenters"));
-    setSongTitle(QString("Flat Baroque"));
-    //    setArtist(QString("Séverine"));
-    //    setSongTitle(QString("Un banc, un arbre, une rue"));
+    setArtist(QStringLiteral("Linkin Park"));
+    setSongTitle(QStringLiteral("Numb"));
+    //    setArtist(QStringLiteral("The Carpenters"));
+    //    setSongTitle(QStringLiteral("Flat Baroque"));
+    //    setArtist(QStringLiteral("Séverine"));
+    //    setSongTitle(QStringLiteral("Un banc, un arbre, une rue"));
     ui->scrollSpeedDial->setToolTip(QStringLiteral("Auto-scroll speed: 10"));
     ui->playPauseView->setStyleSheet("background: transparent; border-style: none;");
     ui->seekSlider->setStyleSheet(
@@ -37,29 +40,33 @@ MainWindow::MainWindow(QWidget *parent) :
     playPauseScene=new QGraphicsScene(this);
     nextScene=new QGraphicsScene(this);
     stopScene=new QGraphicsScene(this);
-
     ratingBarScene=new QGraphicsScene(this);
-
+    bulletScrScene=new QGraphicsScene(this);
     ui->backwardView->setScene(previousScene);
     ui->playPauseView->setScene(playPauseScene);
     ui->nextView->setScene(nextScene);
     ui->stopView->setScene(stopScene);
     ui->repeatView->setScene(ratingBarScene);
+    ui->bulletScreenView->setScene(bulletScrScene);
     ui->playPauseView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     ui->backwardView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     ui->nextView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     ui->stopView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     ui->repeatView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    ui->repeatView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    ui->bulletScreenView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     QGraphicsItem *previousItem = new PreviousButton();
     QGraphicsItem *playPauseItem = new PlayPauseButton(ui->lyricsScrollArea, ui->scrollSpeedDial);
     QGraphicsItem *nextItem = new NextButton();
     QGraphicsItem *stopItem = new StopButton();
     QGraphicsItem *ratingBarItem = new RatingBar();
+    QGraphicsItem *bulletScrItem = new BulletScreen();
     previousScene->addItem(previousItem);
     playPauseScene->addItem(playPauseItem);
     nextScene->addItem(nextItem);
     stopScene->addItem(stopItem);
     ratingBarScene->addItem(ratingBarItem);
+    bulletScrScene->addItem(bulletScrItem);
     populateScene();
     useGeniusAPI();
     qDebug() << QStyleFactory::keys();
@@ -84,7 +91,7 @@ void MainWindow::initWinsock() {
     } else {
         qDebug() << "WSAStartup succeeded!";
         setupWinsockServer();
-        winsockServerBindSocket();
+        //        winsockServerBindSocket();
         setupWinsockClient();
     }
     ConnectSocket = INVALID_SOCKET;
@@ -102,8 +109,9 @@ void MainWindow::setupWinsockServer() {
     // Resolve the local address and port to be used by the server
     iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
     if (iResult != 0) {
-        printf("getaddrinfo failed: %d\n", iResult);
+        qDebug() << "getaddrinfo failed: " << iResult;
         WSACleanup();
+        return;
     }
     // 2.
     ListenSocket = INVALID_SOCKET;
@@ -111,22 +119,43 @@ void MainWindow::setupWinsockServer() {
     ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
     // 4.
     if (ListenSocket == INVALID_SOCKET) {
-        printf("Error at socket(): %ld\n", WSAGetLastError());
+        qDebug() << "Error at socket(): %ld\n" << WSAGetLastError();
         freeaddrinfo(result);
         WSACleanup();
+        return;
+    }
+    // 5. Setup the TCP listening socket
+    iResult = bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
+    if (iResult == SOCKET_ERROR) {
+        qDebug() << "bind failed with error: " << WSAGetLastError();
+        freeaddrinfo(result);
+        closesocket(ListenSocket);
+        WSACleanup();
+        return;
+    }
+    freeaddrinfo(result);
+    // 6. To listen on a socket
+    if ( listen( ListenSocket, SOMAXCONN ) == SOCKET_ERROR ) {
+        qDebug() << "Listen failed with error: " << WSAGetLastError();
+        closesocket(ListenSocket);
+        WSACleanup();
+        return;
+    }
+    qDebug() << "Winsock server has been successfully set up.";
+    // 7. Accept a client socket
+    SOCKET ClientSocket;
+    ClientSocket = INVALID_SOCKET;
+    ClientSocket = accept(ListenSocket, NULL, NULL);
+    if (ClientSocket == INVALID_SOCKET) {
+        qDebug() << "accept failed: " << WSAGetLastError();
+        closesocket(ListenSocket);
+        WSACleanup();
+        return;
     }
 }
 
-void MainWindow::winsockServerBindSocket() {
-    // Setup the TCP listening socket
-//    iResult = bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
-//    if (iResult == SOCKET_ERROR) {
-//        printf("bind failed with error: %d\n", WSAGetLastError());
-//        freeaddrinfo(result);
-//        closesocket(ListenSocket);
-//        WSACleanup();
-//    }
-}
+//void MainWindow::winsockServerBindSocket() {
+//}
 
 void MainWindow::setupWinsockClient() {
     ZeroMemory(&hints, sizeof(hints));
@@ -134,16 +163,17 @@ void MainWindow::setupWinsockClient() {
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_protocol = IPPROTO_UDP;
     // Resolve the server address and port
-    iResult = getaddrinfo("https://www.google.com", DEFAULT_PORT, &hints, &result);
+    iResult = getaddrinfo("localhost", DEFAULT_PORT, &hints, &result);
     if (iResult != 0) {
-        printf("getaddrinfo failed: %d\n", iResult);
+        qDebug() << "getaddrinfo failed: " << iResult;
         WSACleanup();
+    } else {
+        qDebug() << "Winsock client has been successfully set up.";
     }
     // Attempt to connect to the first address returned by the call to getaddrinfo
     ptr=result;
-
-    //    // Create a SOCKET for connecting to server
-    //    ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
+    // Create a SOCKET for connecting to server
+    ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
 }
 
 
@@ -178,7 +208,6 @@ void MainWindow::openFile() {
 }
 
 void MainWindow::createSysTray() {
-    QSystemTrayIcon *sysTray;
     sysTray=new QSystemTrayIcon(this);
     QMenu *contextMenu;
     contextMenu=new QMenu(QString("3280MP"),this);
@@ -203,6 +232,7 @@ void MainWindow::createSysTray() {
 }
 
 void MainWindow::quitSlot() {
+    sysTray->hide();
     exit(0);
 }
 
@@ -232,6 +262,10 @@ void MainWindow::on_volumeSlider_valueChanged(int value) {
 //    ui->scrollSpeedDial->setToolTip(QStringLiteral("Scroll speed: %1").arg(value));
 //}
 
+void MainWindow::on_sendButton_clicked() {
+    ui->bulletMessageBox->clear();
+}
+
 bool MainWindow::event(QEvent *event) {
     QMainWindow::event(event);
     switch (event->type()) {
@@ -242,9 +276,10 @@ bool MainWindow::event(QEvent *event) {
         this->setWindowOpacity(0.8);
         break;
     case QEvent::Close:
-        qDebug("App closed.");
-        HWAVEOUT hAudioOut;
-        waveOutClose(hAudioOut);
+        sysTray->hide();
+        qDebug() << "App closed.";
+        mmioClose(*hmmioIn, NULL);
+//        waveOutClose((HWAVEOUT) *hAudioOut);
         break;
     case QEvent::WindowStateChange:
         if (isMinimized()) {
