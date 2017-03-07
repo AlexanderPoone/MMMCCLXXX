@@ -1,4 +1,5 @@
 # 3280
+![Logo](logo.png "Logo")
 The proper way to write a GUI is to use only 1 or 2 images.
 ## For developers
 The GUI will be implemented using Qt.
