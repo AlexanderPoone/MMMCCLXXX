@@ -5,7 +5,7 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 
-#define DEFAULT_PORT "2017"
+#define DEFAULT_PORT "6894"
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QSystemTrayIcon>
@@ -55,7 +55,6 @@ private:
     void setupWinsockServer();
     void winsockServerBindSocket();
     void setupWinsockClient();
-    SOCKET ListenSocket;
     //]
     Ui::MainWindow *ui;
     QSystemTrayIcon *sysTray;
@@ -92,6 +91,7 @@ private:
     WSADATA wsaData;
     struct addrinfo *result = NULL, *ptr = NULL, hints;
     SOCKET ConnectSocket;
+    SOCKET ListenSocket;
 };
 
 #endif // MAINWINDOW_H

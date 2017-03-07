@@ -1,6 +1,11 @@
 #ifndef PLAYPAUSEBUTTON_H
 #define PLAYPAUSEBUTTON_H
 
+#include <winsock2.h>               //Winsock (P2P)
+#include <ws2tcpip.h>               //Winsock (P2P)
+//#include <iphlpapi.h>
+#include <stdio.h>                  //Winsock (P2P)
+
 #include "button.h"
 
 class PlayPauseButton : public Button

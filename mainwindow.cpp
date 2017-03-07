@@ -9,15 +9,19 @@
 #include "stopbutton.h"
 #include "ratingbar.h"
 #include "bulletscreen.h"
+#include "winsockclientthread.h"
+#include "winsockserverthread.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    WinSockServerThread *winSockServerThread=new WinSockServerThread;
+    winSockServerThread->start();
     auto musicLibrary=new MusicLibrary(ui->albumGridLayout, this);
     //    setWindowFlags(Qt::FramelessWindowHint);
-    initWinsock();
+//    initWinsock();
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
     createSysTray();
     setArtist(QStringLiteral("Linkin Park"));
@@ -78,103 +82,106 @@ MainWindow::MainWindow(QWidget *parent) :
     //    for (int i=0;i<ui->scrollArea->size().height();i++) {
     //    ui->lyricsScrollArea->scroll(0,10);
     //    }
+    WinSockClientThread *winSockClientThread=new WinSockClientThread;
+    winSockClientThread->start();
 }
 
 void MainWindow::initWavFile(QString fileLocation) {
     hmmioIn=new HMMIO();
 }
 
-void MainWindow::initWinsock() {
-    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
-    if (iResult != 0) {
-        qDebug() << "WSAStartup failed: " << iResult;
-    } else {
-        qDebug() << "WSAStartup succeeded!";
-        setupWinsockServer();
-        //        winsockServerBindSocket();
-        setupWinsockClient();
-    }
-    ConnectSocket = INVALID_SOCKET;
-}
-
-void MainWindow::setupWinsockServer() {
-    // 1.
-    struct addrinfo *result = NULL, *ptr = NULL, hints;
-    ZeroMemory(&hints, sizeof (hints));
-    hints.ai_family = AF_INET;
-    hints.ai_socktype = SOCK_STREAM;
-    hints.ai_protocol = IPPROTO_TCP;
-    hints.ai_flags = AI_PASSIVE;
-
-    // Resolve the local address and port to be used by the server
-    iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
-    if (iResult != 0) {
-        qDebug() << "getaddrinfo failed: " << iResult;
-        WSACleanup();
-        return;
-    }
-    // 2.
-    ListenSocket = INVALID_SOCKET;
-    // 3. Create a SOCKET for the server to listen for client connections
-    ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
-    // 4.
-    if (ListenSocket == INVALID_SOCKET) {
-        qDebug() << "Error at socket(): %ld\n" << WSAGetLastError();
-        freeaddrinfo(result);
-        WSACleanup();
-        return;
-    }
-    // 5. Setup the TCP listening socket
-    iResult = bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
-    if (iResult == SOCKET_ERROR) {
-        qDebug() << "bind failed with error: " << WSAGetLastError();
-        freeaddrinfo(result);
-        closesocket(ListenSocket);
-        WSACleanup();
-        return;
-    }
-    freeaddrinfo(result);
-    // 6. To listen on a socket
-    if ( listen( ListenSocket, SOMAXCONN ) == SOCKET_ERROR ) {
-        qDebug() << "Listen failed with error: " << WSAGetLastError();
-        closesocket(ListenSocket);
-        WSACleanup();
-        return;
-    }
-    qDebug() << "Winsock server has been successfully set up.";
-    // 7. Accept a client socket
-    SOCKET ClientSocket;
-    ClientSocket = INVALID_SOCKET;
-    ClientSocket = accept(ListenSocket, NULL, NULL);
-    if (ClientSocket == INVALID_SOCKET) {
-        qDebug() << "accept failed: " << WSAGetLastError();
-        closesocket(ListenSocket);
-        WSACleanup();
-        return;
-    }
-}
-
-//void MainWindow::winsockServerBindSocket() {
+//void MainWindow::initWinsock() {
+//    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+//    if (iResult != 0) {
+//        qDebug() << "WSAStartup failed: " << iResult;
+//    } else {
+//        qDebug() << "WSAStartup succeeded!";
+//        setupWinsockServer();
+//        //        winsockServerBindSocket();
+//        setupWinsockClient();
+//    }
+//    ConnectSocket = INVALID_SOCKET;
 //}
 
-void MainWindow::setupWinsockClient() {
-    ZeroMemory(&hints, sizeof(hints));
-    hints.ai_family = AF_UNSPEC;
-    hints.ai_socktype = SOCK_STREAM;
-    hints.ai_protocol = IPPROTO_UDP;
-    // Resolve the server address and port
-    iResult = getaddrinfo("localhost", DEFAULT_PORT, &hints, &result);
-    if (iResult != 0) {
-        qDebug() << "getaddrinfo failed: " << iResult;
-        WSACleanup();
-    } else {
-        qDebug() << "Winsock client has been successfully set up.";
-    }
-    // Attempt to connect to the first address returned by the call to getaddrinfo
-    ptr=result;
-    // Create a SOCKET for connecting to server
-    ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
-}
+//void MainWindow::setupWinsockServer() {
+//    // 1.
+//    struct addrinfo *result = NULL, *ptr = NULL, hints;
+//    ZeroMemory(&hints, sizeof (hints));
+//    hints.ai_family = AF_INET;
+//    hints.ai_socktype = SOCK_STREAM;
+//    hints.ai_protocol = IPPROTO_TCP;
+//    hints.ai_flags = AI_PASSIVE;
+
+//    // Resolve the local address and port to be used by the server
+//    iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
+//    if (iResult != 0) {
+//        qDebug() << "getaddrinfo failed: " << iResult;
+//        WSACleanup();
+//        return;
+//    }
+//    // 2.
+//    ListenSocket = INVALID_SOCKET;
+//    // 3. Create a SOCKET for the server to listen for client connections
+//    ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+//    // 4.
+//    if (ListenSocket == INVALID_SOCKET) {
+//        qDebug() << "Error at socket(): %ld\n" << WSAGetLastError();
+//        freeaddrinfo(result);
+//        WSACleanup();
+//        return;
+//    }
+//    // 5. Setup the TCP listening socket
+//    iResult = bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
+//    if (iResult == SOCKET_ERROR) {
+//        qDebug() << "bind failed with error: " << WSAGetLastError();
+//        freeaddrinfo(result);
+//        closesocket(ListenSocket);
+//        WSACleanup();
+//        return;
+//    }
+//    freeaddrinfo(result);
+//    // 6. To listen on a socket
+//    if ( listen( ListenSocket, SOMAXCONN ) == SOCKET_ERROR ) {
+//        qDebug() << "Listen failed with error: " << WSAGetLastError();
+//        closesocket(ListenSocket);
+//        WSACleanup();
+//        return;
+//    }
+//    qDebug() << "Winsock server has been successfully set up.";
+//    // 7. Accept a client socket
+//    SOCKET ClientSocket;
+//    ClientSocket = INVALID_SOCKET;
+//    QThread *workerThread;
+////    ClientSocket = accept(ListenSocket, NULL, NULL); //accept() is a blocking function, meaning that it will not finish until it accept()s a connection or an error occurs
+////    if (ClientSocket == INVALID_SOCKET) {
+////        qDebug() << "accept failed: " << WSAGetLastError();
+////        closesocket(ListenSocket);
+////        WSACleanup();
+////        return;
+////    }
+//}
+
+////void MainWindow::winsockServerBindSocket() {
+////}
+
+//void MainWindow::setupWinsockClient() {
+//    ZeroMemory(&hints, sizeof(hints));
+//    hints.ai_family = AF_UNSPEC;
+//    hints.ai_socktype = SOCK_STREAM;
+//    hints.ai_protocol = IPPROTO_UDP;
+//    // Resolve the server address and port
+//    iResult = getaddrinfo("localhost", DEFAULT_PORT, &hints, &result);
+//    if (iResult != 0) {
+//        qDebug() << "getaddrinfo failed: " << iResult;
+//        WSACleanup();
+//    } else {
+//        qDebug() << "Winsock client has been successfully set up.";
+//    }
+//    // Attempt to connect to the first address returned by the call to getaddrinfo
+//    ptr=result;
+//    // Create a SOCKET for connecting to server
+//    ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
+//}
 
 
 void MainWindow::useGeniusAPI() {

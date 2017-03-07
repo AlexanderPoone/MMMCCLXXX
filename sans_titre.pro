@@ -37,7 +37,9 @@ SOURCES += main.cpp\
     previousbutton.cpp \
     musiclibrary.cpp \
     tracklistbubble.cpp \
-    bulletscreen.cpp
+    bulletscreen.cpp \
+    winsockserverthread.cpp \
+    winsockclientthread.cpp
 
 HEADERS  += mainwindow.h \
     button.h \
@@ -51,7 +53,9 @@ HEADERS  += mainwindow.h \
     previousbutton.h \
     musiclibrary.h \
     tracklistbubble.h \
-    bulletscreen.h
+    bulletscreen.h \
+    winsockserverthread.h \
+    winsockclientthread.h
 
 FORMS    += mainwindow.ui
 
