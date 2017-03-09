@@ -87,11 +87,11 @@ private:
     //Left two bits: left-channel, right two bits: right-channel
     //
     //
-    int iResult;
-    WSADATA wsaData;
-    struct addrinfo *result = NULL, *ptr = NULL, hints;
-    SOCKET ConnectSocket;
-    SOCKET ListenSocket;
+//    int iResult;
+//    WSADATA wsaData;
+//    struct addrinfo *result = NULL, *ptr = NULL, hints;
+//    SOCKET ConnectSocket;
+//    SOCKET ListenSocket;
 };
 
 #endif // MAINWINDOW_H

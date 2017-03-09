@@ -6,6 +6,7 @@
 #endif
 
 #define DEFAULT_PORT "6894"
+#define DEFAULT_BUFLEN 512
 
 #include <winsock2.h>               //Winsock (P2P)
 #include <ws2tcpip.h>               //Winsock (P2P)
@@ -20,7 +21,9 @@ class WinSockClientThread : public QThread
 {
     Q_OBJECT
 public:
+//    WinSockClientThread();
     void run() Q_DECL_OVERRIDE;
+    void sendMessage(QByteArray message);
 private:
     int iResult;
     WSADATA wsaData;

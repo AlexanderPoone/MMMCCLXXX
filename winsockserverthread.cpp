@@ -1,5 +1,9 @@
 #include "winsockserverthread.h"
 
+//void WinSockServerThread::setPortNumber() {
+//    //1024 through 49151
+//}
+
 void WinSockServerThread::run() {
     QString done;
     iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
@@ -10,7 +14,7 @@ void WinSockServerThread::run() {
     }
     ConnectSocket = INVALID_SOCKET;
     // 1.
-//    struct addrinfo *result = NULL, *ptr = NULL, hints;
+    //    struct addrinfo *result = NULL, *ptr = NULL, hints;
     ZeroMemory(&hints, sizeof (hints));
     hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
@@ -30,7 +34,7 @@ void WinSockServerThread::run() {
     ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
     // 4.
     if (ListenSocket == INVALID_SOCKET) {
-        qDebug() << "Error at socket(): %ld\n" << WSAGetLastError();
+        qDebug() << "Error at socket(): " << WSAGetLastError();
         freeaddrinfo(result);
         WSACleanup();
         return;
@@ -57,7 +61,6 @@ void WinSockServerThread::run() {
     SOCKET ClientSocket;
     ClientSocket = INVALID_SOCKET;
     qDebug() << "All is well";
-    QThread *workerThread;
     emit resultReady(done);
     //accept() is a blocking function, meaning that it will not finish until it accept()s a connection or an error occurs
     ClientSocket = accept(ListenSocket, NULL, NULL);
@@ -67,5 +70,40 @@ void WinSockServerThread::run() {
         WSACleanup();
         return;
     }
+    qDebug() << "Woah! Don't panic.";
+    //***Receiving and Sending Data on the Server***
+    char recvbuf[DEFAULT_BUFLEN];
+    int iSendResult;
+    int recvbuflen = DEFAULT_BUFLEN;
+
+    // Receive until the peer shuts down the connection
+    do {
+
+        iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+        if (iResult > 0) {
+            qDebug() << "Server received message:" << recvbuf << "(" << iResult << "bytes)";
+
+            // Echo the buffer back to the sender
+            iSendResult = send(ClientSocket, recvbuf, iResult, 0);
+            if (iSendResult == SOCKET_ERROR) {
+                qDebug() << "send failed: " << WSAGetLastError();
+                closesocket(ClientSocket);
+                WSACleanup();
+                return;
+            }
+            qDebug() << "Bytes sent: " << iSendResult;
+        } else if (iResult == 0)
+            qDebug() << "Connection closing...";
+        else {
+            qDebug() << "recv failed: " << WSAGetLastError();
+            closesocket(ClientSocket);
+            WSACleanup();
+            return;
+        }
+    } while (iResult > 0);
     /* ... here is the expensive or blocking operation ... */
+}
+
+void WinSockServerThread::sendMessage(QByteArray message) {
+
 }
