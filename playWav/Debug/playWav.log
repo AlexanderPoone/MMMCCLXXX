@@ -1,0 +1,4 @@
+﻿  main.cpp
+c:\users\david\google drive\school\courses\term 8\csci 3280\project\playwav\playwav\main.cpp(34): warning C4101: 'WaveHeader': unreferenced local variable
+  playWav.vcxproj -> C:\Users\David\Google Drive\School\Courses\Term 8\CSCI 3280\Project\playWav\Debug\playWav.exe
+  playWav.vcxproj -> C:\Users\David\Google Drive\School\Courses\Term 8\CSCI 3280\Project\playWav\Debug\playWav.pdb (Partial PDB)
