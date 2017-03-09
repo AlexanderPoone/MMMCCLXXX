@@ -1,6 +1,7 @@
 #include "winsockclientthread.h"
 
 void WinSockClientThread::run() {
+//    ioctlsocket(ListenSocket,FIONBIO,1);
     QString done;
         ZeroMemory(&hints, sizeof(hints));
         hints.ai_family = AF_UNSPEC;

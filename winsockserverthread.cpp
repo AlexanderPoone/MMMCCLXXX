@@ -1,6 +1,7 @@
 #include "winsockserverthread.h"
 
 void WinSockServerThread::run() {
+//    ioctlsocket(ListenSocket,FIONBIO,1);
     QString done;
     iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
     if (iResult != 0) {
