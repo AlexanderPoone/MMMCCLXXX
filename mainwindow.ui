@@ -19,82 +19,10 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/dark.png)</string>
+    <string notr="true">background-image: url(:/dark.png); color: white</string>
    </property>
    <layout class="QGridLayout" name="gridLayout_3">
-    <item row="3" column="0">
-     <layout class="QHBoxLayout" name="searchHbox">
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>1800</width>
-          <height>0</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="searchBox">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background: white; color: green</string>
-        </property>
-        <property name="placeholderText">
-         <string>🔍 Search by keyword</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="7" column="0">
-     <widget class="QScrollArea" name="scrollArea">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>450</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-image: url(:/popcornClouds.png);</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Sunken</enum>
-      </property>
-      <property name="lineWidth">
-       <number>5</number>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_2">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>2046</width>
-         <height>430</height>
-        </rect>
-       </property>
-       <layout class="QGridLayout" name="albumGridLayout"/>
-      </widget>
-     </widget>
-    </item>
-    <item row="9" column="0">
+    <item row="10" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,100,0">
@@ -112,15 +40,63 @@
             <height>800</height>
            </size>
           </property>
+          <property name="font">
+           <font>
+            <family>Myriad Pro</family>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="styleSheet">
-           <string notr="true">background: black;</string>
+           <string notr="true">QWidget {
+background: black
+}
+
+QTabWidget::pane { /* The tab widget frame */
+    border: 2px solid #C2C7CB; 
+    position: absolute;
+    top: -0.4em;
+}
+
+QTabWidget::tab-bar {
+    alignment: center;
+}
+
+/* Style the tab using the tab sub-control. Note that
+    it reads QTabBar _not_ QTabWidget */
+QTabBar::tab {
+	color: black;
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+    border: 2px solid #C4C4C3;
+    border-bottom-color: #C2C7CB; /* same as the pane color */
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    min-width: 28ex;
+    padding: 2px;
+}
+
+QTabBar::tab:selected, QTabBar::tab:hover {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #fafafa, stop: 0.4 #f4f4f4,
+                                stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+}
+
+QTabBar::tab:selected {
+	font: bold;
+    border-color: #9B9B9B;
+    border-bottom-color: #C2C7CB; /* same as pane color */
+}</string>
           </property>
           <property name="currentIndex">
            <number>0</number>
           </property>
+          <property name="movable">
+           <bool>true</bool>
+          </property>
           <widget class="QWidget" name="tab">
            <property name="styleSheet">
-            <string notr="true">border-style: none;</string>
+            <string notr="true">border-style: none</string>
            </property>
            <attribute name="title">
             <string>Lyrics</string>
@@ -149,7 +125,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>2044</width>
-                 <height>762</height>
+                 <height>740</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -187,6 +163,40 @@
                </layout>
               </widget>
              </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="lrcButton">
+                <property name="autoFillBackground">
+                 <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: cadetBlue</string>
+                </property>
+                <property name="text">
+                 <string>Load custom lyrics (*.lrc)</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="res.qrc">
+                  <normaloff>:/openFile.png</normaloff>:/openFile.png</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>
@@ -747,15 +757,122 @@ QSlider::handle:horizontal { image: url(:/noteSlider.png); padding: -30px -10px 
       </item>
      </layout>
     </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label">
-      <property name="styleSheet">
-       <string notr="true">color: white; font: bold</string>
+    <item row="3" column="0">
+     <layout class="QHBoxLayout" name="searchHbox">
+      <property name="spacing">
+       <number>0</number>
       </property>
-      <property name="text">
-       <string>Local music files</string>
-      </property>
-     </widget>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>1800</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="searchBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background: white; color: green</string>
+        </property>
+        <property name="placeholderText">
+         <string>🔍 Search by keyword</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="5" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <item>
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="styleSheet">
+         <string notr="true">color: white; font: bold</string>
+        </property>
+        <property name="title">
+         <string>Music files on peers</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <widget class="QScrollArea" name="scrollArea_2">
+           <property name="widgetResizable">
+            <bool>true</bool>
+           </property>
+           <widget class="QWidget" name="scrollAreaWidgetContents_4">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>1008</width>
+              <height>448</height>
+             </rect>
+            </property>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="styleSheet">
+         <string notr="true">color: white; font: bold</string>
+        </property>
+        <property name="title">
+         <string>Local music files</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
+          <widget class="QScrollArea" name="scrollArea">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>450</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-image: url(:/popcornClouds.png); color: black</string>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::Box</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+           </property>
+           <property name="lineWidth">
+            <number>5</number>
+           </property>
+           <property name="widgetResizable">
+            <bool>true</bool>
+           </property>
+           <widget class="QWidget" name="scrollAreaWidgetContents_2">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>989</width>
+              <height>430</height>
+             </rect>
+            </property>
+            <layout class="QGridLayout" name="albumGridLayout"/>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>

@@ -24,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
 //    initWinsock();
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
     createSysTray();
-    setArtist(QStringLiteral("Linkin Park"));
-    setSongTitle(QStringLiteral("Numb"));
+    setArtist(QStringLiteral("ABBA"));
+    setSongTitle(QStringLiteral("Chiquitita"));
     //    setArtist(QStringLiteral("The Carpenters"));
     //    setSongTitle(QStringLiteral("Flat Baroque"));
     //    setArtist(QStringLiteral("Séverine"));

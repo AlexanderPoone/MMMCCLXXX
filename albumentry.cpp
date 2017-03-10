@@ -15,6 +15,8 @@ AlbumEntry::AlbumEntry(QWidget *parent) {
     albumTitleL->setStyleSheet(QStringLiteral("background: transparent; font: 48px \"Futura PT\""));
     artistNameL->setStyleSheet(QStringLiteral("background: transparent; font: 36px \"Futura PT\""));
     albumArtL->setAlignment(Qt::AlignHCenter);
+    albumTitleL->setFixedWidth(400);
+    artistNameL->setFixedWidth(400);
     albumTitleL->setAlignment(Qt::AlignHCenter);
     artistNameL->setAlignment(Qt::AlignHCenter);
     addWidget(albumArtL);

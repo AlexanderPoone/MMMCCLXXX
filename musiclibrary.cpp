@@ -13,7 +13,7 @@ MusicLibrary::MusicLibrary(QGridLayout *container, QWidget *parent) {
         entry->setAlbumArt(pixmap);
         entry->setAlbumTitle("She Wolf");
         entry->setArtistName("Shakira");
-        container->addLayout(entry,i/5, i%5);
+        container->addLayout(entry,i/2, i%2);
     }
 }
 
