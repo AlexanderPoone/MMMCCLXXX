@@ -2,8 +2,6 @@
     <qresource prefix="/">
         <file>noteSlider.png</file>
         <file>phonographSlider.png</file>
-        <file>softBlue.png</file>
-        <file>roofGarden.png</file>
         <file>album0.jpg</file>
         <file>album1.jpg</file>
         <file>album2.jpg</file>
@@ -16,7 +14,6 @@
         <file>popcornClouds.png</file>
         <file>button.qml</file>
         <file>dark.png</file>
-        <file>darker.png</file>
         <file>jukebox.png</file>
         <file>openFile.png</file>
         <file>unlock-24.png</file>
