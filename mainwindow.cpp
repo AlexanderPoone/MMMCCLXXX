@@ -31,47 +31,24 @@ MainWindow::MainWindow(QWidget *parent) :
     //    setArtist(QStringLiteral("Séverine"));
     //    setSongTitle(QStringLiteral("Un banc, un arbre, une rue"));
     ui->scrollSpeedDial->setToolTip(QStringLiteral("Auto-scroll speed: 10"));
-    ui->playPauseView->setStyleSheet("background: transparent; border-style: none;");
-    ui->seekSlider->setStyleSheet(
-                "QSlider { background: transparent }"
-                "QSlider::handle:horizontal { image: url(:/noteSlider.png); "
-                "padding: -30px -10px 0px -10px;}");
-    ui->volumeSlider->setStyleSheet(
-                "QSlider { background: transparent }"
-                "QSlider::handle:horizontal { image: url(:/phonographSlider.png); "
-                "padding: -30px -25px 0px -25px;}");
     previousScene=new QGraphicsScene(this);
     playPauseScene=new QGraphicsScene(this);
     nextScene=new QGraphicsScene(this);
     stopScene=new QGraphicsScene(this);
     ratingBarScene=new QGraphicsScene(this);
     bulletScrScene=new QGraphicsScene(this);
-    ui->backwardView->setScene(previousScene);
-    ui->playPauseView->setScene(playPauseScene);
-    ui->nextView->setScene(nextScene);
-    ui->stopView->setScene(stopScene);
-    ui->repeatView->setScene(ratingBarScene);
-    ui->bulletScreenView->setScene(bulletScrScene);
-    ui->playPauseView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    ui->backwardView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    ui->nextView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    ui->stopView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    ui->repeatView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    ui->repeatView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    ui->bulletScreenView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     QGraphicsItem *previousItem = new PreviousButton();
     QGraphicsItem *playPauseItem = new PlayPauseButton(ui->lyricsScrollArea, ui->scrollSpeedDial);
     QGraphicsItem *nextItem = new NextButton();
     QGraphicsItem *stopItem = new StopButton();
     QGraphicsItem *ratingBarItem = new RatingBar();
     QGraphicsItem *bulletScrItem = new BulletScreen();
-    previousScene->addItem(previousItem);
-    playPauseScene->addItem(playPauseItem);
-    nextScene->addItem(nextItem);
-    stopScene->addItem(stopItem);
-    ratingBarScene->addItem(ratingBarItem);
-    bulletScrScene->addItem(bulletScrItem);
-    populateScene();
+    bindToView(ui->backwardView, previousScene, previousItem);
+    bindToView(ui->playPauseView, playPauseScene, playPauseItem);
+    bindToView(ui->nextView, nextScene, nextItem);
+    bindToView(ui->stopView, stopScene, stopItem);
+    bindToView(ui->repeatView, ratingBarScene, ratingBarItem);
+    bindToView(ui->bulletScreenView, bulletScrScene, bulletScrItem);
     useGeniusAPI();
     qDebug() << QStyleFactory::keys();
     setStyle(QStyleFactory::create("Fusion")); //remember it's double colon
@@ -333,8 +310,10 @@ void MainWindow::dropEvent(QDropEvent *event) {
 }
 
 
-void MainWindow::populateScene() {
-    ui->centralwidget->setStyleSheet("background-image: url(:/dark.png);");
+void MainWindow::bindToView(QGraphicsView *view, QGraphicsScene *scene, QGraphicsItem *item) {
+    scene->addItem(item);
+    view->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    view->setScene(scene);
 }
 
 

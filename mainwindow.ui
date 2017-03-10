@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>2080</width>
-    <height>1663</height>
+    <height>1679</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/dark.png);</string>
+    <string notr="true">background-image: url(:/dark.png)</string>
    </property>
    <layout class="QGridLayout" name="gridLayout_3">
     <item row="3" column="0">
@@ -656,6 +656,10 @@ color: Gainsboro;</string>
               <height>0</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">QSlider { background: transparent }
+QSlider::handle:horizontal { image: url(:/phonographSlider.png); padding: -30px -25px 0px -25px }</string>
+            </property>
             <property name="minimum">
              <number>0</number>
             </property>
@@ -723,6 +727,10 @@ color: Gainsboro;</string>
             <width>0</width>
             <height>80</height>
            </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QSlider { background: transparent }
+QSlider::handle:horizontal { image: url(:/noteSlider.png); padding: -30px -10px 0px -10px }</string>
           </property>
           <property name="pageStep">
            <number>1</number>

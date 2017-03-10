@@ -44,7 +44,7 @@ private:
     bool event(QEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *event) override;
-    void populateScene();
+    void bindToView(QGraphicsView *view, QGraphicsScene *scene, QGraphicsItem *item);
     void createSysTray();
     void useGeniusAPI();
     void setArtist(QString artist);
