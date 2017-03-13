@@ -2,8 +2,10 @@
 #define ALBUMENTRY_H
 
 #include <QtWidgets>
+#include <QDebug>
 
-class AlbumEntry : public QVBoxLayout
+class AlbumEntry : public QListWidget
+//class AlbumEntry : public QVBoxLayout
 {
 public:
     AlbumEntry();
@@ -20,7 +22,14 @@ public:
     void setTrackNames(QStringList trackNames);
     void setTrackPaths(QStringList trackPaths);
     void setTrackLengths(QStringList trackLengths);
+
+    QIcon getIcon();
+    QString getTitleString();
 private:
+    QPixmap albumPixmap;
+    QString artistName;
+    QString albumTitle;
+
     QLabel *albumArtL;
     QLabel *albumTitleL;
     QLabel *artistNameL;

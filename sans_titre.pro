@@ -39,7 +39,8 @@ SOURCES += main.cpp\
     tracklistbubble.cpp \
     bulletscreen.cpp \
     winsockserverthread.cpp \
-    winsockclientthread.cpp
+    winsockclientthread.cpp \
+    lrchandler.cpp
 
 HEADERS  += mainwindow.h \
     button.h \
@@ -55,7 +56,8 @@ HEADERS  += mainwindow.h \
     tracklistbubble.h \
     bulletscreen.h \
     winsockserverthread.h \
-    winsockclientthread.h
+    winsockclientthread.h \
+    lrchandler.h
 
 FORMS    += mainwindow.ui
 

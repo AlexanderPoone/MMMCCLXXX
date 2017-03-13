@@ -32,10 +32,11 @@ public:
     ~MainWindow();
 
 private slots:
+//    void on_scrollSpeedDial_valueChanged(int value);
     void on_seekSlider_valueChanged(int value);
     void on_volumeSlider_valueChanged(int value);
     void on_sendButton_clicked();
-//    void on_scrollSpeedDial_valueChanged(int value);
+    void on_lrcButton_clicked();
     void openFile();
     void quitSlot();
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);

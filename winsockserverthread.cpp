@@ -1,7 +1,7 @@
 #include "winsockserverthread.h"
 
 void WinSockServerThread::run() {
-//    ioctlsocket(ListenSocket,FIONBIO,1);
+    //    ioctlsocket(ListenSocket,FIONBIO,1);
     QString done;
     iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
     if (iResult != 0) {
@@ -11,7 +11,7 @@ void WinSockServerThread::run() {
     }
     ConnectSocket = INVALID_SOCKET;
     // 1.
-//    struct addrinfo *result = NULL, *ptr = NULL, hints;
+    //    struct addrinfo *result = NULL, *ptr = NULL, hints;
     ZeroMemory(&hints, sizeof (hints));
     hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;

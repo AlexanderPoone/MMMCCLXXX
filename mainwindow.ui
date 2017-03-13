@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>2080</width>
-    <height>1679</height>
+    <height>1699</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -89,7 +89,7 @@ QTabBar::tab:selected {
 }</string>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>3</number>
           </property>
           <property name="movable">
            <bool>true</bool>
@@ -185,7 +185,7 @@ QTabBar::tab:selected {
                  <bool>false</bool>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">background-color: cadetBlue</string>
+                 <string notr="true">background-color: midnightBlue</string>
                 </property>
                 <property name="text">
                  <string>Load custom lyrics (*.lrc)</string>
@@ -787,7 +787,7 @@ QSlider::handle:horizontal { image: url(:/noteSlider.png); padding: -30px -10px 
          <string notr="true">background: white; color: green</string>
         </property>
         <property name="placeholderText">
-         <string>🔍 Search by keyword</string>
+         <string>🔍 Filter by keyword</string>
         </property>
        </widget>
       </item>
@@ -805,7 +805,10 @@ QSlider::handle:horizontal { image: url(:/noteSlider.png); padding: -30px -10px 
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_7">
          <item>
-          <widget class="QScrollArea" name="scrollArea_2">
+          <widget class="QScrollArea" name="remoteMusicScrollArea">
+           <property name="styleSheet">
+            <string notr="true">background-image: url(:/popcornClouds.png); color: black</string>
+           </property>
            <property name="widgetResizable">
             <bool>true</bool>
            </property>
@@ -834,7 +837,7 @@ QSlider::handle:horizontal { image: url(:/noteSlider.png); padding: -30px -10px 
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_6">
          <item>
-          <widget class="QScrollArea" name="scrollArea">
+          <widget class="QScrollArea" name="localMusicScrollArea">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -865,7 +868,152 @@ QSlider::handle:horizontal { image: url(:/noteSlider.png); padding: -30px -10px 
               <height>430</height>
              </rect>
             </property>
-            <layout class="QGridLayout" name="albumGridLayout"/>
+            <layout class="QGridLayout" name="albumGridLayout">
+             <item row="0" column="0">
+              <widget class="QToolBox" name="localMusicToolbox">
+               <property name="styleSheet">
+                <string notr="true">background: aliceblue</string>
+               </property>
+               <property name="currentIndex">
+                <number>0</number>
+               </property>
+               <widget class="QWidget" name="page">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>975</width>
+                  <height>300</height>
+                 </rect>
+                </property>
+                <attribute name="icon">
+                 <iconset resource="res.qrc">
+                  <normaloff>:/album0.jpg</normaloff>:/album0.jpg</iconset>
+                </attribute>
+                <attribute name="label">
+                 <string>Dave Brubeck - Greatest Hits</string>
+                </attribute>
+                <layout class="QVBoxLayout" name="verticalLayout_8">
+                 <item>
+                  <widget class="QListWidget" name="listWidget">
+                   <property name="styleSheet">
+                    <string notr="true">QListWidget {
+  position:relative;
+  padding:50px 15px;
+  margin:1em 0 3em;
+  border:10px solid #5a8f00;
+  text-align:center;
+  color:#333;
+  background:#fff;
+  border-radius:20px;
+}
+QListWidget:before {
+  content:&quot;&quot;;
+  position:absolute;
+  z-index:10;
+  bottom:-40px;
+  left:50px;
+  width:50px;
+  height:30px;
+  border-style:solid;
+  border-width:0 10px 10px 0;
+  border-color:#5a8f00;
+  background:transparent;
+  /* css3 */
+  -webkit-border-bottom-right-radius:80px 50px;
+  -moz-border-radius-bottomright:80px 50px;
+  border-bottom-right-radius:80px 50px;
+  /* reduce the damage in FF3.0 */
+  display:block;
+}
+QListWidget:after {
+  content:&quot;&quot;;
+  position:absolute;
+  z-index:10;
+  bottom:-40px;
+  left:50px;
+  width:20px;
+  height:30px;
+  border-style:solid;
+  border-width:0 10px 10px 0;
+  border-color:#5a8f00;
+  background:transparent;
+  /* css3 */
+  -webkit-border-bottom-right-radius:40px 50px;
+  -moz-border-radius-bottomright:40px 50px;
+  border-bottom-right-radius:40px 50px;
+  /* reduce the damage in FF3.0 */
+  display:block;
+}</string>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>1   Unsquare Dance</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>2   Camptown Races</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="page_2">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>975</width>
+                  <height>300</height>
+                 </rect>
+                </property>
+                <attribute name="icon">
+                 <iconset resource="res.qrc">
+                  <normaloff>:/album1.jpg</normaloff>:/album1.jpg</iconset>
+                </attribute>
+                <attribute name="label">
+                 <string>Glenn Gould - Goldberg Variations</string>
+                </attribute>
+               </widget>
+               <widget class="QWidget" name="widget">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>975</width>
+                  <height>300</height>
+                 </rect>
+                </property>
+                <attribute name="icon">
+                 <iconset resource="res.qrc">
+                  <normaloff>:/album2.jpg</normaloff>:/album2.jpg</iconset>
+                </attribute>
+                <attribute name="label">
+                 <string>Sviatoslav Richter - The Legend</string>
+                </attribute>
+               </widget>
+               <widget class="QWidget" name="page_3">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>975</width>
+                  <height>300</height>
+                 </rect>
+                </property>
+                <attribute name="icon">
+                 <iconset resource="res.qrc">
+                  <normaloff>:/album3.jpg</normaloff>:/album3.jpg</iconset>
+                </attribute>
+                <attribute name="label">
+                 <string>Claudio Arrau - Beethoven</string>
+                </attribute>
+               </widget>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </widget>
          </item>

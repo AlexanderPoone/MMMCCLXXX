@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     WinSockServerThread *winSockServerThread=new WinSockServerThread;
     winSockServerThread->start();
-    auto musicLibrary=new MusicLibrary(ui->albumGridLayout, this);
+    auto musicLibrary=new MusicLibrary(ui->localMusicToolbox, this);
     //    setWindowFlags(Qt::FramelessWindowHint);
 //    initWinsock();
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
@@ -177,6 +177,13 @@ void MainWindow::setSongTitle(QString songTitle) {
     ui->metadataSongTitleLabel->setText(songTitle);
     this->songTitle=songTitle;
 }
+
+void MainWindow::on_lrcButton_clicked() {
+    QString loc=QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
+    QStringList fileList = QFileDialog::getOpenFileNames(this, "Open LRC lyrics", loc, "LRC lyrics (*.lrc)");
+    //error handling
+}
+
 
 void MainWindow::openFile() {
     QString loc=QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
