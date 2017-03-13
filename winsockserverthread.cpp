@@ -1,87 +1,109 @@
-#include "winsockclientthread.h"
+#include "winsockserverthread.h"
 
-//void WinSockClientThread::setPortNumber() {
+//void WinSockServerThread::setPortNumber() {
 //    //1024 through 49151
 //}
 
-void WinSockClientThread::run() {
-    //    addrinfo.sin_addr.s_addr = INADDR_ANY;
-
+void WinSockServerThread::run() {
     QString done;
-    ZeroMemory(&hints, sizeof(hints));
-    hints.ai_family = AF_UNSPEC;
+    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+    if (iResult != 0) {
+        qDebug() << "WSAStartup failed: " << iResult;
+    } else {
+        qDebug() << "WSAStartup succeeded!";
+    }
+    ConnectSocket = INVALID_SOCKET;
+    // 1.
+    //    struct addrinfo *result = NULL, *ptr = NULL, hints;
+    ZeroMemory(&hints, sizeof (hints));
+    hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_protocol = IPPROTO_TCP;
-    // Resolve the server address and port
-    iResult = getaddrinfo("127.0.0.1", DEFAULT_PORT, &hints, &result);
+    hints.ai_flags = AI_PASSIVE;
+
+    // Resolve the local address and port to be used by the server
+    iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
     if (iResult != 0) {
         qDebug() << "getaddrinfo failed: " << iResult;
         WSACleanup();
         return;
     }
-    qDebug() << "Winsock client has been successfully set up.";
-    // Attempt to connect to the first address returned by the call to getaddrinfo
-    ptr=result;
-    // Create a SOCKET for connecting to server
-    ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
-    if (ConnectSocket == INVALID_SOCKET) {
+    // 2.
+    ListenSocket = INVALID_SOCKET;
+    // 3. Create a SOCKET for the server to listen for client connections
+    ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+    // 4.
+    if (ListenSocket == INVALID_SOCKET) {
         qDebug() << "Error at socket(): " << WSAGetLastError();
         freeaddrinfo(result);
         WSACleanup();
         return;
     }
-    iResult = ::connect(ConnectSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
+    // 5. Setup the TCP listening socket
+    iResult = bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
     if (iResult == SOCKET_ERROR) {
-        closesocket(ConnectSocket);
-        ConnectSocket = INVALID_SOCKET;
+        qDebug() << "bind failed with error: " << WSAGetLastError();
+        freeaddrinfo(result);
+        closesocket(ListenSocket);
+        WSACleanup();
+        return;
     }
     freeaddrinfo(result);
-    if (ConnectSocket == INVALID_SOCKET) {
-        qDebug() << "Unable to connect to server!";
+    // 6. To listen on a socket
+    if ( listen( ListenSocket, SOMAXCONN ) == SOCKET_ERROR ) {
+        qDebug() << "Listen failed with error: " << WSAGetLastError();
+        closesocket(ListenSocket);
         WSACleanup();
         return;
     }
-    //***Receiving and Sending Data on the Client***
+    qDebug() << "Winsock server has been successfully set up.";
+    // 7. Accept a client socket
+    SOCKET ClientSocket;
+    ClientSocket = INVALID_SOCKET;
+    qDebug() << "All is well";
+    emit resultReady(done);
+    //accept() is a blocking function, meaning that it will not finish until it accept()s a connection or an error occurs
+    ClientSocket = accept(ListenSocket, NULL, NULL);
+    if (ClientSocket == INVALID_SOCKET) {
+        qDebug() << "accept failed: " << WSAGetLastError();
+        closesocket(ListenSocket);
+        WSACleanup();
+        return;
+    }
+    qDebug() << "Woah! Don't panic.";
+    //***Receiving and Sending Data on the Server***
+    char recvbuf[DEFAULT_BUFLEN];
+    int iSendResult;
     int recvbuflen = DEFAULT_BUFLEN;
 
-    char *sendbuf = QString("I am a client, short and stout").toLatin1().data();
-    char recvbuf[DEFAULT_BUFLEN];
-
-    // Send an initial buffer
-    iResult = send(ConnectSocket, sendbuf, (int) strlen(sendbuf), 0);
-    if (iResult == SOCKET_ERROR) {
-        qDebug() << "send failed: " << WSAGetLastError();
-        closesocket(ConnectSocket);
-        WSACleanup();
-        return;
-    }
-
-    qDebug() << "Bytes Sent: " << iResult;
-
-    // shutdown the connection for sending since no more data will be sent
-    // the client can still use the ConnectSocket for receiving data
-    iResult = shutdown(ConnectSocket, SD_SEND);
-    if (iResult == SOCKET_ERROR) {
-        qDebug() << "shutdown failed: " << WSAGetLastError();
-        closesocket(ConnectSocket);
-        WSACleanup();
-        return;
-    }
-
-    // Receive data until the server closes the connection
+    // Receive until the peer shuts down the connection
     do {
-        iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
-        if (iResult > 0)
-            qDebug() << "Client received message:" << QString::fromUtf8(recvbuf) << "(" << iResult << "bytes)";
-        else if (iResult == 0)
-            qDebug() << "Connection closed";
-        else
-            qDebug() << "recv failed: " << WSAGetLastError();
-    } while (iResult > 0);
 
-    emit resultReady(done);
+        iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+        if (iResult > 0) {
+            qDebug() << "Server received message:" << recvbuf << "(" << iResult << "bytes)";
+
+            // Echo the buffer back to the sender
+            iSendResult = send(ClientSocket, recvbuf, iResult, 0);
+            if (iSendResult == SOCKET_ERROR) {
+                qDebug() << "send failed: " << WSAGetLastError();
+                closesocket(ClientSocket);
+                WSACleanup();
+                return;
+            }
+            qDebug() << "Bytes sent: " << iSendResult;
+        } else if (iResult == 0)
+            qDebug() << "Connection closing...";
+        else {
+            qDebug() << "recv failed: " << WSAGetLastError();
+            closesocket(ClientSocket);
+            WSACleanup();
+            return;
+        }
+    } while (iResult > 0);
+    /* ... here is the expensive or blocking operation ... */
 }
 
-void WinSockClientThread::sendMessage(QByteArray message) {
+void WinSockServerThread::sendMessage(QByteArray message) {
 
 }

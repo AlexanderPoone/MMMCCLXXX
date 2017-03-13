@@ -17,7 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    WinSockServerThread *winSockServerThread=new WinSockServerThread;
+    WinSockServerThread *winSockServerThread;
+    winSockServerThread=new WinSockServerThread;
     winSockServerThread->start();
     auto musicLibrary=new MusicLibrary(ui->localMusicToolbox, this);
     //    setWindowFlags(Qt::FramelessWindowHint);
