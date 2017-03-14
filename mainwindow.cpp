@@ -3,6 +3,7 @@
 #include "albumentry.h"
 #include "musiclibrary.h"
 #include "geniusmanager.h"
+#include "lrchandler.h"
 #include "previousbutton.h"
 #include "playpausebutton.h"
 #include "nextbutton.h"
@@ -19,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     WinSockServerThread *winSockServerThread;
     winSockServerThread=new WinSockServerThread;
+    winSockServerThread->setNextLabelPointer(ui->label);
     winSockServerThread->start();
     auto musicLibrary=new MusicLibrary(ui->localMusicToolbox, this);
     //    setWindowFlags(Qt::FramelessWindowHint);
@@ -51,8 +53,6 @@ MainWindow::MainWindow(QWidget *parent) :
     bindToView(ui->repeatView, ratingBarScene, ratingBarItem);
     bindToView(ui->bulletScreenView, bulletScrScene, bulletScrItem);
     useGeniusAPI();
-    qDebug() << QStyleFactory::keys();
-    setStyle(QStyleFactory::create("Fusion")); //remember it's double colon
     on_seekSlider_valueChanged(0);
     on_volumeSlider_valueChanged(0);
     //TODO: Style the groove
@@ -181,7 +181,10 @@ void MainWindow::setSongTitle(QString songTitle) {
 
 void MainWindow::on_lrcButton_clicked() {
     QString loc=QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
-    QStringList fileList = QFileDialog::getOpenFileNames(this, "Open LRC lyrics", loc, "LRC lyrics (*.lrc)");
+    QString path = QFileDialog::getOpenFileName(this, "Open LRC lyrics", loc, "LRC lyrics (*.lrc)");
+    if (!path.isEmpty()) {
+        LRCHandler handler(path, ui->lyricsLabel);
+    }
     //error handling
 }
 
@@ -270,7 +273,7 @@ bool MainWindow::event(QEvent *event) {
     case QEvent::Close:
         sysTray->hide();
         qDebug() << "App closed.";
-        mmioClose(*hmmioIn, NULL);
+//        mmioClose(*hmmioIn, NULL);
 //        waveOutClose((HWAVEOUT) *hAudioOut);
         break;
     case QEvent::WindowStateChange:

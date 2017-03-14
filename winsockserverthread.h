@@ -14,6 +14,7 @@
 #include <stdio.h>                  //Winsock (P2P)
 #include <QThread>
 #include <QDebug>
+#include <QLabel>
 
 #pragma comment(lib, "Ws2_32.lib")  //Winsock (P2P)
 
@@ -24,7 +25,10 @@ public:
 //    void run() override;
     void run() Q_DECL_OVERRIDE;
     void sendMessage(QByteArray message);
+    void setNextLabelPointer(QLabel *label);
 private:
+    QLabel *label;
+    char recvbuf[DEFAULT_BUFLEN];
     int iResult;
     WSADATA wsaData;
     struct addrinfo *result = NULL, *ptr = NULL, hints;

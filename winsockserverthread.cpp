@@ -1,4 +1,5 @@
 #include "winsockserverthread.h"
+#include <QTextCodec>
 
 //void WinSockServerThread::setPortNumber() {
 //    //1024 through 49151
@@ -72,7 +73,7 @@ void WinSockServerThread::run() {
     }
     qDebug() << "Woah! Don't panic.";
     //***Receiving and Sending Data on the Server***
-    char recvbuf[DEFAULT_BUFLEN];
+//    char recvbuf[DEFAULT_BUFLEN];
     int iSendResult;
     int recvbuflen = DEFAULT_BUFLEN;
 
@@ -81,8 +82,12 @@ void WinSockServerThread::run() {
 
         iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
         if (iResult > 0) {
-            qDebug() << "Server received message:" << recvbuf << "(" << iResult << "bytes)";
-
+            qDebug() << "Server received message:" << QString::fromUtf8(recvbuf) << "(" << iResult << "bytes)";
+            QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+            QString field = codec->toUnicode(recvbuf).trimmed();
+            field=field.mid(0,field.indexOf("\0"));
+            qDebug() << recvbuf;
+            this->label->setText(field);
             // Echo the buffer back to the sender
             iSendResult = send(ClientSocket, recvbuf, iResult, 0);
             if (iSendResult == SOCKET_ERROR) {
@@ -107,3 +112,8 @@ void WinSockServerThread::run() {
 void WinSockServerThread::sendMessage(QByteArray message) {
 
 }
+
+void WinSockServerThread::setNextLabelPointer(QLabel *label) {
+    this->label=label;
+}
+
