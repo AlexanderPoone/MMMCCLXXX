@@ -39,6 +39,8 @@ private slots:
     void on_lrcButton_clicked();
     void openFile();
     void quitSlot();
+    void startSecTimer();
+    void stopSecTimer();
     void moveSeekBar();
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
@@ -66,6 +68,7 @@ private:
     QGraphicsScene *stopScene;
     QGraphicsScene *ratingBarScene;
     QGraphicsScene *bulletScrScene;
+    QTimer *secTimer;
 
     QString artist;
     QString songTitle;

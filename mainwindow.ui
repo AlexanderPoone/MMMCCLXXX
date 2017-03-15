@@ -800,7 +800,7 @@ QSlider::add-page:horizontal {
 }
 
 QSlider::sub-page:horizontal {
-    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 lavender, stop:1 black);
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 lavender, stop:1 indigo);
 }
 
 QToolTip {

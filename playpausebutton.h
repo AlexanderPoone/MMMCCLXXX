@@ -34,6 +34,7 @@ private:
     QPainterPath pausePath;
 signals:
     void playActivated();
+    void playDeactivated();
 };
 
 #endif // PLAYPAUSEBUTTON_H

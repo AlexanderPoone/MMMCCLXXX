@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    secTimer=new QTimer(this);
     WinSockServerThread *winSockServerThread;
     winSockServerThread=new WinSockServerThread;
     winSockServerThread->setNextLabelPointer(ui->label);
@@ -52,7 +53,9 @@ MainWindow::MainWindow(QWidget *parent) :
     bindToView(ui->stopView, stopScene, stopItem);
     bindToView(ui->repeatView, ratingBarScene, ratingBarItem);
     bindToView(ui->bulletScreenView, bulletScrScene, bulletScrItem);
-    connect(playPauseItem, &PlayPauseButton::playActivated, this, &MainWindow::moveSeekBar);
+    connect(playPauseItem, &PlayPauseButton::playActivated, this, &MainWindow::startSecTimer);
+    connect(playPauseItem, &PlayPauseButton::playDeactivated, this, &MainWindow::stopSecTimer);
+    connect(secTimer, &QTimer::timeout, this, &MainWindow::moveSeekBar);
     useGeniusAPI();
     on_seekSlider_valueChanged(0);
     on_volumeSlider_valueChanged(0);
@@ -136,6 +139,14 @@ void MainWindow::createSysTray() {
 void MainWindow::quitSlot() {
     sysTray->hide();
     exit(0);
+}
+
+void MainWindow::startSecTimer() {
+    secTimer->start(1000);
+}
+
+void MainWindow::stopSecTimer() {
+    secTimer->stop();
 }
 
 void MainWindow::moveSeekBar() {

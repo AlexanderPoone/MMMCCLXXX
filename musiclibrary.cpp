@@ -9,9 +9,13 @@ MusicLibrary::MusicLibrary(QToolBox *toolBox, QWidget *parent) {
     qDebug() << '|' << "Num of (key, value) pairs:\t" << internalObj.size() << "\t\t|";
     qDebug() << '|' << "Computer name:\t\t" << internalObj.find(QStringLiteral("computerName")).value().toString() << "\t|";
     qDebug() << '|' << "IP Adress:\t\t\t" << internalObj.find(QStringLiteral("ip")).value().toString() << "\t|";
-    qDebug() << '|' << "Num of albums:\t\t" << internalObj.find(QStringLiteral("albums")).value().toArray().size() << "\t\t|";
-    qDebug() << '|' << "Reserved:\t\t" << internalObj.find(QStringLiteral("albums")).value().toArray()[0].toObject().find(QStringLiteral("albumTitle")).value().toString()<< "\t\t|";
-    qDebug() << '|' << "Reserved:\t\t" << internalObj.find(QStringLiteral("albums")).value().toArray()[0].toObject().find(QStringLiteral("artist")).value().toString()<< "\t\t|";
+    QJsonArray albums=internalObj.find(QStringLiteral("albums")).value().toArray();
+    int numAlbums=albums.size();
+    qDebug() << '|' << "Num of albums:\t\t" << numAlbums << "\t\t|";
+    for (int i=0; i<numAlbums; i++) {
+        qDebug() << '|' << "Reserved:\t\t" << albums[i].toObject().find(QStringLiteral("albumTitle")).value().toString()<< "\t\t|";
+        qDebug() << '|' << "Reserved:\t\t" << albums[i].toObject().find(QStringLiteral("artist")).value().toString()<< "\t\t|";
+    }
     qDebug() << "+------------------------------------------------------------+";
 
     this->toolBox=toolBox;
