@@ -1,6 +1,8 @@
 #include "musiclibrary.h"
 
 MusicLibrary::MusicLibrary(QToolBox *toolBox, QWidget *parent) {
+    this->toolBox=toolBox;
+
     QFile exampleJSON(QStringLiteral("C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\example.json"));
     if (!exampleJSON.open(QIODevice::ReadOnly | QIODevice::Text)) return;
     QJsonDocument internalDoc=QJsonDocument::fromJson(exampleJSON.readAll());
@@ -13,22 +15,21 @@ MusicLibrary::MusicLibrary(QToolBox *toolBox, QWidget *parent) {
     int numAlbums=albums.size();
     qDebug() << '|' << "Num of albums:\t\t" << numAlbums << "\t\t|";
     for (int i=0; i<numAlbums; i++) {
-        qDebug() << '|' << "Reserved:\t\t" << albums[i].toObject().find(QStringLiteral("albumTitle")).value().toString()<< "\t\t|";
-        qDebug() << '|' << "Reserved:\t\t" << albums[i].toObject().find(QStringLiteral("artist")).value().toString()<< "\t\t|";
-    }
-    qDebug() << "+------------------------------------------------------------+";
-
-    this->toolBox=toolBox;
-    //    QList<QPair>
-    for (int i=0; i<2; i++) {
         AlbumEntry *entry;
         entry=new AlbumEntry(parent);
         QPixmap pixmap(QStringLiteral("://album%1.jpg").arg(i));
         entry->setAlbumArt(pixmap);
-        entry->setAlbumTitle("Shakira");
-        entry->setArtistName("She Wolf");
+        entry->setAlbumTitle(albums[i].toObject().find(QStringLiteral("albumTitle")).value().toString());
+        entry->setArtistName(albums[i].toObject().find(QStringLiteral("artist")).value().toString());
+        entry->setTracks(albums[i].toObject().find(QStringLiteral("tracks")).value().toArray());
         this->toolBox->addItem(entry,entry->getIcon(),entry->getTitleString());
+        qDebug() << '|' << "Reserved:\t\t" << albums[i].toObject().find(QStringLiteral("albumTitle")).value().toString()<< "\t\t|";
+        qDebug() << '|' << "Reserved:\t\t" << albums[i].toObject().find(QStringLiteral("artist")).value().toString()<< "\t\t|";
+        qDebug() << '|' << "Num of tracks:\t\t" << albums[i].toObject().find(QStringLiteral("tracks")).value().toArray().size()<< "\t\t|";
     }
+    qDebug() << "+------------------------------------------------------------+";
+
+    //    QList<QPair>
 }
 
 //MusicLibrary::MusicLibrary(QGridLayout *container, QWidget *parent) {

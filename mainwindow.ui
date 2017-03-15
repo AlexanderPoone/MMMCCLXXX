@@ -771,6 +771,12 @@ QToolTip {
               <height>0</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">QToolTip {
+    color: white;
+	background-color: black
+}</string>
+            </property>
             <property name="maximum">
              <number>60</number>
             </property>
@@ -831,7 +837,7 @@ QToolTip {
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>TextLabel</string>
+         <string>(number of QLabel+QToolBox depends on the number of remote users)</string>
         </property>
        </widget>
       </item>
@@ -874,7 +880,7 @@ QToolTip {
          <string notr="true">color: white; font: bold</string>
         </property>
         <property name="title">
-         <string>Music files on peers (number of QLabel+QToolBox depends on the number of remote users)</string>
+         <string>Music files on peers</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_7">
          <item>
@@ -956,7 +962,7 @@ QToolTip {
                   <x>0</x>
                   <y>0</y>
                   <width>975</width>
-                  <height>300</height>
+                  <height>387</height>
                  </rect>
                 </property>
                 <attribute name="icon">
@@ -1032,57 +1038,6 @@ QListWidget:after {
                   </widget>
                  </item>
                 </layout>
-               </widget>
-               <widget class="QWidget" name="page_2">
-                <property name="geometry">
-                 <rect>
-                  <x>0</x>
-                  <y>0</y>
-                  <width>975</width>
-                  <height>300</height>
-                 </rect>
-                </property>
-                <attribute name="icon">
-                 <iconset resource="res.qrc">
-                  <normaloff>:/album1.jpg</normaloff>:/album1.jpg</iconset>
-                </attribute>
-                <attribute name="label">
-                 <string>Glenn Gould - Goldberg Variations</string>
-                </attribute>
-               </widget>
-               <widget class="QWidget" name="widget">
-                <property name="geometry">
-                 <rect>
-                  <x>0</x>
-                  <y>0</y>
-                  <width>975</width>
-                  <height>300</height>
-                 </rect>
-                </property>
-                <attribute name="icon">
-                 <iconset resource="res.qrc">
-                  <normaloff>:/album2.jpg</normaloff>:/album2.jpg</iconset>
-                </attribute>
-                <attribute name="label">
-                 <string>Sviatoslav Richter - The Legend</string>
-                </attribute>
-               </widget>
-               <widget class="QWidget" name="page_3">
-                <property name="geometry">
-                 <rect>
-                  <x>0</x>
-                  <y>0</y>
-                  <width>975</width>
-                  <height>300</height>
-                 </rect>
-                </property>
-                <attribute name="icon">
-                 <iconset resource="res.qrc">
-                  <normaloff>:/album3.jpg</normaloff>:/album3.jpg</iconset>
-                </attribute>
-                <attribute name="label">
-                 <string>Claudio Arrau - Beethoven</string>
-                </attribute>
                </widget>
               </widget>
              </item>

@@ -49,7 +49,7 @@
 			]
 		},
 		{
-			"title": "坂木九の唄う日本のヒット歌集",
+			"albumTitle": "坂木九の唄う日本のヒット歌集",
 			"artist": "坂本九",
 			"tracks": [
 				{
@@ -71,6 +71,36 @@
 				{
 					"songTitle": "ステキなタイミング",
 					"path": "C:\\Users\\Alexandre Poon\\Documents\\5.wav"
+				}
+			]
+		},
+		{
+			"albumTitle": "BBC Legends: Claudio Arrau",
+			"artist": "Claudio Arrau",
+			"tracks": [
+				{
+					"songTitle": "Fantasie in C major, Op.17 - I. Durchaus fantastisch und leidenschaftl",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\a.wav"
+				},
+				{
+					"songTitle": "Fantasie in C major, Op.17 - II. Massig. Durchaus Energisch - Etwas Langsamer - Viel Bewegter",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\b.wav"
+				},
+				{
+					"songTitle": "Fantasie in C major, Op.17 - III. Durchaus Fantastisch Und Leidenschaftlich Vorzutragen - Im Legendenton - Tempo I",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\c.wav"
+				},
+				{
+					"songTitle": "Three Piano Pieces, Op.11 - I. Mäßige ♩",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\d.wav"
+				},
+				{
+					"songTitle": "Three Piano Pieces, Op.11 - II. Mäßige ♪",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\e.wav"
+				},
+				{
+					"songTitle": "Three Piano Pieces, Op.11 - III. Bewegte ♪",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\f.wav"
 				}
 			]
 		}

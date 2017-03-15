@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QGraphicsItem *previousItem = new PreviousButton();
     PlayPauseButton *playPauseItem = new PlayPauseButton(ui->lyricsScrollArea, ui->scrollSpeedDial);
     QGraphicsItem *nextItem = new NextButton();
-    QGraphicsItem *stopItem = new StopButton();
+    StopButton *stopItem = new StopButton();
     QGraphicsItem *ratingBarItem = new RatingBar();
     QGraphicsItem *bulletScrItem = new BulletScreen();
     bindToView(ui->backwardView, previousScene, previousItem);
@@ -55,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent) :
     bindToView(ui->bulletScreenView, bulletScrScene, bulletScrItem);
     connect(playPauseItem, &PlayPauseButton::playActivated, this, &MainWindow::startSecTimer);
     connect(playPauseItem, &PlayPauseButton::playDeactivated, this, &MainWindow::stopSecTimer);
+    connect(stopItem, &StopButton::stopSignal, this, &MainWindow::stopSlot);
     connect(secTimer, &QTimer::timeout, this, &MainWindow::moveSeekBar);
     useGeniusAPI();
     on_seekSlider_valueChanged(0);
@@ -103,6 +104,8 @@ void MainWindow::openFile() {
     QString loc=QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
     QStringList fileList = QFileDialog::getOpenFileNames(this, "Open File", loc, "WAVE files (*.wav *.wave);;MP3 files (*.mp3)");
     if (!fileList.isEmpty()) {
+        ui->seekSlider->setMaximum(90); //Just placeholder code. To be changed
+        ui->seekSlider->setValue(0);
         qDebug() << fileList[0];
         QFileInfo info(fileList[0]);
         songTitle=info.baseName(); //Just placeholder code. To be deleted
@@ -151,6 +154,11 @@ void MainWindow::stopSecTimer() {
 
 void MainWindow::moveSeekBar() {
     ui->seekSlider->setValue(ui->seekSlider->value()+1);
+}
+
+void MainWindow::stopSlot() {
+    secTimer->stop();
+    ui->seekSlider->setValue(0);
 }
 
 void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)

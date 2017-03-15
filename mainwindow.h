@@ -42,6 +42,7 @@ private slots:
     void startSecTimer();
     void stopSecTimer();
     void moveSeekBar();
+    void stopSlot();
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
 private:

@@ -19,6 +19,8 @@ public:
     void setAlbumArt(QPixmap albumPixmap);
     void setAlbumTitle(QString albumTitle);
     void setArtistName(QString artistName);
+    void setTracks(QJsonArray tracks);
+//
     void setTrackNames(QStringList trackNames);
     void setTrackPaths(QStringList trackPaths);
     void setTrackLengths(QStringList trackLengths);

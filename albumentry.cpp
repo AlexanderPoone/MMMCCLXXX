@@ -5,18 +5,6 @@ AlbumEntry::AlbumEntry() {
 }
 
 AlbumEntry::AlbumEntry(QWidget *parent) {
-    //setStylesheet
-
-    QList<QPair<QString, QString>> tracks;
-    tracks << qMakePair(QStringLiteral("Les passants"), QStringLiteral("C:\\Users\\Alexis Poon\\Music\\01.wav"));
-    tracks << qMakePair(QStringLiteral("Je veux"), QStringLiteral("C:\\Users\\Alexis Poon\\Music\\02.wav"));
-    tracks << qMakePair(QStringLiteral("Le long de la route"), QStringLiteral("C:\\Users\\Alexis Poon\\Music\\03.wav"));
-    qCritical() << tracks[0].first;
-    for (int i=0; i < tracks.length(); i++) {
-        addItem(QStringLiteral("%1\t%2").arg(i+1).arg(tracks[i].first));
-    }
-
-
 //    albumArtL=new QLabel(parent);
 //    albumTitleL=new QLabel(parent);
 //    artistNameL=new QLabel(parent);
@@ -49,6 +37,25 @@ void AlbumEntry::setArtistName(QString artistName) {
 //    artistNameL->setText(artistName);
     this->artistName=artistName;
 }
+
+void AlbumEntry::setTracks(QJsonArray tracks) {
+    //setStylesheet
+
+    QList<QPair<QString, QString>> internal;
+    int fixedHeightRef=0;
+    for (int i=0; i<tracks.size(); i++) {
+        fixedHeightRef+=50;
+        internal << qMakePair(tracks[i].toObject().find("songTitle").value().toString(), tracks[i].toObject().find("path").value().toString());
+        QListWidgetItem item;
+        item.setText(QStringLiteral("%1\t%2").arg(i+1).arg(internal[i].first));
+        item.setToolTip(internal[i].second);
+        addItem(QStringLiteral("%1\t%2").arg(i+1).arg(internal[i].first));
+    }
+//    internal << qMakePair(QStringLiteral("Je veux"), QStringLiteral("C:\\Users\\Alexis Poon\\Music\\02.wav"));
+//    internal << qMakePair(QStringLiteral("Le long de la route"), QStringLiteral("C:\\Users\\Alexis Poon\\Music\\03.wav"));
+    setFixedHeight(fixedHeightRef);
+}
+
 
 void AlbumEntry::setTrackNames(QStringList trackNames) {
 
