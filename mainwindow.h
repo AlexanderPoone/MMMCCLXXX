@@ -39,6 +39,7 @@ private slots:
     void on_lrcButton_clicked();
     void openFile();
     void quitSlot();
+    void moveSeekBar();
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
 private:

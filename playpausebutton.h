@@ -32,6 +32,8 @@ private:
     QLinearGradient pauseGradient;
     QPainterPath playPath;
     QPainterPath pausePath;
+signals:
+    void playActivated();
 };
 
 #endif // PLAYPAUSEBUTTON_H

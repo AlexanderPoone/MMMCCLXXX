@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     winSockServerThread->start();
     auto musicLibrary=new MusicLibrary(ui->localMusicToolbox, this);
     //    setWindowFlags(Qt::FramelessWindowHint);
-//    initWinsock();
+    //    initWinsock();
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
     createSysTray();
     setArtist(QStringLiteral("ABBA"));
@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ratingBarScene=new QGraphicsScene(this);
     bulletScrScene=new QGraphicsScene(this);
     QGraphicsItem *previousItem = new PreviousButton();
-    QGraphicsItem *playPauseItem = new PlayPauseButton(ui->lyricsScrollArea, ui->scrollSpeedDial);
+    PlayPauseButton *playPauseItem = new PlayPauseButton(ui->lyricsScrollArea, ui->scrollSpeedDial);
     QGraphicsItem *nextItem = new NextButton();
     QGraphicsItem *stopItem = new StopButton();
     QGraphicsItem *ratingBarItem = new RatingBar();
@@ -52,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
     bindToView(ui->stopView, stopScene, stopItem);
     bindToView(ui->repeatView, ratingBarScene, ratingBarItem);
     bindToView(ui->bulletScreenView, bulletScrScene, bulletScrItem);
+    connect(playPauseItem, &PlayPauseButton::playActivated, this, &MainWindow::moveSeekBar);
     useGeniusAPI();
     on_seekSlider_valueChanged(0);
     on_volumeSlider_valueChanged(0);
@@ -67,100 +68,6 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::initWavFile(QString fileLocation) {
     hmmioIn=new HMMIO();
 }
-
-//void MainWindow::initWinsock() {
-//    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
-//    if (iResult != 0) {
-//        qDebug() << "WSAStartup failed: " << iResult;
-//    } else {
-//        qDebug() << "WSAStartup succeeded!";
-//        setupWinsockServer();
-//        //        winsockServerBindSocket();
-//        setupWinsockClient();
-//    }
-//    ConnectSocket = INVALID_SOCKET;
-//}
-
-//void MainWindow::setupWinsockServer() {
-//    // 1.
-//    struct addrinfo *result = NULL, *ptr = NULL, hints;
-//    ZeroMemory(&hints, sizeof (hints));
-//    hints.ai_family = AF_INET;
-//    hints.ai_socktype = SOCK_STREAM;
-//    hints.ai_protocol = IPPROTO_TCP;
-//    hints.ai_flags = AI_PASSIVE;
-
-//    // Resolve the local address and port to be used by the server
-//    iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
-//    if (iResult != 0) {
-//        qDebug() << "getaddrinfo failed: " << iResult;
-//        WSACleanup();
-//        return;
-//    }
-//    // 2.
-//    ListenSocket = INVALID_SOCKET;
-//    // 3. Create a SOCKET for the server to listen for client connections
-//    ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
-//    // 4.
-//    if (ListenSocket == INVALID_SOCKET) {
-//        qDebug() << "Error at socket(): %ld\n" << WSAGetLastError();
-//        freeaddrinfo(result);
-//        WSACleanup();
-//        return;
-//    }
-//    // 5. Setup the TCP listening socket
-//    iResult = bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
-//    if (iResult == SOCKET_ERROR) {
-//        qDebug() << "bind failed with error: " << WSAGetLastError();
-//        freeaddrinfo(result);
-//        closesocket(ListenSocket);
-//        WSACleanup();
-//        return;
-//    }
-//    freeaddrinfo(result);
-//    // 6. To listen on a socket
-//    if ( listen( ListenSocket, SOMAXCONN ) == SOCKET_ERROR ) {
-//        qDebug() << "Listen failed with error: " << WSAGetLastError();
-//        closesocket(ListenSocket);
-//        WSACleanup();
-//        return;
-//    }
-//    qDebug() << "Winsock server has been successfully set up.";
-//    // 7. Accept a client socket
-//    SOCKET ClientSocket;
-//    ClientSocket = INVALID_SOCKET;
-//    QThread *workerThread;
-////    ClientSocket = accept(ListenSocket, NULL, NULL); //accept() is a blocking function, meaning that it will not finish until it accept()s a connection or an error occurs
-////    if (ClientSocket == INVALID_SOCKET) {
-////        qDebug() << "accept failed: " << WSAGetLastError();
-////        closesocket(ListenSocket);
-////        WSACleanup();
-////        return;
-////    }
-//}
-
-////void MainWindow::winsockServerBindSocket() {
-////}
-
-//void MainWindow::setupWinsockClient() {
-//    ZeroMemory(&hints, sizeof(hints));
-//    hints.ai_family = AF_UNSPEC;
-//    hints.ai_socktype = SOCK_STREAM;
-//    hints.ai_protocol = IPPROTO_UDP;
-//    // Resolve the server address and port
-//    iResult = getaddrinfo("localhost", DEFAULT_PORT, &hints, &result);
-//    if (iResult != 0) {
-//        qDebug() << "getaddrinfo failed: " << iResult;
-//        WSACleanup();
-//    } else {
-//        qDebug() << "Winsock client has been successfully set up.";
-//    }
-//    // Attempt to connect to the first address returned by the call to getaddrinfo
-//    ptr=result;
-//    // Create a SOCKET for connecting to server
-//    ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
-//}
-
 
 void MainWindow::useGeniusAPI() {
     auto gManager=new GeniusManager(ui->lyricsLabel, ui->metadataAlbumArtLabel, ui->metadataArtistPhotoLabel, artist, songTitle);
@@ -231,6 +138,10 @@ void MainWindow::quitSlot() {
     exit(0);
 }
 
+void MainWindow::moveSeekBar() {
+    ui->seekSlider->setValue(ui->seekSlider->value()+1);
+}
+
 void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if (reason==QSystemTrayIcon::DoubleClick) {
@@ -273,8 +184,8 @@ bool MainWindow::event(QEvent *event) {
     case QEvent::Close:
         sysTray->hide();
         qDebug() << "App closed.";
-//        mmioClose(*hmmioIn, NULL);
-//        waveOutClose((HWAVEOUT) *hAudioOut);
+        //        mmioClose(*hmmioIn, NULL);
+        //        waveOutClose((HWAVEOUT) *hAudioOut);
         break;
     case QEvent::WindowStateChange:
         if (isMinimized()) {

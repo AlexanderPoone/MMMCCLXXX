@@ -1,8 +1,21 @@
 #include "musiclibrary.h"
 
 MusicLibrary::MusicLibrary(QToolBox *toolBox, QWidget *parent) {
+    QFile exampleJSON(QStringLiteral("C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\example.json"));
+    if (!exampleJSON.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+    QJsonDocument internalDoc=QJsonDocument::fromJson(exampleJSON.readAll());
+    QJsonObject internalObj=internalDoc.object();
+    qDebug() << "+------------------------------JSON--------------------------+";
+    qDebug() << '|' << "Num of (key, value) pairs:\t" << internalObj.size() << "\t\t|";
+    qDebug() << '|' << "Computer name:\t\t" << internalObj.find(QStringLiteral("computerName")).value().toString() << "\t|";
+    qDebug() << '|' << "IP Adress:\t\t\t" << internalObj.find(QStringLiteral("ip")).value().toString() << "\t|";
+    qDebug() << '|' << "Num of albums:\t\t" << internalObj.find(QStringLiteral("albums")).value().toArray().size() << "\t\t|";
+    qDebug() << '|' << "Reserved:\t\t" << internalObj.find(QStringLiteral("albums")).value().toArray()[0].toObject().find(QStringLiteral("albumTitle")).value().toString()<< "\t\t|";
+    qDebug() << '|' << "Reserved:\t\t" << internalObj.find(QStringLiteral("albums")).value().toArray()[0].toObject().find(QStringLiteral("artist")).value().toString()<< "\t\t|";
+    qDebug() << "+------------------------------------------------------------+";
+
     this->toolBox=toolBox;
-//    QList<QPair>
+    //    QList<QPair>
     for (int i=0; i<2; i++) {
         AlbumEntry *entry;
         entry=new AlbumEntry(parent);
@@ -36,14 +49,14 @@ void MusicLibrary::scan() {
     QStringList filters;
     filters << "*.wav" << "*.wave" << "*.mp3";
     tmpDir.setNameFilters(filters);
-//    qDebug() << tmpDir.entryList(); //entryInfoList();
-    QFile dc(QStringLiteral("db.json"));
-    dc.open(QFile::ReadWrite | QFile::Text);
-    QByteArray contents=dc.readAll();
-    qDebug() << contents.left(100);
-    qDebug() << dc.exists();
-    QJsonDocument internalDoc;
-//    internalDoc=QJsonDocument::fromJson(doc.readAll());
+    //    qDebug() << tmpDir.entryList(); //entryInfoList();
+    //    QFile dc(QStringLiteral("db.json"));
+    //    dc.open(QFile::ReadWrite | QFile::Text);
+    //    QByteArray contents=dc.readAll();
+    //    qDebug() << contents.left(100);
+    //    qDebug() << dc.exists();
+    //    QJsonDocument internalDoc;
+    //    internalDoc=QJsonDocument::fromJson(doc.readAll());
 }
 
 void MusicLibrary::generateJson() {

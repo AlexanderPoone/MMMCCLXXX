@@ -2,6 +2,7 @@
 #define MUSICLIBRARY_H
 
 #include <QtWidgets>
+#include <QDebug>
 #include "albumentry.h"
 
 class MusicLibrary : public QObject

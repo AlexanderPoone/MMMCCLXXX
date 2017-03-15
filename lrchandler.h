@@ -3,6 +3,8 @@
 
 //#include <QString>
 #include <QLabel>
+#include <QDebug>
+#include <QFile>
 
 class LRCHandler
 {

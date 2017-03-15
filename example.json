@@ -1,0 +1,78 @@
+{
+	"computerName": "myCheapWorkstation",
+	"ip": "91.198.174.192",
+	"albums": [
+		{
+			"albumTitle": "3.0",
+			"artist": "Marc Anthony",
+			"tracks": [
+				{
+					"songTitle": "Vivir Mi Vida",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\1.wav"
+				},
+				{
+					"songTitle": "Volver a Comenzar",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\2.wav"
+				},
+				{
+					"songTitle": "Flor Pálida",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\3.wav"
+				},
+				{
+					"songTitle": "Cambio de Piel",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\4.wav"
+				},
+				{
+					"songTitle": "Espera",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\5.wav"
+				},
+				{
+					"songTitle": "La Copa Rota",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\6.wav"
+				},
+				{
+					"songTitle": "Dime Si No Es Verdad",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\7.wav"
+				},
+				{
+					"songTitle": "Hipocresía",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\8.wav"
+				},
+				{
+					"songTitle": "Cautivo de Este Amor",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\9.wav"
+				},
+				{
+					"songTitle": "Vivir Mi Vida (Versión Pop)",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\10.wav"
+				}
+			]
+		},
+		{
+			"title": "坂木九の唄う日本のヒット歌集",
+			"artist": "坂本九",
+			"tracks": [
+				{
+					"songTitle": "上を向いて歩こう",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\1.wav"
+				},
+				{
+					"songTitle": "九ちゃんのツンツン節",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\2.wav"
+				},
+				{
+					"songTitle": "一人ぼっちの二人",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\3.wav"
+				},
+				{
+					"songTitle": "九ちゃん音頭（それが浮世と云うものさ）",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\4.wav"
+				},
+				{
+					"songTitle": "ステキなタイミング",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\5.wav"
+				}
+			]
+		}
+	]
+}

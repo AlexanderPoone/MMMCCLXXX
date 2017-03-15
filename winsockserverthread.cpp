@@ -6,6 +6,7 @@
 //}
 
 void WinSockServerThread::run() {
+    qDebug() << "°º¤ø,¸¸,ø¤º°`°º¤ø,¸,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸";
     QString done;
     iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
     if (iResult != 0) {
@@ -106,7 +107,7 @@ void WinSockServerThread::run() {
             return;
         }
     } while (iResult > 0);
-    /* ... here is the expensive or blocking operation ... */
+    qDebug() << "°º¤ø,¸¸,ø¤º°`°º¤ø,¸,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸";
 }
 
 void WinSockServerThread::sendMessage(QByteArray message) {

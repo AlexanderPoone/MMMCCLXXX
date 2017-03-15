@@ -89,7 +89,7 @@ QTabBar::tab:selected {
 }</string>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <property name="movable">
            <bool>true</bool>
@@ -223,7 +223,7 @@ QTabBar::tab:selected {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-552</y>
+                 <y>0</y>
                  <width>2033</width>
                  <height>816</height>
                 </rect>
@@ -711,7 +711,18 @@ color: Gainsboro;</string>
             </property>
             <property name="styleSheet">
              <string notr="true">QSlider { background: transparent }
-QSlider::handle:horizontal { image: url(:/phonographSlider.png); padding: -30px -25px 0px -25px }</string>
+QSlider::handle:horizontal { image: url(:/phonographSlider.png); padding: -30px -25px 0px -25px }
+QSlider::add-page:horizontal {
+    background: darkslategray;
+}
+
+QSlider::sub-page:horizontal {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 khaki, stop:1 black);
+}
+QToolTip {
+    color: white;
+	background-color: black
+}</string>
             </property>
             <property name="minimum">
              <number>0</number>
@@ -783,7 +794,19 @@ QSlider::handle:horizontal { image: url(:/phonographSlider.png); padding: -30px 
           </property>
           <property name="styleSheet">
            <string notr="true">QSlider { background: transparent }
-QSlider::handle:horizontal { image: url(:/noteSlider.png); padding: -30px -10px 0px -10px }</string>
+QSlider::handle:horizontal { image: url(:/noteSlider.png); padding: -30px -10px 0px -10px }
+QSlider::add-page:horizontal {
+    background: darkslategray;
+}
+
+QSlider::sub-page:horizontal {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 lavender, stop:1 black);
+}
+
+QToolTip {
+    color: white;
+	background-color: black
+}</string>
           </property>
           <property name="pageStep">
            <number>1</number>
@@ -851,7 +874,7 @@ QSlider::handle:horizontal { image: url(:/noteSlider.png); padding: -30px -10px 
          <string notr="true">color: white; font: bold</string>
         </property>
         <property name="title">
-         <string>Music files on peers</string>
+         <string>Music files on peers (number of QLabel+QToolBox depends on the number of remote users)</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_7">
          <item>
