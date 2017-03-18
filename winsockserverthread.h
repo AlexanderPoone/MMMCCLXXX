@@ -22,6 +22,7 @@ class WinSockServerThread : public QThread
 {
     Q_OBJECT
 public:
+    WinSockServerThread();
 //    void run() override;
     void run() Q_DECL_OVERRIDE;
     void sendMessage(QByteArray message);

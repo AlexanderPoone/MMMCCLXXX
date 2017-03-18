@@ -1,15 +1,9 @@
 // Protocol: TCP
-
 #include "winsockserverthread.h"
 #include <QTextCodec>
 
-//void WinSockServerThread::setPortNumber() {
-//    //1024 through 49151
-//}
-
-void WinSockServerThread::run() {
-    qDebug() << "°º¤ø,¸¸,ø¤º°`°º¤ø,¸,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸";
-    QString done;
+WinSockServerThread::WinSockServerThread() {
+    qDebug() << "°º¤ø,¸¸,ø¤º°`°º¤ø,SERVER,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸";
     iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
     if (iResult != 0) {
         qDebug() << "WSAStartup failed: " << iResult;
@@ -61,11 +55,17 @@ void WinSockServerThread::run() {
         return;
     }
     qDebug() << "Winsock server has been successfully set up.";
+}
+
+//void WinSockServerThread::setPortNumber() {
+//    //1024 through 49151
+//}
+
+void WinSockServerThread::run() {
     // 7. Accept a client socket
     SOCKET ClientSocket;
     ClientSocket = INVALID_SOCKET;
     qDebug() << "All is well";
-    emit resultReady(done);
     //accept() is a blocking function, meaning that it will not finish until it accept()s a connection or an error occurs
     ClientSocket = accept(ListenSocket, NULL, NULL);
     if (ClientSocket == INVALID_SOCKET) {
@@ -78,14 +78,13 @@ void WinSockServerThread::run() {
     //***Receiving and Sending Data on the Server***
 //    char recvbuf[DEFAULT_BUFLEN];
     int iSendResult;
-    int recvbuflen = DEFAULT_BUFLEN;
 
     // Receive until the peer shuts down the connection
     do {
 
-        iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+        iResult = recv(ClientSocket, recvbuf, sizeof(recvbuf), 0);
         if (iResult > 0) {
-            qDebug() << "Server received message:" << QString::fromUtf8(recvbuf) << "(" << iResult << "bytes)";
+//            qDebug() << "Server received message:" << QString::fromUtf8(recvbuf) << "(" << iResult << "bytes)";
             QTextCodec *codec = QTextCodec::codecForName("UTF-8");
             QString field = codec->toUnicode(recvbuf).trimmed();
             field=field.mid(0,field.indexOf("\t"));
@@ -99,7 +98,7 @@ void WinSockServerThread::run() {
                 WSACleanup();
                 return;
             }
-            qDebug() << "Bytes sent: " << iSendResult;
+            qDebug() << "Bytes echoed (server): " << iSendResult;
         } else if (iResult == 0)
             qDebug() << "Connection closing...";
         else {
@@ -109,7 +108,9 @@ void WinSockServerThread::run() {
             return;
         }
     } while (iResult > 0);
-    qDebug() << "°º¤ø,¸¸,ø¤º°`°º¤ø,¸,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸";
+    qDebug() << "°º¤ø,¸¸,ø¤º°`°º¤ø,SERVER-END,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸";
+    QString done;
+    emit resultReady(done);
 }
 
 void WinSockServerThread::sendMessage(QByteArray message) {

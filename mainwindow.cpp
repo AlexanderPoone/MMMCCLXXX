@@ -69,8 +69,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //    for (int i=0;i<ui->scrollArea->size().height();i++) {
     //    ui->lyricsScrollArea->scroll(0,10);
     //    }
-    for (int i=0; i<3; i++) {
-        WinSockClientThread *winSockClientThread=new WinSockClientThread;
+    for (int i=1; i<=3; i++) {
+        WinSockClientThread *winSockClientThread=new WinSockClientThread(i);
         winSockClientThread->start();
     }
 }

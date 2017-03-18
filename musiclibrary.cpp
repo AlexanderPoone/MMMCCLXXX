@@ -26,7 +26,10 @@ MusicLibrary::MusicLibrary(QToolBox *toolBox, QWidget *parent) {
         qDebug() << '|' << "Reserved:\t\t" << albums[i].toObject().find(QStringLiteral("albumTitle")).value().toString()<< "\t\t|";
         qDebug() << '|' << "Reserved:\t\t" << albums[i].toObject().find(QStringLiteral("artist")).value().toString()<< "\t\t|";
         qDebug() << '|' << "Num of tracks:\t\t" << albums[i].toObject().find(QStringLiteral("tracks")).value().toArray().size()<< "\t\t|";
+        if (i==0) entry->hide();
     }
+    toolBox->removeItem(1);
+//    toolBox->findChild<QWidget *>()->hide();
     qDebug() << "+------------------------------------------------------------+";
 
     //    QList<QPair>

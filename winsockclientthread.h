@@ -22,14 +22,18 @@ class WinSockClientThread : public QThread
     Q_OBJECT
 public:
 //    WinSockClientThread();
+    WinSockClientThread(int threadNumber);
     void run() Q_DECL_OVERRIDE;
     void sendMessage(QByteArray message);
 private:
+    int threadNumber;
+
     int iResult;
     WSADATA wsaData;
     struct addrinfo *result = NULL, *ptr = NULL, hints;
     SOCKET ConnectSocket;
 signals:
+    void connected(int threadNumber);
     void resultReady(const QString &s);
 };
 

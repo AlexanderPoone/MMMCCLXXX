@@ -1,19 +1,17 @@
-// Protocol: TCP
-
 #include "winsockclientthread.h"
 
 //void WinSockClientThread::setPortNumber() {
 //    //1024 through 49151
 //}
 
-void WinSockClientThread::run() {
-    //    addrinfo.sin_addr.s_addr = INADDR_ANY;
+WinSockClientThread::WinSockClientThread(int threadNumber) {
+    this->threadNumber=threadNumber;
 
-    QString done;
+    //    addrinfo.sin_addr.s_addr = INADDR_ANY;
     ZeroMemory(&hints, sizeof(hints));
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
-    hints.ai_protocol = IPPROTO_TCP;
+    hints.ai_protocol = IPPROTO_TCP;                                            // Protocol: TCP
     // Resolve the server address and port
     iResult = getaddrinfo("127.0.0.1", DEFAULT_PORT, &hints, &result);
     if (iResult != 0) {
@@ -21,7 +19,7 @@ void WinSockClientThread::run() {
         WSACleanup();
         return;
     }
-    qDebug() << "Winsock client has been successfully set up.";
+    qDebug() << "Winsock client" << threadNumber << "has been successfully set up.";
     // Attempt to connect to the first address returned by the call to getaddrinfo
     ptr=result;
     // Create a SOCKET for connecting to server
@@ -43,16 +41,18 @@ void WinSockClientThread::run() {
         WSACleanup();
         return;
     }
-    //***Receiving and Sending Data on the Client***
-    int recvbuflen = DEFAULT_BUFLEN;
+}
 
+void WinSockClientThread::run() {
+    // Receiving and Sending Data on the Client
+    int recvbuflen = DEFAULT_BUFLEN;
+    char recvbuf[DEFAULT_BUFLEN];
 //    char *sendbuf = QString("I am a client, short and stout").toLatin1().data();
+//    char *sendbuf = QString("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。").toUtf8().data();
     QByteArray tmp=QString::fromUtf8("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。\t").toUtf8();
     char *sendbuf = tmp.data();
     qDebug() << "Original msg: " << sendbuf;
-//    char *sendbuf = QString("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。").toUtf8().data();
 
-    char recvbuf[DEFAULT_BUFLEN];
 
     // Send an initial buffer
     iResult = send(ConnectSocket, sendbuf, (int) strlen(sendbuf), 0);
@@ -62,11 +62,11 @@ void WinSockClientThread::run() {
         WSACleanup();
         return;
     }
+    qDebug() << "Bytes sent (client):" << iResult;
 
-    qDebug() << "Bytes Sent: " << iResult;
 
-    // shutdown the connection for sending since no more data will be sent
-    // the client can still use the ConnectSocket for receiving data
+    // Shutdown the connection for sending since no more data will be sent
+    // The client can still use the ConnectSocket for receiving data
     iResult = shutdown(ConnectSocket, SD_SEND);
     if (iResult == SOCKET_ERROR) {
         qDebug() << "shutdown failed: " << WSAGetLastError();
@@ -74,6 +74,7 @@ void WinSockClientThread::run() {
         WSACleanup();
         return;
     }
+
 
     // Receive data until the server closes the connection
     do {
@@ -85,8 +86,10 @@ void WinSockClientThread::run() {
         else
             qDebug() << "recv failed: " << WSAGetLastError();
     } while (iResult > 0);
-
-    emit resultReady(done);
+    // // // // // // // // // // // // // // // // // // // //
+    // QString done;                                         //
+    // emit resultReady(done);                               //
+    // // // // // // // // // // // // // // // // // // // //
 }
 
 void WinSockClientThread::sendMessage(QByteArray message) {
