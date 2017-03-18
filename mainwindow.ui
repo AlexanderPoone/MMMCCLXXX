@@ -877,7 +877,7 @@ QToolTip {
       <item>
        <widget class="QGroupBox" name="groupBox_2">
         <property name="styleSheet">
-         <string notr="true">color: white; font: bold</string>
+         <string notr="true">QGroupBox {font: bold}</string>
         </property>
         <property name="title">
          <string>Music files on peers</string>
@@ -900,6 +900,30 @@ QToolTip {
               <height>448</height>
              </rect>
             </property>
+            <layout class="QVBoxLayout" name="verticalLayout_9">
+             <item>
+              <widget class="QLabel" name="placeholderLabel">
+               <property name="font">
+                <font>
+                 <family>Book Antiqua</family>
+                 <pointsize>16</pointsize>
+                 <weight>75</weight>
+                 <italic>false</italic>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background: transparent</string>
+               </property>
+               <property name="text">
+                <string>No peers connected yet.</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </widget>
          </item>

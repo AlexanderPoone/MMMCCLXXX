@@ -1,7 +1,7 @@
 #include "albumentry.h"
 
 AlbumEntry::AlbumEntry() {
-
+//    setStyleSheet("QToolTip { color: white; background-color: black }");
 }
 
 AlbumEntry::AlbumEntry(QWidget *parent) {
@@ -40,15 +40,14 @@ void AlbumEntry::setArtistName(QString artistName) {
 
 void AlbumEntry::setTracks(QJsonArray tracks) {
     //setStylesheet
-
     QList<QPair<QString, QString>> internal;
     int fixedHeightRef=0;
     for (int i=0; i<tracks.size(); i++) {
         fixedHeightRef+=50;
         internal << qMakePair(tracks[i].toObject().find("songTitle").value().toString(), tracks[i].toObject().find("path").value().toString());
         QListWidgetItem item;
-        item.setText(QStringLiteral("%1\t%2").arg(i+1).arg(internal[i].first));
         item.setToolTip(internal[i].second);
+        item.setText(QStringLiteral("%1\t%2").arg(i+1).arg(internal[i].first));
         addItem(QStringLiteral("%1\t%2").arg(i+1).arg(internal[i].first));
     }
 //    internal << qMakePair(QStringLiteral("Je veux"), QStringLiteral("C:\\Users\\Alexis Poon\\Music\\02.wav"));

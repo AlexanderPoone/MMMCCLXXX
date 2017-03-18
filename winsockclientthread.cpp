@@ -1,3 +1,5 @@
+// Protocol: TCP
+
 #include "winsockclientthread.h"
 
 //void WinSockClientThread::setPortNumber() {
@@ -45,9 +47,9 @@ void WinSockClientThread::run() {
     int recvbuflen = DEFAULT_BUFLEN;
 
 //    char *sendbuf = QString("I am a client, short and stout").toLatin1().data();
-    QByteArray tmp=QString::fromUtf8("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。\0").toUtf8();
+    QByteArray tmp=QString::fromUtf8("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。\t").toUtf8();
     char *sendbuf = tmp.data();
-    qDebug()<<"Fuck:"<<sendbuf;
+    qDebug() << "Original msg: " << sendbuf;
 //    char *sendbuf = QString("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。").toUtf8().data();
 
     char recvbuf[DEFAULT_BUFLEN];

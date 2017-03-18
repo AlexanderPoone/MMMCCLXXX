@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     secTimer=new QTimer(this);
+    lyricsTimer=new QTimer(this);
     WinSockServerThread *winSockServerThread;
     winSockServerThread=new WinSockServerThread;
     winSockServerThread->setNextLabelPointer(ui->label);
@@ -42,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ratingBarScene=new QGraphicsScene(this);
     bulletScrScene=new QGraphicsScene(this);
     QGraphicsItem *previousItem = new PreviousButton();
-    PlayPauseButton *playPauseItem = new PlayPauseButton(ui->lyricsScrollArea, ui->scrollSpeedDial);
+    PlayPauseButton *playPauseItem = new PlayPauseButton;
     QGraphicsItem *nextItem = new NextButton();
     StopButton *stopItem = new StopButton();
     QGraphicsItem *ratingBarItem = new RatingBar();
@@ -57,6 +58,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(playPauseItem, &PlayPauseButton::playDeactivated, this, &MainWindow::stopSecTimer);
     connect(stopItem, &StopButton::stopSignal, this, &MainWindow::stopSlot);
     connect(secTimer, &QTimer::timeout, this, &MainWindow::moveSeekBar);
+    connect(lyricsTimer, &QTimer::timeout, this, &MainWindow::scrollScroller);
+    connect(ui->scrollSpeedDial,&QDial::valueChanged,this,&MainWindow::setScrollSpeed);
     useGeniusAPI();
     on_seekSlider_valueChanged(0);
     on_volumeSlider_valueChanged(0);
@@ -65,8 +68,10 @@ MainWindow::MainWindow(QWidget *parent) :
     //    for (int i=0;i<ui->scrollArea->size().height();i++) {
     //    ui->lyricsScrollArea->scroll(0,10);
     //    }
-    WinSockClientThread *winSockClientThread=new WinSockClientThread;
-    winSockClientThread->start();
+    for (int i=0; i<3; i++) {
+        WinSockClientThread *winSockClientThread=new WinSockClientThread;
+        winSockClientThread->start();
+    }
 }
 
 void MainWindow::initWavFile(QString fileLocation) {
@@ -144,12 +149,16 @@ void MainWindow::quitSlot() {
     exit(0);
 }
 
-void MainWindow::startSecTimer() {
+void MainWindow::startSecTimer() { //play
     secTimer->start(1000);
+    lyricsTimer->start(1000-speed*10); //1100-speed*10
+    setWindowTitle(windowTitle()+" 🔊");
 }
 
-void MainWindow::stopSecTimer() {
+void MainWindow::stopSecTimer() { //pause
     secTimer->stop();
+    lyricsTimer->stop();
+    setWindowTitle(QStringLiteral("GUI Experiment"));
 }
 
 void MainWindow::moveSeekBar() {
@@ -158,7 +167,19 @@ void MainWindow::moveSeekBar() {
 
 void MainWindow::stopSlot() {
     secTimer->stop();
+    lyricsTimer->stop();
+    setWindowTitle(QStringLiteral("GUI Experiment"));
     ui->seekSlider->setValue(0);
+    ui->lyricsScrollArea->verticalScrollBar()->setValue(0);
+}
+
+void MainWindow::scrollScroller() {
+    ui->lyricsScrollArea->verticalScrollBar()->setValue(ui->lyricsScrollArea->verticalScrollBar()->value()+speed);
+}
+
+void MainWindow::setScrollSpeed() {
+    speed=ui->scrollSpeedDial->value();
+    ui->scrollSpeedDial->setToolTip(QStringLiteral("Auto-scroll speed: %1").arg(speed));
 }
 
 void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)

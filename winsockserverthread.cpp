@@ -1,3 +1,5 @@
+// Protocol: TCP
+
 #include "winsockserverthread.h"
 #include <QTextCodec>
 
@@ -86,7 +88,7 @@ void WinSockServerThread::run() {
             qDebug() << "Server received message:" << QString::fromUtf8(recvbuf) << "(" << iResult << "bytes)";
             QTextCodec *codec = QTextCodec::codecForName("UTF-8");
             QString field = codec->toUnicode(recvbuf).trimmed();
-            field=field.mid(0,field.indexOf("\0"));
+            field=field.mid(0,field.indexOf("\t"));
             qDebug() << recvbuf;
             this->label->setText(field);
             // Echo the buffer back to the sender
@@ -111,7 +113,7 @@ void WinSockServerThread::run() {
 }
 
 void WinSockServerThread::sendMessage(QByteArray message) {
-
+    int size=message.size();
 }
 
 void WinSockServerThread::setNextLabelPointer(QLabel *label) {

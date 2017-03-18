@@ -43,6 +43,7 @@ private slots:
     void stopSecTimer();
     void moveSeekBar();
     void stopSlot();
+    void setScrollSpeed();
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
 private:
@@ -60,6 +61,7 @@ private:
     void setupWinsockServer();
     void winsockServerBindSocket();
     void setupWinsockClient();
+    void scrollScroller();
     //]
     Ui::MainWindow *ui;
     QSystemTrayIcon *sysTray;
@@ -70,6 +72,8 @@ private:
     QGraphicsScene *ratingBarScene;
     QGraphicsScene *bulletScrScene;
     QTimer *secTimer;
+    QTimer *lyricsTimer;
+    int speed=10;
 
     QString artist;
     QString songTitle;

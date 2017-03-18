@@ -12,7 +12,7 @@ class PlayPauseButton : public Button
 {
     Q_OBJECT
 public:
-    PlayPauseButton(QScrollArea *scrollArea, QDial *dial);
+    PlayPauseButton();
     bool isPlaying();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
 protected:
@@ -21,12 +21,7 @@ protected:
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
-protected slots:
-    void scrollScroller();
-    void setScrollSpeed();
-
 private:
-    int speed;
     bool state;
     QLinearGradient playGradient;
     QLinearGradient pauseGradient;
