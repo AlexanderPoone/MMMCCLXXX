@@ -3,14 +3,12 @@
 
 QScrollArea *lyricsScroll;
 QDial *controller;
-QTimer *timer;
 
 PlayPauseButton::PlayPauseButton()
-    :state(true) {
+    :state(true) { //true=paused, false=playing
 
     Button::Button();
     setToolTip(QString("Play"));
-    timer=new QTimer();
     playGradient.setStart(.0,.0);
     playGradient.setFinalStop(100.,100);
     playGradient.setColorAt(0.4, QColor(0xFF,0xFF,0,0x9A));
@@ -113,7 +111,6 @@ void PlayPauseButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
         update();
         setToolTip(QString("Pause"));
         emit playActivated();
-        if (!(timer->isActive())) timer->start(750);
     }
     else {
         state=true;
@@ -125,7 +122,6 @@ void PlayPauseButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
         update();
         setToolTip(QString("Play"));
         emit playDeactivated();
-        timer->stop();
     }
     qDebug("%d", state);
 }
@@ -133,4 +129,11 @@ void PlayPauseButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 void PlayPauseButton::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     Q_UNUSED(event);
     update();
+}
+
+void PlayPauseButton::resetSlot() { //slot
+    state=true;
+    update();
+    setToolTip(QString("Play"));
+//    emit playDeactivated();
 }

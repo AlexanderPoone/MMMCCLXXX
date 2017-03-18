@@ -30,6 +30,8 @@ private:
 signals:
     void playActivated();
     void playDeactivated();
+public slots:
+    void resetSlot();
 };
 
 #endif // PLAYPAUSEBUTTON_H

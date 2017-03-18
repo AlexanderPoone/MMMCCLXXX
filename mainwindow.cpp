@@ -57,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(playPauseItem, &PlayPauseButton::playActivated, this, &MainWindow::startSecTimer);
     connect(playPauseItem, &PlayPauseButton::playDeactivated, this, &MainWindow::stopSecTimer);
     connect(stopItem, &StopButton::stopSignal, this, &MainWindow::stopSlot);
+    connect(stopItem, &StopButton::stopSignal, playPauseItem, &PlayPauseButton::resetSlot);
     connect(secTimer, &QTimer::timeout, this, &MainWindow::moveSeekBar);
     connect(lyricsTimer, &QTimer::timeout, this, &MainWindow::scrollScroller);
     connect(ui->scrollSpeedDial,&QDial::valueChanged,this,&MainWindow::setScrollSpeed);
