@@ -11,7 +11,6 @@
 #include "ratingbar.h"
 #include "bulletscreen.h"
 #include "winsockclientthread.h"
-#include "winsockserverthread.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -22,16 +21,11 @@ MainWindow::MainWindow(QWidget *parent) :
 //    a=(QHBoxLayout *)(ui->tab_albumInfo);
 //    QChartView *b=new QChartView(this);
 //    a->addItem((QLayoutItem *)b);
-    ui->listening->setText(QStringLiteral("The server is running on IP: %1, port %2. Run the client now.").arg("").arg(""));
+    createServer();
     secTimer=new QTimer(this);
     lyricsTimer=new QTimer(this);
-    WinSockServerThread *winSockServerThread;
-    winSockServerThread=new WinSockServerThread;
-    winSockServerThread->setNextLabelPointer(ui->label);
-    winSockServerThread->start();
     auto musicLibrary=new MusicLibrary(ui->localMusicToolbox, this);
     //    setWindowFlags(Qt::FramelessWindowHint);
-    //    initWinsock();
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
     createSysTray();
     setArtist(QStringLiteral("ABBA"));
@@ -71,20 +65,44 @@ MainWindow::MainWindow(QWidget *parent) :
     on_volumeSlider_valueChanged(0);
     //Style the groove?
     setAcceptDrops(true);
+}
 
+void MainWindow::createServer() {
+    server=new WinSockServerThread;
+    connect(server, &WinSockServerThread::connected, this, &MainWindow::createClients);
+    server->setNextLabelPointer(ui->label);
+    server->init();
+}
+
+void MainWindow::createClients(const QString &ip, const QString &port) {
+    ui->listening->setText(QStringLiteral("The server is running on IP: %1, port %2. Run the client now.").arg(ip).arg(port));
     // Don't use for-loops here
+    QString tmp;
+    QFile exampleJSON(QStringLiteral("C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\example.json"));
+    if (exampleJSON.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        tmp=exampleJSON.readAll();
+    }
     WinSockClientThread *client_1=new WinSockClientThread(1);
+    client_1->init();
+    client_1->setMessage(QString::fromUtf8("測試進行中……"));
     client_1->start();
     WinSockClientThread *client_2=new WinSockClientThread(2);
+    client_2->init();
+    client_2->setMessage(QString::fromUtf8("abcdef"));
     client_2->start();
     WinSockClientThread *client_3=new WinSockClientThread(3);
+    client_3->init();
+    client_3->setMessage(QString::fromUtf8("!@#$%"));
     client_3->start();
+    server->start();
+    server->start();
+    server->start();
     // Assemble from tidbits when all threads are ready, using signals & slots
 //    connect(client_1, );
 //    connect(client_2, );
 //    connect(client_3, );
-
 }
+
 
 void MainWindow::initWavFile(QString fileLocation) {
     hmmioIn=new HMMIO();

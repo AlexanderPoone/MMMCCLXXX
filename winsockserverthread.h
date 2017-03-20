@@ -23,6 +23,7 @@ class WinSockServerThread : public QThread
     Q_OBJECT
 public:
     WinSockServerThread();
+    void init();
 //    void run() override;
     void run() Q_DECL_OVERRIDE;
     void setMessage(QString message);
@@ -38,7 +39,7 @@ private:
     SOCKET ListenSocket;
     char *sendbuf;
 signals:
-    void connected(const QString &ip, QString &port);
+    void connected(const QString &ip, const QString &port);
     void resultReady(const QString &s);
 };
 #endif // WINSOCKSERVERTHREAD_H

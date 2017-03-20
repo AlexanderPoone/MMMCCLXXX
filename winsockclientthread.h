@@ -24,6 +24,7 @@ class WinSockClientThread : public QThread
 public:
 //    WinSockClientThread();
     WinSockClientThread(int threadNumber);
+    void init();
     void run() Q_DECL_OVERRIDE;
     void setMessage(QString message);
     void setMessageByPath(QString path);

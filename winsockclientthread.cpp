@@ -19,14 +19,16 @@
 
 WinSockClientThread::WinSockClientThread(int threadNumber) {
     this->threadNumber=threadNumber;
+}
 
+void WinSockClientThread::init() {
     //    addrinfo.sin_addr.s_addr = INADDR_ANY;
     ZeroMemory(&hints, sizeof(hints));
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_protocol = IPPROTO_TCP;                                            // Protocol: TCP
     // Resolve the server address and port
-    iResult = getaddrinfo("127.0.0.1", DEFAULT_PORT, &hints, &result);
+    iResult = getaddrinfo("127.0.0.7", "6894", &hints, &result);          //"127.0.0.1"/"192.168.192.1"
     if (iResult != 0) {
         qDebug() << "getaddrinfo failed: " << iResult;
         WSACleanup();
@@ -56,10 +58,9 @@ WinSockClientThread::WinSockClientThread(int threadNumber) {
     }
 }
 
+
 void WinSockClientThread::run() {
     // Receiving and Sending Data on the Client
-    setMessage(QString::fromUtf8("測試進行中……"));
-
 
 //    setMessage(QString::fromUtf8("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。"));
     int recvbuflen = DEFAULT_BUFLEN;
@@ -96,7 +97,7 @@ void WinSockClientThread::run() {
     do {
         iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
         if (iResult > 0)
-            qDebug() << "Client received message:" << QString::fromUtf8(recvbuf) << "(" << iResult << "bytes)";
+            qDebug() << "Client" << threadNumber << "received message:" << QString::fromUtf8(recvbuf) << "(" << iResult << "bytes)";
         else if (iResult == 0)
             qDebug() << "Connection closed";
         else

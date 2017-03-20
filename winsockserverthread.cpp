@@ -5,6 +5,14 @@
 #include <QTextCodec>
 
 WinSockServerThread::WinSockServerThread() {
+
+}
+
+//void WinSockServerThread::setPortNumber() {
+//    //1024 through 49151
+//}
+
+void WinSockServerThread::init() {
     qDebug() << "°º¤ø,¸¸,ø¤º°`°º¤ø,SERVER,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸";
     iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
     if (iResult != 0) {
@@ -25,32 +33,24 @@ WinSockServerThread::WinSockServerThread() {
     iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
 
 
-
-
+    // ↓ TESTING ↓
     char ac[80];
     if (gethostname(ac, sizeof(ac)) == SOCKET_ERROR) {
         qDebug() << "Exiting: Error" << WSAGetLastError() << "when getting local host name." << endl;
         return;
     }
     qDebug() << "Host name is" << ac;
-
     struct hostent *phe = gethostbyname(ac);
     if (phe == 0) {
         qDebug() << "Exiting: Bad host lookup.";
         return;
     }
-
     for (int i = 0; phe->h_addr_list[i] != 0; ++i) {
         struct in_addr addr;
         memcpy(&addr, phe->h_addr_list[i], sizeof(struct in_addr));
         qDebug() << "Address" << i << ":" << inet_ntoa(addr);
     }
-
-
-
-
-
-
+    // ↑ TESTING ↑
 
 
     if (iResult != 0) {
@@ -69,8 +69,14 @@ WinSockServerThread::WinSockServerThread() {
         WSACleanup();
         return;
     }
-    // 5. Setup the TCP listening socket
-    iResult = bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
+    // 5. Setup the TCP listening socket: DO NOT HARD CODE
+    // ↓ TESTING ↓
+    struct sockaddr_in server;
+    server.sin_family = AF_INET;
+    server.sin_addr.s_addr = inet_addr("127.0.0.7");
+    server.sin_port = htons(6894);
+    // ↑ TESTING ↑
+    iResult = bind(ListenSocket, (struct sockaddr *)&server, (int)result->ai_addrlen); //result->ai_addr
     if (iResult == SOCKET_ERROR) {
         qDebug() << "bind failed with error: " << WSAGetLastError();
         freeaddrinfo(result);
@@ -79,7 +85,7 @@ WinSockServerThread::WinSockServerThread() {
         return;
     }
     freeaddrinfo(result);
-    // 6. To listen on a socket
+    // 6. To listen on a socket: "Will somebody please call me?"
     if ( listen( ListenSocket, SOMAXCONN ) == SOCKET_ERROR ) {
         qDebug() << "Listen failed with error: " << WSAGetLastError();
         closesocket(ListenSocket);
@@ -87,15 +93,11 @@ WinSockServerThread::WinSockServerThread() {
         return;
     }
     qDebug() << "Winsock server has been successfully set up.";
-
+    emit connected(QString("localhost"), QString("6894"));
 }
 
-//void WinSockServerThread::setPortNumber() {
-//    //1024 through 49151
-//}
-
 void WinSockServerThread::run() {
-    // 7. Accept a client socket
+    // 7. Accept a client socket: "Thank you for calling port 3490."
     SOCKET ClientSocket;
     ClientSocket = INVALID_SOCKET;
     qDebug() << "All is well";
@@ -108,7 +110,10 @@ void WinSockServerThread::run() {
         return;
     }
     qDebug() << "Woah! Don't panic.";
-    //***Receiving and Sending Data on the Server***
+
+
+
+    // ***CRITICAL ERROR HERE: Receiving and Sending Data on the Server***
 //    char recvbuf[DEFAULT_BUFLEN];
     int iSendResult;
 
@@ -117,12 +122,11 @@ void WinSockServerThread::run() {
 
         iResult = recv(ClientSocket, recvbuf, sizeof(recvbuf), 0);
         if (iResult > 0) {
-//            qDebug() << "Server received message:" << QString::fromUtf8(recvbuf) << "(" << iResult << "bytes)";
 //            QTextCodec *codec = QTextCodec::codecForName("UTF-8");
 //            QString field = codec->toUnicode(recvbuf).trimmed();
             QString field=recvbuf;
             field=field.mid(0,field.indexOf("\t"));
-            qDebug() << recvbuf;
+            qDebug() << "Receives (server):" << field << "(" << iResult << "bytes)";
             this->label->setText(field);
             // Echo the buffer back to the sender
             iSendResult = send(ClientSocket, recvbuf, iResult, 0);
@@ -133,9 +137,9 @@ void WinSockServerThread::run() {
                 return;
             }
             qDebug() << "Bytes echoed (server): " << iSendResult;
-        } else if (iResult == 0)
-            qDebug() << "Connection closing...";
-        else {
+        } else if (iResult == 0) {
+//            qDebug() << "Connection closing...";
+        } else {
             qDebug() << "recv failed: " << WSAGetLastError();
             closesocket(ClientSocket);
             WSACleanup();
@@ -145,6 +149,9 @@ void WinSockServerThread::run() {
     qDebug() << "°º¤ø,¸¸,ø¤º°`°º¤ø,SERVER-END,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸";
     QString done;
     emit resultReady(done);
+
+
+
 }
 
 void WinSockServerThread::setMessage(QString message) {
@@ -163,4 +170,3 @@ void WinSockServerThread::setMessageByPath(QString path) {
 void WinSockServerThread::setNextLabelPointer(QLabel *label) {
     this->label=label;
 }
-

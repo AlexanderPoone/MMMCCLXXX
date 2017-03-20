@@ -19,6 +19,7 @@
 //We use QThread for multithreading.
 #pragma comment(lib, "winmm.lib")   //WAV
 #pragma comment(lib, "Ws2_32.lib")  //Winsock (P2P)
+#include "winsockserverthread.h"
 
 namespace Ui {
 class MainWindow;
@@ -46,8 +47,11 @@ private slots:
     void stopSlot();
     void setScrollSpeed();
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
+    void createClients(const QString &ip, const QString &port);
 
 private:
+    void createServer();
+    void scrollScroller();
     bool event(QEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *event) override;
@@ -57,13 +61,9 @@ private:
     void setArtist(QString artist);
     void setSongTitle(QString songTitle);
     void initWavFile(QString fileLocation);
-    //[Phase 2
-    void initWinsock();
-    void setupWinsockServer();
-    void winsockServerBindSocket();
-    void setupWinsockClient();
-    void scrollScroller();
-    //]
+
+    WinSockServerThread *server;
+
     Ui::MainWindow *ui;
     QSystemTrayIcon *sysTray;
     QGraphicsScene *previousScene;
