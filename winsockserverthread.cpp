@@ -1,3 +1,5 @@
+// Server sends stuff
+
 // Protocol: TCP
 #include "winsockserverthread.h"
 #include <QTextCodec>
@@ -21,6 +23,36 @@ WinSockServerThread::WinSockServerThread() {
 
     // Resolve the local address and port to be used by the server
     iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
+
+
+
+
+    char ac[80];
+    if (gethostname(ac, sizeof(ac)) == SOCKET_ERROR) {
+        qDebug() << "Exiting: Error" << WSAGetLastError() << "when getting local host name." << endl;
+        return;
+    }
+    qDebug() << "Host name is" << ac;
+
+    struct hostent *phe = gethostbyname(ac);
+    if (phe == 0) {
+        qDebug() << "Exiting: Bad host lookup.";
+        return;
+    }
+
+    for (int i = 0; phe->h_addr_list[i] != 0; ++i) {
+        struct in_addr addr;
+        memcpy(&addr, phe->h_addr_list[i], sizeof(struct in_addr));
+        qDebug() << "Address" << i << ":" << inet_ntoa(addr);
+    }
+
+
+
+
+
+
+
+
     if (iResult != 0) {
         qDebug() << "getaddrinfo failed: " << iResult;
         WSACleanup();
@@ -55,6 +87,7 @@ WinSockServerThread::WinSockServerThread() {
         return;
     }
     qDebug() << "Winsock server has been successfully set up.";
+
 }
 
 //void WinSockServerThread::setPortNumber() {
@@ -85,8 +118,9 @@ void WinSockServerThread::run() {
         iResult = recv(ClientSocket, recvbuf, sizeof(recvbuf), 0);
         if (iResult > 0) {
 //            qDebug() << "Server received message:" << QString::fromUtf8(recvbuf) << "(" << iResult << "bytes)";
-            QTextCodec *codec = QTextCodec::codecForName("UTF-8");
-            QString field = codec->toUnicode(recvbuf).trimmed();
+//            QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+//            QString field = codec->toUnicode(recvbuf).trimmed();
+            QString field=recvbuf;
             field=field.mid(0,field.indexOf("\t"));
             qDebug() << recvbuf;
             this->label->setText(field);
@@ -113,9 +147,17 @@ void WinSockServerThread::run() {
     emit resultReady(done);
 }
 
-void WinSockServerThread::sendMessage(QByteArray message) {
-    int size=message.size();
+void WinSockServerThread::setMessage(QString message) {
+    message.append("\t");
+//    QByteArray tmp1=message.toUtf8();
+    sendbuf=(char *) malloc(sizeof(message.toStdString().c_str()));
+    strcpy(sendbuf, message.toStdString().c_str());
+    qDebug() << "Original msg: " << sendbuf << "(" << sizeof(message.toStdString().c_str()) << "bytes)";
 }
+
+void WinSockServerThread::setMessageByPath(QString path) {
+}
+
 
 void WinSockServerThread::setNextLabelPointer(QLabel *label) {
     this->label=label;

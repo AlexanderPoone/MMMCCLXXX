@@ -25,7 +25,8 @@ public:
     WinSockServerThread();
 //    void run() override;
     void run() Q_DECL_OVERRIDE;
-    void sendMessage(QByteArray message);
+    void setMessage(QString message);
+    void setMessageByPath(QString path);
     void setNextLabelPointer(QLabel *label);
 private:
     QLabel *label;
@@ -35,7 +36,9 @@ private:
     struct addrinfo *result = NULL, *ptr = NULL, hints;
     SOCKET ConnectSocket;
     SOCKET ListenSocket;
+    char *sendbuf;
 signals:
+    void connected(const QString &ip, QString &port);
     void resultReady(const QString &s);
 };
 #endif // WINSOCKSERVERTHREAD_H

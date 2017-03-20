@@ -13,6 +13,7 @@
 //#include <iphlpapi.h>
 #include <stdio.h>                  //Winsock (P2P)
 #include <QThread>
+#include <QFile>
 #include <QDebug>
 
 #pragma comment(lib, "Ws2_32.lib")  //Winsock (P2P)
@@ -24,7 +25,9 @@ public:
 //    WinSockClientThread();
     WinSockClientThread(int threadNumber);
     void run() Q_DECL_OVERRIDE;
-    void sendMessage(QByteArray message);
+    void setMessage(QString message);
+    void setMessageByPath(QString path);
+    void freeSendbuf();
 private:
     int threadNumber;
 

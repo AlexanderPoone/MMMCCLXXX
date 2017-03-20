@@ -1,3 +1,5 @@
+// Clients receives stuff, client 1: R, client 2: G, client 3: B
+
 //whoareyou: The getpeername function retrieves the address of the peer to which a socket is connected.
 //int getpeername(_In_ SOCKET s, _Out_ struct sockaddr *name, _Inout_ int *namelen);
 //s [in] A descriptor identifying a connected socket.
@@ -56,17 +58,20 @@ WinSockClientThread::WinSockClientThread(int threadNumber) {
 
 void WinSockClientThread::run() {
     // Receiving and Sending Data on the Client
+    setMessage(QString::fromUtf8("測試進行中……"));
+
+
+//    setMessage(QString::fromUtf8("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。"));
     int recvbuflen = DEFAULT_BUFLEN;
     char recvbuf[DEFAULT_BUFLEN];
 //    char *sendbuf = QString("I am a client, short and stout").toLatin1().data();
 //    char *sendbuf = QString("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。").toUtf8().data();
-    QByteArray tmp=QString::fromUtf8("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。\t").toUtf8();
-    sendbuf = tmp.data();
-    qDebug() << "Original msg: " << sendbuf;
-
+//    QByteArray tmp=QString::fromUtf8("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。\t").toUtf8();
+//    sendbuf = tmp.data();
+//    qDebug() << "Original msg: " << sendbuf;
 
     // Send an initial buffer
-    iResult = send(ConnectSocket, sendbuf, (int) strlen(sendbuf), 0);
+    iResult = send(ConnectSocket, sendbuf, (int) strlen(sendbuf), 0); //(int) strlen(sendbuf)
     if (iResult == SOCKET_ERROR) {
         qDebug() << "send failed: " << WSAGetLastError();
         closesocket(ConnectSocket);
@@ -103,6 +108,17 @@ void WinSockClientThread::run() {
     // // // // // // // // // // // // // // // // // // // //
 }
 
-void WinSockClientThread::sendMessage(QByteArray message) {
+void WinSockClientThread::setMessage(QString message) {
+    message.append("\t");
+//    QByteArray tmp1=message.toUtf8();
+    sendbuf=(char *) malloc(sizeof(message.toStdString().c_str()));
+    strcpy(sendbuf, message.toStdString().c_str());
+    qDebug() << "Original msg: " << sendbuf << "(" << sizeof(message.toStdString().c_str()) << "bytes)";
+}
 
+void WinSockClientThread::setMessageByPath(QString path) {
+}
+
+void WinSockClientThread::freeSendbuf() {
+    free(sendbuf);
 }
