@@ -848,11 +848,18 @@ QToolTip {
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>1800</width>
+          <width>600</width>
           <height>0</height>
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="listening">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QLineEdit" name="searchBox">

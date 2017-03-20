@@ -1,3 +1,14 @@
+//whoareyou: The getpeername function retrieves the address of the peer to which a socket is connected.
+//int getpeername(_In_ SOCKET s, _Out_ struct sockaddr *name, _Inout_ int *namelen);
+//s [in] A descriptor identifying a connected socket.
+//name [out] The SOCKADDR structure that receives the address of the peer.
+//namelen [in, out] A pointer to the size, in bytes, of the name parameter
+
+//whoami: The gethostname function retrieves the standard host name for the local computer.
+//int gethostname(_Out_ char *name, _In_ int namelen);
+//name [out] A pointer to a buffer that receives the local host name.
+//namelen [in] The length, in bytes, of the buffer pointed to by the name parameter.
+
 #include "winsockclientthread.h"
 
 //void WinSockClientThread::setPortNumber() {

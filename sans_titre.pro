@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network testlib
+QT       += core gui network charts
 #webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

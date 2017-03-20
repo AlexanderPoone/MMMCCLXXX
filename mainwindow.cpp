@@ -18,6 +18,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+//    QHBoxLayout *a;
+//    a=(QHBoxLayout *)(ui->tab_albumInfo);
+//    QChartView *b=new QChartView(this);
+//    a->addItem((QLayoutItem *)b);
+    ui->listening->setText(QStringLiteral("The server is running on IP: %1, port %2. Run the client now.").arg("").arg(""));
     secTimer=new QTimer(this);
     lyricsTimer=new QTimer(this);
     WinSockServerThread *winSockServerThread;

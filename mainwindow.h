@@ -9,6 +9,7 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QSystemTrayIcon>
+#include <QtCharts>
 #include <windows.h>                //WAV
 #include <winsock2.h>               //Winsock (P2P)
 #include <ws2tcpip.h>               //Winsock (P2P)
