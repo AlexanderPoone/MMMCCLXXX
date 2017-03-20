@@ -186,6 +186,10 @@ void MainWindow::scrollScroller() {
 void MainWindow::setScrollSpeed() {
     speed=ui->scrollSpeedDial->value();
     ui->scrollSpeedDial->setToolTip(QStringLiteral("Auto-scroll speed: %1").arg(speed));
+    if (lyricsTimer->isActive()) {
+        lyricsTimer->stop();
+        lyricsTimer->start(1000-speed*10);
+    }
 }
 
 void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)

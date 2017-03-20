@@ -61,7 +61,7 @@ void WinSockClientThread::run() {
 //    char *sendbuf = QString("I am a client, short and stout").toLatin1().data();
 //    char *sendbuf = QString("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。").toUtf8().data();
     QByteArray tmp=QString::fromUtf8("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。\t").toUtf8();
-    char *sendbuf = tmp.data();
+    sendbuf = tmp.data();
     qDebug() << "Original msg: " << sendbuf;
 
 

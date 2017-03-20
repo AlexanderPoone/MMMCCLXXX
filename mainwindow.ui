@@ -1093,11 +1093,11 @@ QListWidget:after {
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background: lightGray</string>
+    <string notr="true">background: skyBlue</string>
    </property>
    <widget class="QMenu" name="menuTaper_ici">
     <property name="styleSheet">
-     <string notr="true">background: lightGray</string>
+     <string notr="true">background: skyBlue</string>
     </property>
     <property name="title">
      <string>&amp;File</string>

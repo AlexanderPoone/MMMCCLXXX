@@ -32,6 +32,7 @@ private:
     WSADATA wsaData;
     struct addrinfo *result = NULL, *ptr = NULL, hints;
     SOCKET ConnectSocket;
+    char *sendbuf;
 signals:
     void connected(int threadNumber);
     void resultReady(const QString &s);
