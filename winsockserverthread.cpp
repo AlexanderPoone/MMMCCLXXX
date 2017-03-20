@@ -156,6 +156,7 @@ void WinSockServerThread::setMessage(QString message) {
 }
 
 void WinSockServerThread::setMessageByPath(QString path) {
+    free(sendbuf);
 }
 
 

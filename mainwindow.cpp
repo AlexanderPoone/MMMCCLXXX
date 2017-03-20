@@ -69,15 +69,21 @@ MainWindow::MainWindow(QWidget *parent) :
     useGeniusAPI();
     on_seekSlider_valueChanged(0);
     on_volumeSlider_valueChanged(0);
-    //TODO: Style the groove
+    //Style the groove?
     setAcceptDrops(true);
-    //    for (int i=0;i<ui->scrollArea->size().height();i++) {
-    //    ui->lyricsScrollArea->scroll(0,10);
-    //    }
-    for (int i=1; i<=3; i++) {
-        WinSockClientThread *winSockClientThread=new WinSockClientThread(i);
-        winSockClientThread->start();
-    }
+
+    // Don't use for-loops here
+    WinSockClientThread *client_1=new WinSockClientThread(1);
+    client_1->start();
+    WinSockClientThread *client_2=new WinSockClientThread(2);
+    client_2->start();
+    WinSockClientThread *client_3=new WinSockClientThread(3);
+    client_3->start();
+    // Assemble from tidbits when all threads are ready, using signals & slots
+//    connect(client_1, );
+//    connect(client_2, );
+//    connect(client_3, );
+
 }
 
 void MainWindow::initWavFile(QString fileLocation) {
