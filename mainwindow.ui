@@ -887,7 +887,7 @@ QToolTip {
          <string notr="true">QGroupBox {font: bold}</string>
         </property>
         <property name="title">
-         <string>Music files on peers</string>
+         <string>Albums on peers</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_7">
          <item>
@@ -943,7 +943,7 @@ QToolTip {
          <string notr="true">color: white; font: bold</string>
         </property>
         <property name="title">
-         <string>Local music files</string>
+         <string>Local albums</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_6">
          <item>
@@ -987,7 +987,7 @@ QToolTip {
                <property name="currentIndex">
                 <number>0</number>
                </property>
-               <widget class="QWidget" name="page">
+               <widget class="QWidget" name="thisShouldNotExist">
                 <property name="geometry">
                  <rect>
                   <x>0</x>
@@ -1003,72 +1003,7 @@ QToolTip {
                 <attribute name="label">
                  <string>Dave Brubeck - Greatest Hits</string>
                 </attribute>
-                <layout class="QVBoxLayout" name="verticalLayout_8">
-                 <item>
-                  <widget class="QListWidget" name="listWidget">
-                   <property name="styleSheet">
-                    <string notr="true">QListWidget {
-  position:relative;
-  padding:50px 15px;
-  margin:1em 0 3em;
-  border:10px solid #5a8f00;
-  text-align:center;
-  color:#333;
-  background:#fff;
-  border-radius:20px;
-}
-QListWidget:before {
-  content:&quot;&quot;;
-  position:absolute;
-  z-index:10;
-  bottom:-40px;
-  left:50px;
-  width:50px;
-  height:30px;
-  border-style:solid;
-  border-width:0 10px 10px 0;
-  border-color:#5a8f00;
-  background:transparent;
-  /* css3 */
-  -webkit-border-bottom-right-radius:80px 50px;
-  -moz-border-radius-bottomright:80px 50px;
-  border-bottom-right-radius:80px 50px;
-  /* reduce the damage in FF3.0 */
-  display:block;
-}
-QListWidget:after {
-  content:&quot;&quot;;
-  position:absolute;
-  z-index:10;
-  bottom:-40px;
-  left:50px;
-  width:20px;
-  height:30px;
-  border-style:solid;
-  border-width:0 10px 10px 0;
-  border-color:#5a8f00;
-  background:transparent;
-  /* css3 */
-  -webkit-border-bottom-right-radius:40px 50px;
-  -moz-border-radius-bottomright:40px 50px;
-  border-bottom-right-radius:40px 50px;
-  /* reduce the damage in FF3.0 */
-  display:block;
-}</string>
-                   </property>
-                   <item>
-                    <property name="text">
-                     <string>1   Unsquare Dance</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>2   Camptown Races</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                </layout>
+                <layout class="QVBoxLayout" name="verticalLayout_8"/>
                </widget>
               </widget>
              </item>

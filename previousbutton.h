@@ -5,6 +5,7 @@
 
 class PreviousButton : public Button
 {
+    Q_OBJECT
 public:
     PreviousButton();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
@@ -13,6 +14,8 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     QLinearGradient previousGradient;
     QPainterPath previousPath;
+signals:
+    void prevSignal();
 };
 
 #endif // PREVIOUSBUTON_H

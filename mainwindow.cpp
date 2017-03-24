@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->thisShouldNotExist->hide();
+    ui->localMusicToolbox->removeItem(0);
 //    QHBoxLayout *a;
 //    a=(QHBoxLayout *)(ui->tab_albumInfo);
 //    QChartView *b=new QChartView(this);
@@ -41,9 +43,9 @@ MainWindow::MainWindow(QWidget *parent) :
     stopScene=new QGraphicsScene(this);
     ratingBarScene=new QGraphicsScene(this);
     bulletScrScene=new QGraphicsScene(this);
-    QGraphicsItem *previousItem = new PreviousButton();
+    PreviousButton *previousItem = new PreviousButton();
     PlayPauseButton *playPauseItem = new PlayPauseButton;
-    QGraphicsItem *nextItem = new NextButton();
+    NextButton *nextItem = new NextButton();
     StopButton *stopItem = new StopButton();
     QGraphicsItem *ratingBarItem = new RatingBar();
     QGraphicsItem *bulletScrItem = new BulletScreen();
@@ -56,10 +58,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(playPauseItem, &PlayPauseButton::playActivated, this, &MainWindow::startSecTimer);
     connect(playPauseItem, &PlayPauseButton::playDeactivated, this, &MainWindow::stopSecTimer);
     connect(stopItem, &StopButton::stopSignal, this, &MainWindow::stopSlot);
+    connect(previousItem, &PreviousButton::prevSignal, this, &MainWindow::stopSlot);
+    connect(nextItem, &NextButton::nextSignal, this, &MainWindow::stopSlot);
     connect(stopItem, &StopButton::stopSignal, playPauseItem, &PlayPauseButton::resetSlot);
+    connect(previousItem, &PreviousButton::prevSignal, playPauseItem, &PlayPauseButton::resetSlot);
+    connect(nextItem, &NextButton::nextSignal, playPauseItem, &PlayPauseButton::resetSlot);
     connect(secTimer, &QTimer::timeout, this, &MainWindow::moveSeekBar);
     connect(lyricsTimer, &QTimer::timeout, this, &MainWindow::scrollScroller);
     connect(ui->scrollSpeedDial,&QDial::valueChanged,this,&MainWindow::setScrollSpeed);
+    connect(ui->searchBox,&QLineEdit::textChanged, musicLibrary, &MusicLibrary::search);
     useGeniusAPI();
     on_seekSlider_valueChanged(0);
     on_volumeSlider_valueChanged(0);

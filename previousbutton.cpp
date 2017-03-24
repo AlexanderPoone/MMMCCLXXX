@@ -55,5 +55,6 @@ void PreviousButton::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
 
 void PreviousButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     qDebug() << "Previous function is yet to be implemented!";
+    emit prevSignal();
     update();
 }

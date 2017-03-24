@@ -24,10 +24,15 @@ public:
     void setTrackNames(QStringList trackNames);
     void setTrackPaths(QStringList trackPaths);
     void setTrackLengths(QStringList trackLengths);
+//    void setToolBoxPosition(int pos);
 
+//    int getToolBoxPosition();
     QIcon getIcon();
     QString getTitleString();
+    QString getAlbumTitle();
+    QString getArtistName();
 private:
+//    int toolBoxPosition;
     QPixmap albumPixmap;
     QString artistName;
     QString albumTitle;

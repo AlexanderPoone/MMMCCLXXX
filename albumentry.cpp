@@ -55,6 +55,13 @@ void AlbumEntry::setTracks(QJsonArray tracks) {
     setFixedHeight(fixedHeightRef);
 }
 
+//void AlbumEntry::setToolBoxPosition(int pos) {
+//    toolBoxPosition=pos;
+//}
+
+//int AlbumEntry::getToolBoxPosition() {
+//    return toolBoxPosition;
+//}
 
 void AlbumEntry::setTrackNames(QStringList trackNames) {
 
@@ -84,3 +91,12 @@ QIcon AlbumEntry::getIcon() {
 QString AlbumEntry::getTitleString() {
     return QString("%1 - %2").arg(artistName).arg(albumTitle);
 }
+
+QString AlbumEntry::getAlbumTitle() {
+    return albumTitle;
+}
+
+QString AlbumEntry::getArtistName() {
+    return artistName;
+}
+

@@ -13,11 +13,17 @@ public:
     MusicLibrary(QToolBox *toolBox, QWidget *parent);
 //    MusicLibrary(QGridLayout *container, QWidget *parent);
     void scan();
-    void addEntry();
+    void createEntry();
     void generateJson();
 signals:
 public slots:
+    void search(QString keyword);
+    void revealAll();
 private:
+    void pushEntry(AlbumEntry *entry);
+    void popEntry(AlbumEntry *entry);
+    QList<AlbumEntry *> popped;
+    QList<AlbumEntry *> pushed;
     QToolBox *toolBox;
     QStringList scanDirs;
     AlbumEntry albumEntry;
