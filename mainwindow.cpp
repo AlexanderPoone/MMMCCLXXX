@@ -82,6 +82,12 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::setBars(int secs) {
+    this->secs=secs;
+    this->now=0;
+    updateElapsed();
+}
+
+void MainWindow::updateElapsed() {
     ui->seekSlider->setMaximum(secs);
     int minUnit=qFloor(secs/60);
     int secUnit=secs-minUnit*60;
@@ -91,7 +97,20 @@ void MainWindow::setBars(int secs) {
     } else {
         secUnitStr=QStringLiteral("%1").arg(secUnit);
     }
-    ui->seekTag->setText(QString("0:00/%1:%2").arg(minUnit).arg(secUnitStr));
+
+    int minUnit2=qFloor(now/60);
+    int secUnit2=now-minUnit2*60;
+    QString secUnitStr2;
+    if (secUnit2<10) {
+        secUnitStr2=QStringLiteral("0%1").arg(secUnit2);
+    } else {
+        secUnitStr2=QStringLiteral("%1").arg(secUnit2);
+    }
+
+    QString combined;
+    combined=QStringLiteral("%1:%2/%3:%4").arg(minUnit2).arg(secUnitStr2).arg(minUnit).arg(secUnitStr);
+    ui->seekTag->setText(combined);
+    ui->seekSlider->setToolTip(combined);
 }
 
 void MainWindow::createServer() {
@@ -224,6 +243,9 @@ void MainWindow::stopSecTimer() { //pause
 
 void MainWindow::moveSeekBar() {
     ui->seekSlider->setValue(ui->seekSlider->value()+1);
+    now++;
+    updateElapsed();
+    if (now==secs) secTimer->stop();
 }
 
 void MainWindow::stopSlot() {

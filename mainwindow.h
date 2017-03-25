@@ -53,6 +53,8 @@ private slots:
     void onItemClicked(QListWidgetItem *item);
     void onItemDoubleClicked(QListWidgetItem *item);
 private:
+    int secs, now;
+    void updateElapsed();
     void createServer();
     void scrollScroller();
     bool event(QEvent *event) override;
