@@ -48,7 +48,9 @@ private slots:
     void setScrollSpeed();
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
     void createClients(const QString &ip, const QString &port);
-
+public slots:
+    void onItemClicked(QListWidgetItem *item);
+    void onItemDoubleClicked(QListWidgetItem *item);
 private:
     void createServer();
     void scrollScroller();

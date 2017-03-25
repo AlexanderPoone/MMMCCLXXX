@@ -253,6 +253,14 @@ void MainWindow::on_sendButton_clicked() {
     ui->bulletMessageBox->clear();
 }
 
+void MainWindow::onItemClicked(QListWidgetItem *item) {
+
+}
+
+void MainWindow::onItemDoubleClicked(QListWidgetItem *item) {
+
+}
+
 bool MainWindow::event(QEvent *event) {
     QMainWindow::event(event);
     switch (event->type()) {
