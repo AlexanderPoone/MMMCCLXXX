@@ -75,7 +75,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->scrollSpeedDial,&QDial::valueChanged,this,&MainWindow::setScrollSpeed);
     connect(ui->searchBox,&QLineEdit::textChanged, musicLibrary, &MusicLibrary::search);
     useGeniusAPI();
-    on_seekSlider_valueChanged(0);
     on_volumeSlider_valueChanged(0);
     //Style the groove?
     setAcceptDrops(true);
@@ -277,11 +276,6 @@ void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
         setWindowState(Qt::WindowActive);
         //        this->raise();
     }
-}
-
-void MainWindow::on_seekSlider_valueChanged(int value) {
-    Q_UNUSED(value);
-    ui->seekSlider->setToolTip(QStringLiteral("%1 / 1:00").arg(ui->seekSlider->value()));
 }
 
 void MainWindow::on_volumeSlider_valueChanged(int value) {
