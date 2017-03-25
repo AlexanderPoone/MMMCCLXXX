@@ -253,6 +253,16 @@ void MainWindow::stopSlot() {
     lyricsTimer->stop();
     setWindowTitle(QStringLiteral("GUI Experiment"));
     ui->seekSlider->setValue(0);
+    int minUnit=qFloor(secs/60);
+    int secUnit=secs-minUnit*60;
+    QString secUnitStr;
+    if (secUnit<10) {
+        secUnitStr=QStringLiteral("0%1").arg(secUnit);
+    } else {
+        secUnitStr=QStringLiteral("%1").arg(secUnit);
+    }
+    ui->seekTag->setText(QStringLiteral("-.--/%1.%2").arg(minUnit).arg(secUnitStr));
+    now=0;
     ui->lyricsScrollArea->verticalScrollBar()->setValue(0);
 }
 
