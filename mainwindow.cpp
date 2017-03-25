@@ -33,8 +33,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(musicLibrary, &MusicLibrary::itemDoubleClicked, this, &MainWindow::onItemDoubleClicked);
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
     createSysTray();
-    setArtist(QStringLiteral("ABBA"));
-    setSongTitle(QStringLiteral("Chiquitita"));
+    setArtist(QStringLiteral("Linkin Park"));
+    setSongTitle(QStringLiteral("Numb"));
+//    setArtist(QStringLiteral("ABBA"));
+//    setSongTitle(QStringLiteral("Chiquitita"));
     //    setArtist(QStringLiteral("The Carpenters"));
     //    setSongTitle(QStringLiteral("Flat Baroque"));
     //    setArtist(QStringLiteral("Séverine"));
@@ -190,7 +192,10 @@ void MainWindow::quitSlot() {
 }
 
 void MainWindow::startSecTimer() { //play
-    wavPlay->start();
+    if (!wavPlay->isRunning()) {
+        wavPlay->setPath((LPTSTR)TEXT("C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\numb.wav"));
+        wavPlay->start();
+    }
     secTimer->start(1000);
     lyricsTimer->start(1000-speed*10); //1100-speed*10
     setWindowTitle(windowTitle()+" 🔊");

@@ -27,6 +27,7 @@ public:
 
     //function prototype
     void GetWaveError(MMRESULT err);
+    void setPath(LPTSTR path);
     static void CALLBACK WavPlayer::waveOutProc(
         HWAVEOUT hWaveOut,
         UINT uMsg,
@@ -60,6 +61,8 @@ public:
     }
     void run() Q_DECL_OVERRIDE;
     void play();
+private:
+    LPTSTR path;
 
 signals:
 

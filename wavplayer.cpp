@@ -15,6 +15,10 @@ void WavPlayer::GetWaveError(MMRESULT err) {
     }
 }
 
+void WavPlayer::setPath(LPTSTR path) {
+    this->path=path;
+}
+
 void WavPlayer::run() {
     play();
 }
@@ -37,7 +41,7 @@ void WavPlayer::play() {
     //path of Wav file for testing
 //    LPTSTR path;
 //    locationPath.toWCharArray(path);
-    LPTSTR path=(LPTSTR) TEXT("C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\numb.wav");
+//    LPTSTR path=(LPTSTR) TEXT("C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\numb.wav");
 
 //    qDebug() << path;
 //    LPTSTR path = (LPTSTR)FILE_PATH;
