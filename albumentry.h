@@ -33,6 +33,7 @@ public:
     QString getArtistName();
 private:
 //    int toolBoxPosition;
+    QWidget *parent;
     QPixmap albumPixmap;
     QString artistName;
     QString albumTitle;

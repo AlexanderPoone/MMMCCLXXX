@@ -40,7 +40,8 @@ SOURCES += main.cpp\
     bulletscreen.cpp \
     winsockserverthread.cpp \
     winsockclientthread.cpp \
-    lrchandler.cpp
+    lrchandler.cpp \
+    wavplayer.cpp
 
 HEADERS  += mainwindow.h \
     button.h \
@@ -57,7 +58,8 @@ HEADERS  += mainwindow.h \
     bulletscreen.h \
     winsockserverthread.h \
     winsockclientthread.h \
-    lrchandler.h
+    lrchandler.h \
+    wavplayer.h
 
 FORMS    += mainwindow.ui
 

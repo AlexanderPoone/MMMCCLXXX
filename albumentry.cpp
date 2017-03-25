@@ -5,6 +5,7 @@ AlbumEntry::AlbumEntry() {
 }
 
 AlbumEntry::AlbumEntry(QWidget *parent) {
+    this->parent=parent;
 //    albumArtL=new QLabel(parent);
 //    albumTitleL=new QLabel(parent);
 //    artistNameL=new QLabel(parent);

@@ -16,9 +16,14 @@ public:
     void createEntry();
     void generateJson();
 signals:
+    void itemClicked(QListWidgetItem *item);
+    void itemDoubleClicked(QListWidgetItem *item);
 public slots:
     void search(QString keyword);
     void revealAll();
+private slots:
+    void onItemClicked(QListWidgetItem *item);
+    void onItemDoubleClicked(QListWidgetItem *item);
 private:
     void pushEntry(AlbumEntry *entry);
     void popEntry(AlbumEntry *entry);
@@ -26,7 +31,7 @@ private:
     QList<AlbumEntry *> pushed;
     QToolBox *toolBox;
     QStringList scanDirs;
-    AlbumEntry albumEntry;
+//    AlbumEntry albumEntry;
 };
 
 #endif // MUSICLIBRARY_H

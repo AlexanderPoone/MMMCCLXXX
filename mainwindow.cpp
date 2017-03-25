@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    wavPlay=new WavPlayer;
     ui->thisShouldNotExist->hide();
     ui->localMusicToolbox->removeItem(0);
 //    QHBoxLayout *a;
@@ -28,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent) :
     lyricsTimer=new QTimer(this);
     auto musicLibrary=new MusicLibrary(ui->localMusicToolbox, this);
     //    setWindowFlags(Qt::FramelessWindowHint);
+    connect(musicLibrary, &MusicLibrary::itemClicked, this, &MainWindow::onItemClicked);
+    connect(musicLibrary, &MusicLibrary::itemDoubleClicked, this, &MainWindow::onItemDoubleClicked);
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
     createSysTray();
     setArtist(QStringLiteral("ABBA"));
@@ -112,7 +115,7 @@ void MainWindow::createClients(const QString &ip, const QString &port) {
 
 
 void MainWindow::initWavFile(QString fileLocation) {
-    hmmioIn=new HMMIO();
+//    hmmioIn=new HMMIO();
 }
 
 void MainWindow::useGeniusAPI() {
@@ -187,6 +190,7 @@ void MainWindow::quitSlot() {
 }
 
 void MainWindow::startSecTimer() { //play
+    wavPlay->start();
     secTimer->start(1000);
     lyricsTimer->start(1000-speed*10); //1100-speed*10
     setWindowTitle(windowTitle()+" 🔊");
@@ -203,6 +207,7 @@ void MainWindow::moveSeekBar() {
 }
 
 void MainWindow::stopSlot() {
+    wavPlay->exit();
     secTimer->stop();
     lyricsTimer->stop();
     setWindowTitle(QStringLiteral("GUI Experiment"));
@@ -254,11 +259,21 @@ void MainWindow::on_sendButton_clicked() {
 }
 
 void MainWindow::onItemClicked(QListWidgetItem *item) {
-
+    QString title=item->text();
+    title.remove(QRegExp(".*\\t"));
+    if (title.length()>15) {
+        title.truncate(15);
+        title.append("...");
+    }
+    ui->trackNameTag->setText(title);
+    ui->artistTag->setText(item->toolTip());
+    qDebug() << "Clicked!" << title;
 }
 
 void MainWindow::onItemDoubleClicked(QListWidgetItem *item) {
-
+    QString title=item->text();
+    title.remove(QRegExp(".*\\t"));
+    qDebug() << "Double clicked!" << title;
 }
 
 bool MainWindow::event(QEvent *event) {

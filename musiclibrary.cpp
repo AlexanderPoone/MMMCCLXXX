@@ -19,6 +19,8 @@ MusicLibrary::MusicLibrary(QToolBox *toolBox, QWidget *parent) {
     for (int i=0; i<numAlbums; i++) {
         AlbumEntry *entry;
         entry=new AlbumEntry(parent);
+        connect(entry, &QListWidget::itemClicked, this, &MusicLibrary::onItemClicked);
+        connect(entry, &QListWidget::itemDoubleClicked, this, &MusicLibrary::onItemDoubleClicked);
         QPixmap pixmap(QStringLiteral("://album%1.jpg").arg(i));
         entry->setAlbumArt(pixmap);
         entry->setAlbumTitle(albums[i].toObject().find(QStringLiteral("albumTitle")).value().toString());
@@ -138,4 +140,12 @@ void MusicLibrary::generateJson() {
         {"ip", "127.0.0.1"},
         {"tracks", QJsonArray()},
     };
+}
+
+void MusicLibrary::onItemClicked(QListWidgetItem *item) {
+    emit itemClicked(item);
+}
+
+void MusicLibrary::onItemDoubleClicked(QListWidgetItem *item) {
+    emit itemDoubleClicked(item);
 }

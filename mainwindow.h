@@ -15,11 +15,12 @@
 #include <ws2tcpip.h>               //Winsock (P2P)
 //#include <iphlpapi.h>
 #include <stdio.h>                  //Winsock (P2P)
-#include <mmsystem.h>               //WAV
+//#include <mmsystem.h>               //WAV
 //We use QThread for multithreading.
-#pragma comment(lib, "winmm.lib")   //WAV
+//#pragma comment(lib, "winmm.lib")   //WAV
 #pragma comment(lib, "Ws2_32.lib")  //Winsock (P2P)
 #include "winsockserverthread.h"
+#include "wavplayer.h"
 
 namespace Ui {
 class MainWindow;
@@ -48,7 +49,6 @@ private slots:
     void setScrollSpeed();
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
     void createClients(const QString &ip, const QString &port);
-public slots:
     void onItemClicked(QListWidgetItem *item);
     void onItemDoubleClicked(QListWidgetItem *item);
 private:
@@ -67,6 +67,7 @@ private:
     WinSockServerThread *server;
 
     Ui::MainWindow *ui;
+    WavPlayer *wavPlay;
     QSystemTrayIcon *sysTray;
     QGraphicsScene *previousScene;
     QGraphicsScene *playPauseScene;
@@ -83,16 +84,16 @@ private:
     enum genre; //yet to be implemented
     //
     //
-    HMMIO *hmmioIn; // HMMIO mmioOpen (LPSTR filename, LPMMIOINFO info, DWORD flags);
-    LPMMCKINFO *pckInRIFF; // mmioDescend (HMMIO h, LPMMCKINO lpck, LPMMCKINFO lpckParent, UNIT flags);
-    HPSTR *pcmWaveFormat; // LONG mmioRead (HMMIO h, HPSTR pch, LONG cch);
-    LONG waveFormatSize; // Ditto.
-    LPMMCKINFO *ckIn; // mmioAscend(HMMIO h, LPMMCKINFO lpck, UINT flags);
-    LPHWAVEOUT *hAudioOut; // waveOutOpen(LPHWAVEOUT phwo, UINT uDeviceID, LPWAVEFORMATEX pwfx, DWORD dwCallback, DWORD Instance, DWORD fdwOpen );
-    LPWAVEFORMATEX *pcmWaveFormat1; // Ditto.
-    DWORD playSamples; // Ditto. DWORD dwCallback.
-    LPSTR *errorMsg; // waveOutGetErrorText(MMRESULT mmrError, LPSTR pszText, UINT cchText);
-    LPWAVEHDR *dataBufferElement; // waveOutPrepareHeader(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh);
+//    HMMIO *hmmioIn; // HMMIO mmioOpen (LPSTR filename, LPMMIOINFO info, DWORD flags);
+//    LPMMCKINFO *pckInRIFF; // mmioDescend (HMMIO h, LPMMCKINO lpck, LPMMCKINFO lpckParent, UNIT flags);
+//    HPSTR *pcmWaveFormat; // LONG mmioRead (HMMIO h, HPSTR pch, LONG cch);
+//    LONG waveFormatSize; // Ditto.
+//    LPMMCKINFO *ckIn; // mmioAscend(HMMIO h, LPMMCKINFO lpck, UINT flags);
+//    LPHWAVEOUT *hAudioOut; // waveOutOpen(LPHWAVEOUT phwo, UINT uDeviceID, LPWAVEFORMATEX pwfx, DWORD dwCallback, DWORD Instance, DWORD fdwOpen );
+//    LPWAVEFORMATEX *pcmWaveFormat1; // Ditto.
+//    DWORD playSamples; // Ditto. DWORD dwCallback.
+//    LPSTR *errorMsg; // waveOutGetErrorText(MMRESULT mmrError, LPSTR pszText, UINT cchText);
+//    LPWAVEHDR *dataBufferElement; // waveOutPrepareHeader(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh);
     //Also waveOutWrite (HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh);
     //mmioClose (HMMIO h, UINT wflags); too.
     //Don't forget waveOutClose (HWAVEOUT hwo);
