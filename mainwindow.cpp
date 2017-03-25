@@ -29,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent) :
     lyricsTimer=new QTimer(this);
     auto musicLibrary=new MusicLibrary(ui->localMusicToolbox, this);
     //    setWindowFlags(Qt::FramelessWindowHint);
+    connect(wavPlay, &WavPlayer::duration, this, &MainWindow::setBars);
+
     connect(musicLibrary, &MusicLibrary::itemClicked, this, &MainWindow::onItemClicked);
     connect(musicLibrary, &MusicLibrary::itemDoubleClicked, this, &MainWindow::onItemDoubleClicked);
     connect(ui->action_Open, &QAction::triggered, this, &MainWindow::openFile);
@@ -77,6 +79,19 @@ MainWindow::MainWindow(QWidget *parent) :
     on_volumeSlider_valueChanged(0);
     //Style the groove?
     setAcceptDrops(true);
+}
+
+void MainWindow::setBars(int secs) {
+    ui->seekSlider->setMaximum(secs);
+    int minUnit=qFloor(secs/60);
+    int secUnit=secs-minUnit*60;
+    QString secUnitStr;
+    if (secUnit<10) {
+        secUnitStr=QStringLiteral("0%1").arg(secUnit);
+    } else {
+        secUnitStr=QStringLiteral("%1").arg(secUnit);
+    }
+    ui->seekTag->setText(QString("0:00/%1:%2").arg(minUnit).arg(secUnitStr));
 }
 
 void MainWindow::createServer() {
@@ -250,7 +265,8 @@ void MainWindow::on_seekSlider_valueChanged(int value) {
 void MainWindow::on_volumeSlider_valueChanged(int value) {
     Q_UNUSED(value);
     ui->volumeSlider->setToolTip(QStringLiteral("Volume: %1").arg(ui->volumeSlider->value()));
-    //waveOutSetVolume(HWAVEOUT hwo, DWORD dwVolume);
+    wavPlay->setVolume(ui->volumeSlider->value());
+//    waveOutSetVolume(HWAVEOUT hwo, DWORD dwVolume);
     //Volume: between 0xFFFF (255 255) and 0x0000, int qRound(2.55*volumeSlider.value()) << 8;
     //Left two bits: left-channel, right two bits: right-channel
 }

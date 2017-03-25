@@ -47,6 +47,7 @@ private slots:
     void moveSeekBar();
     void stopSlot();
     void setScrollSpeed();
+    void setBars(int secs);
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
     void createClients(const QString &ip, const QString &port);
     void onItemClicked(QListWidgetItem *item);

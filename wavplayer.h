@@ -28,6 +28,7 @@ public:
     //function prototype
     void GetWaveError(MMRESULT err);
     void setPath(LPTSTR path);
+    void setVolume(int volume);
     static void CALLBACK WavPlayer::waveOutProc(
         HWAVEOUT hWaveOut,
         UINT uMsg,
@@ -63,9 +64,10 @@ public:
     void play();
 private:
     LPTSTR path;
+    HWAVEOUT  hAudioOut;
 
 signals:
-
+    void duration(int secs);
 public slots:
 };
 

@@ -19,6 +19,13 @@ void WavPlayer::setPath(LPTSTR path) {
     this->path=path;
 }
 
+void WavPlayer::setVolume(int volume) {
+    //    waveOutSetVolume(HWAVEOUT hwo, DWORD dwVolume);
+    int a=qRound(volume*2.55);
+    DWORD vol= (a << 8) + a;
+    waveOutSetVolume(hAudioOut, vol);
+}
+
 void WavPlayer::run() {
     play();
 }
@@ -34,7 +41,6 @@ void WavPlayer::play() {
     MMCKINFO formatChunk;
     MMCKINFO dataChunk;
     WAVEFORMATEX fmtData;
-    HWAVEOUT  hAudioOut;
     WAVEHDR databuffer[BUFFER_QUANTITY];
 
 
@@ -145,6 +151,7 @@ void WavPlayer::play() {
     int blockSize = fmtData.nChannels*fmtData.wBitsPerSample;
     int bufferSize = blockSize * fmtData.nSamplesPerSec;
     int totalBlocks = dataChunkSize / blockSize;
+    emit duration(dataChunk.cksize/fmtData.nAvgBytesPerSec);
     int remainder = totalBlocks % BUFFER_QUANTITY;
 
     /*--------------------------------------------------------------------------------
@@ -187,6 +194,12 @@ void WavPlayer::play() {
             bufferLoop = 0;
         }
     }
+    /*--------------------------------------------------------------------------------
+    *mmioClose(HMMIO h, UINT wflags);
+    *Close Wav file
+    ---------------------------------------------------------------------------------*/
+
+
 
     /*--------------------------------------------------------------------------------
     *mmioClose(HMMIO h, UINT wflags);
