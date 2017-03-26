@@ -46,10 +46,10 @@ void AlbumEntry::setTracks(QJsonArray tracks) {
     for (int i=0; i<tracks.size(); i++) {
         fixedHeightRef+=50;
         internal << qMakePair(tracks[i].toObject().find("songTitle").value().toString(), tracks[i].toObject().find("path").value().toString());
-        QListWidgetItem item;
-        item.setToolTip(internal[i].second);
-        item.setText(QStringLiteral("%1\t%2").arg(i+1).arg(internal[i].first));
-        addItem(QStringLiteral("%1\t%2").arg(i+1).arg(internal[i].first));
+        QListWidgetItem *item=new QListWidgetItem;
+        item->setToolTip(internal[i].second);
+        item->setText(QStringLiteral("%1\t%2").arg(i+1).arg(internal[i].first));
+        addItem(item);
     }
 //    internal << qMakePair(QStringLiteral("Je veux"), QStringLiteral("C:\\Users\\Alexis Poon\\Music\\02.wav"));
 //    internal << qMakePair(QStringLiteral("Le long de la route"), QStringLiteral("C:\\Users\\Alexis Poon\\Music\\03.wav"));

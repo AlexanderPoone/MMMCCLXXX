@@ -21,6 +21,7 @@
 #pragma comment(lib, "Ws2_32.lib")  //Winsock (P2P)
 #include "winsockserverthread.h"
 #include "wavplayer.h"
+#include <tchar.h>
 
 namespace Ui {
 class MainWindow;

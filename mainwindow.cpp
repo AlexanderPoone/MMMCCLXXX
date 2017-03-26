@@ -16,6 +16,32 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    QDialog *dialog=new QDialog;
+    dialog->setWindowOpacity(0.92);
+    dialog->resize(700,400);
+    dialog->setWindowTitle(QStringLiteral("First things first"));
+    QFormLayout *form=new QFormLayout;
+    QLabel *addL=new QLabel(QStringLiteral("IP address:"));
+    QHBoxLayout *ipRow=new QHBoxLayout;
+    QLabel *addL_0 = new QLabel(QStringLiteral("127\t."));
+    QLabel *addL_1 = new QLabel(QStringLiteral("0\t."));
+    QLabel *addL_2 = new QLabel(QStringLiteral("0\t."));
+    QSpinBox *addS_3 = new QSpinBox;
+    addS_3->setMinimum(2);
+    addS_3->setMaximum(255);
+    ipRow->addWidget(addL_0);
+    ipRow->addWidget(addL_1);
+    ipRow->addWidget(addL_2);
+    ipRow->addWidget(addS_3);
+    QLabel *portL=new QLabel(QStringLiteral("Port number:"));
+    QSpinBox *portS = new QSpinBox;
+    portS->setMinimum(1024);
+    portS->setMaximum(49151);
+    form->addRow(addL, ipRow);
+    form->addRow(portL, portS);
+    dialog->setLayout(form);
+    dialog->setWindowFlags(Qt::WindowStaysOnTopHint);
+    dialog->show();
     ui->setupUi(this);
     wavPlay=new WavPlayer;
     ui->thisShouldNotExist->hide();
@@ -226,6 +252,10 @@ void MainWindow::quitSlot() {
 
 void MainWindow::startSecTimer() { //play
     if (!wavPlay->isRunning()) {
+        QString a("C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\numb.wav");
+        wchar_t b[54];
+        a.toWCharArray(b);
+        b[53]='\0';
         wavPlay->setPath((LPTSTR)TEXT("C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\numb.wav"));
         wavPlay->start();
     }
@@ -248,7 +278,7 @@ void MainWindow::moveSeekBar() {
 }
 
 void MainWindow::stopSlot() {
-    wavPlay->exit();
+    wavPlay->stop();
     secTimer->stop();
     lyricsTimer->stop();
     setWindowTitle(QStringLiteral("GUI Experiment"));

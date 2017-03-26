@@ -36,10 +36,10 @@ void WavPlayer::play() {
 
 
     //MMIOINFO AudioData;
-    HMMIO hmmioIn;
     MMCKINFO parentChunk;
     MMCKINFO formatChunk;
     MMCKINFO dataChunk;
+    MMCKINFO infoChunk;
     WAVEFORMATEX fmtData;
     WAVEHDR databuffer[BUFFER_QUANTITY];
 
@@ -216,4 +216,15 @@ void WavPlayer::play() {
     qDebug() << "cat";
 
     return;
+}
+
+void WavPlayer::stop() {
+//    waveOutBreakLoop()
+    waveOutPause(hAudioOut);
+//    waveOutRestart()
+//    waveOutReset(hAudioOut);
+//    waveInClose()
+//    mmioClose(hmmioIn, 0);
+//    waveOutClose(hAudioOut);
+//    terminate();
 }

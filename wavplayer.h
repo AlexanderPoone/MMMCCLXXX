@@ -24,6 +24,7 @@ class WavPlayer : public QThread
     Q_OBJECT
 public:
     WavPlayer();
+    void stop();
 
     //function prototype
     void GetWaveError(MMRESULT err);
@@ -64,6 +65,7 @@ public:
     void play();
 private:
     LPTSTR path;
+    HMMIO hmmioIn;
     HWAVEOUT  hAudioOut;
 
 signals:
