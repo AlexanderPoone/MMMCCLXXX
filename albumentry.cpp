@@ -48,6 +48,7 @@ void AlbumEntry::setTracks(QJsonArray tracks) {
         internal << qMakePair(tracks[i].toObject().find("songTitle").value().toString(), tracks[i].toObject().find("path").value().toString());
         QListWidgetItem *item=new QListWidgetItem;
         item->setToolTip(internal[i].second);
+        item->setStatusTip(artistName);
         item->setText(QStringLiteral("%1\t%2").arg(i+1).arg(internal[i].first));
         addItem(item);
     }

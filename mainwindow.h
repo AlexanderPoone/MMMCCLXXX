@@ -53,6 +53,8 @@ private slots:
     void onItemClicked(QListWidgetItem *item);
     void onItemDoubleClicked(QListWidgetItem *item);
 private:
+    QSpinBox *addS_3, *portS;
+    QString playingPath;
     int secs, now;
     void updateElapsed();
     void createServer();

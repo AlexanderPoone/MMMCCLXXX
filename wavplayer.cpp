@@ -15,8 +15,10 @@ void WavPlayer::GetWaveError(MMRESULT err) {
     }
 }
 
-void WavPlayer::setPath(LPTSTR path) {
-    this->path=path;
+void WavPlayer::setPath(QString path) {
+    a=QString(path);
+    this->path=(LPTSTR)a.utf16();
+//    this->path=path;
 }
 
 void WavPlayer::setVolume(int volume) {

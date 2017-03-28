@@ -29,7 +29,10 @@ public:
     void setMessage(QString message);
     void setMessageByPath(QString path);
     void freeSendbuf();
+    void setIpLastFourBits(int ip);
+    void setPortNumber(int port);
 private:
+    QString myip;
     int threadNumber;
 
     int iResult;

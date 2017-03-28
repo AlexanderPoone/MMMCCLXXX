@@ -29,7 +29,10 @@ public:
     void setMessage(QString message);
     void setMessageByPath(QString path);
     void setNextLabelPointer(QLabel *label);
+    void setIpLastFourBits(int ip);
+    void setPortNumber(int port);
 private:
+    QString myip;
     QLabel *label;
     char recvbuf[DEFAULT_BUFLEN];
     int iResult;

@@ -4,13 +4,11 @@
 #include "winsockserverthread.h"
 #include <QTextCodec>
 
+using namespace std;
+
 WinSockServerThread::WinSockServerThread() {
 
 }
-
-//void WinSockServerThread::setPortNumber() {
-//    //1024 through 49151
-//}
 
 void WinSockServerThread::init() {
     qDebug() << "°º¤ø,¸¸,ø¤º°`°º¤ø,SERVER,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸";
@@ -73,7 +71,9 @@ void WinSockServerThread::init() {
     // ↓ TESTING ↓
     struct sockaddr_in server;
     server.sin_family = AF_INET;
-    server.sin_addr.s_addr = inet_addr("127.0.0.7");
+    QByteArray array = myip.toLocal8Bit();
+    char* buffer = array.data();
+    server.sin_addr.s_addr = inet_addr(buffer);
     server.sin_port = htons(6894);
     // ↑ TESTING ↑
     iResult = bind(ListenSocket, (struct sockaddr *)&server, (int)result->ai_addrlen); //result->ai_addr
@@ -93,7 +93,7 @@ void WinSockServerThread::init() {
         return;
     }
     qDebug() << "Winsock server has been successfully set up.";
-    emit connected(QString("localhost"), QString("6894"));
+    emit connected(myip, QString("6894"));
 }
 
 void WinSockServerThread::run() {
@@ -169,4 +169,13 @@ void WinSockServerThread::setMessageByPath(QString path) {
 
 void WinSockServerThread::setNextLabelPointer(QLabel *label) {
     this->label=label;
+}
+
+void WinSockServerThread::setIpLastFourBits(int ip) {
+    myip = QString("127.0.0.%1").arg(ip);
+    qDebug()<<myip<<ip;
+   //    //1024 through 49151
+}
+
+void WinSockServerThread::setPortNumber(int port) {
 }

@@ -13,10 +13,6 @@
 
 #include "winsockclientthread.h"
 
-//void WinSockClientThread::setPortNumber() {
-//    //1024 through 49151
-//}
-
 WinSockClientThread::WinSockClientThread(int threadNumber) {
     this->threadNumber=threadNumber;
 }
@@ -28,7 +24,9 @@ void WinSockClientThread::init() {
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_protocol = IPPROTO_TCP;                                            // Protocol: TCP
     // Resolve the server address and port
-    iResult = getaddrinfo("127.0.0.7", "6894", &hints, &result);          //"127.0.0.1"/"192.168.192.1"
+    QByteArray array = myip.toLocal8Bit();
+    char* buffer = array.data();
+    iResult = getaddrinfo(buffer, "6894", &hints, &result);          //"127.0.0.1"/"192.168.192.1"
     if (iResult != 0) {
         qDebug() << "getaddrinfo failed: " << iResult;
         WSACleanup();
@@ -122,4 +120,13 @@ void WinSockClientThread::setMessageByPath(QString path) {
 
 void WinSockClientThread::freeSendbuf() {
     free(sendbuf);
+}
+
+void WinSockClientThread::setIpLastFourBits(int ip) {
+    myip = QString("127.0.0.%1").arg(ip);
+    qDebug()<<myip<<ip;
+   //    //1024 through 49151
+}
+
+void WinSockClientThread::setPortNumber(int port) {
 }
