@@ -28,7 +28,9 @@ void WinSockServerThread::init() {
     hints.ai_flags = AI_PASSIVE;
 
     // Resolve the local address and port to be used by the server
-    iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
+    QByteArray arrayP = myport.toLocal8Bit();
+    char* bufferP = arrayP.data();
+    iResult = getaddrinfo(NULL, bufferP, &hints, &result);
 
 
     // ↓ TESTING ↓
@@ -74,7 +76,7 @@ void WinSockServerThread::init() {
     QByteArray array = myip.toLocal8Bit();
     char* buffer = array.data();
     server.sin_addr.s_addr = inet_addr(buffer);
-    server.sin_port = htons(6894);
+    server.sin_port = htons(myport.toInt());
     // ↑ TESTING ↑
     iResult = bind(ListenSocket, (struct sockaddr *)&server, (int)result->ai_addrlen); //result->ai_addr
     if (iResult == SOCKET_ERROR) {
@@ -93,7 +95,7 @@ void WinSockServerThread::init() {
         return;
     }
     qDebug() << "Winsock server has been successfully set up.";
-    emit connected(myip, QString("6894"));
+    emit connected(myip, myport);
 }
 
 void WinSockServerThread::run() {
@@ -178,4 +180,5 @@ void WinSockServerThread::setIpLastFourBits(int ip) {
 }
 
 void WinSockServerThread::setPortNumber(int port) {
+    myport = QString::number(port);
 }

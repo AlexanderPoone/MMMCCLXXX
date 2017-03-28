@@ -5,7 +5,6 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 
-#define DEFAULT_PORT "6894"
 #define DEFAULT_BUFLEN 512
 
 #include <winsock2.h>               //Winsock (P2P)
@@ -33,6 +32,7 @@ public:
     void setPortNumber(int port);
 private:
     QString myip;
+    QString myport;
     QLabel *label;
     char recvbuf[DEFAULT_BUFLEN];
     int iResult;

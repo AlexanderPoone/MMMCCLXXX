@@ -26,7 +26,9 @@ void WinSockClientThread::init() {
     // Resolve the server address and port
     QByteArray array = myip.toLocal8Bit();
     char* buffer = array.data();
-    iResult = getaddrinfo(buffer, "6894", &hints, &result);          //"127.0.0.1"/"192.168.192.1"
+    QByteArray arrayP = myport.toLocal8Bit();
+    char* bufferP = arrayP.data();
+    iResult = getaddrinfo(buffer, bufferP, &hints, &result);          //"127.0.0.1"/"192.168.192.1"
     if (iResult != 0) {
         qDebug() << "getaddrinfo failed: " << iResult;
         WSACleanup();
@@ -129,4 +131,5 @@ void WinSockClientThread::setIpLastFourBits(int ip) {
 }
 
 void WinSockClientThread::setPortNumber(int port) {
+    myport = QString::number(port);
 }
