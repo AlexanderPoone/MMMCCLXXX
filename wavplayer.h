@@ -22,6 +22,7 @@
 class WavPlayer : public QThread
 {
     Q_OBJECT
+    QThread thread;
 public:
     WavPlayer();
     void stop();
@@ -68,10 +69,20 @@ private:
     LPTSTR path;
     HMMIO hmmioIn;
     HWAVEOUT  hAudioOut;
+    std::vector<WAVEHDR> databuffer;
+    int bufferSize;
+    void subThread();
 
 signals:
     void duration(int secs);
 public slots:
+};
+
+class SubThread : public QThread
+{
+    Q_OBJECT
+public:
+    void run() Q_DECL_OVERRIDE;
 };
 
 #endif // WAVPLAYER_H

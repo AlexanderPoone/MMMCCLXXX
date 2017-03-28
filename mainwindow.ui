@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>GUI Experiment</string>
+   <string>Peer-to-peer Music Player</string>
   </property>
   <property name="windowIcon">
    <iconset resource="res.qrc">

@@ -43,9 +43,11 @@ void WavPlayer::play() {
     MMCKINFO dataChunk;
     MMCKINFO infoChunk;
     WAVEFORMATEX fmtData;
-    WAVEHDR databuffer[BUFFER_QUANTITY];
-
-
+databuffer.reserve(BUFFER_QUANTITY);
+for (int i=0;i<BUFFER_QUANTITY; i++) {
+ WAVEHDR tmp;
+databuffer.push_back(tmp);
+}
     //path of Wav file for testing
 //    LPTSTR path;
 //    locationPath.toWCharArray(path);
@@ -151,10 +153,10 @@ void WavPlayer::play() {
     *Determine the size of buffer
     ---------------------------------------------------------------------------------*/
     int blockSize = fmtData.nChannels*fmtData.wBitsPerSample;
-    int bufferSize = blockSize * fmtData.nSamplesPerSec;
+    bufferSize = blockSize * fmtData.nSamplesPerSec;
     int totalBlocks = dataChunkSize / blockSize;
     emit duration(dataChunk.cksize/fmtData.nAvgBytesPerSec);
-    int remainder = totalBlocks % BUFFER_QUANTITY;
+//    int remainder = totalBlocks % BUFFER_QUANTITY;
 
     /*--------------------------------------------------------------------------------
     *waveOutPrepareHeader(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh);
@@ -177,7 +179,7 @@ void WavPlayer::play() {
 
 
     while (1) {
-
+        moveToThread(&thread);
         if (!mmioRead(hmmioIn, databuffer[bufferLoop].lpData, bufferSize)) {
             qDebug() << "Error in reading the waveformat\n";
             mmioClose(hmmioIn, 0);
@@ -230,3 +232,40 @@ void WavPlayer::stop() {
     waveOutClose(hAudioOut);
     terminate();
 }
+
+void WavPlayer::subThread(int bufferLoop) {
+    if (!mmioRead(hmmioIn, databuffer[bufferLoop].lpData, bufferSize)) {
+        qDebug() << "Error in reading the waveformat\n";
+        mmioClose(hmmioIn, 0);
+        return; //exit(-1);
+    }
+    if (databuffer[bufferLoop].lpData == 0) {
+        break;
+    }
+    waveOutWrite(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
+    Sleep(10000);
+    waveOutUnprepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(databuffer[bufferLoop]));
+    memset(databuffer[bufferLoop].lpData, 0, bufferSize);
+    err = waveOutPrepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
+    bufferLoop++;
+    if (bufferLoop == BUFFER_QUANTITY) {
+        bufferLoop = 0;
+    }
+}
+
+//void SubThread::run() {
+//#include <wavplayer.h>
+//    if (!mmioRead(*WavPlayer.hmmioIn, databuffer[bufferLoop].lpData, bufferSize)) {
+//        qDebug() << "Error in reading the waveformat\n";
+//        mmioClose(*WavPlayer.hmmioIn, 0);
+//        return; //exit(-1);
+//    }
+//    if (databuffer[bufferLoop].lpData == 0) {
+//        break;
+//    }
+//    waveOutWrite(*WavPlayer.hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
+//    Sleep(10000);
+//    waveOutUnprepareHeader(*WavPlayer.hAudioOut, &databuffer[bufferLoop], sizeof(databuffer[bufferLoop]));
+//    memset(databuffer[bufferLoop].lpData, 0, bufferSize);
+//    err = waveOutPrepareHeader(*WavPlayer.hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
+//}

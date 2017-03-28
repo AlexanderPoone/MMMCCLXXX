@@ -39,6 +39,15 @@ MainWindow::MainWindow(QWidget *parent) :
     portS->setMinimum(1024);
     portS->setMaximum(49151);
     QPushButton *positive=new QPushButton(QStringLiteral("Confirm"));
+    //
+    //
+    //
+    //
+    //TODO: NEED CONTROL TO SET UP PEER'S PORT NUM!
+    //
+    //
+    //
+    //
     form->addRow(addL, ipRow);
     form->addRow(portL, portS);
     form->addWidget(positive);
