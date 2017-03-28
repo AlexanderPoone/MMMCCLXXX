@@ -226,7 +226,7 @@ void WavPlayer::stop() {
 //    waveOutRestart()
 //    waveOutReset(hAudioOut);
 //    waveInClose()
-//    mmioClose(hmmioIn, 0);
-//    waveOutClose(hAudioOut);
-//    terminate();
+    mmioClose(hmmioIn, 0);
+    waveOutClose(hAudioOut);
+    terminate();
 }
