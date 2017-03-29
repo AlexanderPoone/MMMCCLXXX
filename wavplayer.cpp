@@ -1,4 +1,7 @@
 #include "wavplayer.h"
+#include <QFuture>
+#include <QtConcurrent>
+
 
 WavPlayer::WavPlayer() {
 }
@@ -69,7 +72,7 @@ databuffer.push_back(tmp);
     *HMMIO mmioOpen(LPSTR filename, LPMMIOINFO info, DWORD flags);
     *Open the a wav file.
     ---------------------------------------------------------------------------------*/
-    if ((hmmioIn = mmioOpen(path, NULL, MMIO_READ)) == NULL) {
+    if ((WavPlayer::hmmioIn = mmioOpen(path, NULL, MMIO_READ)) == NULL) {
         qDebug() << "Error: mmioOpen error";
         return; //exit(-1);
     }
@@ -178,8 +181,17 @@ databuffer.push_back(tmp);
 
 
     while (1) {
-        moveToThread(&thread);
-        subThread(bufferLoop);
+        if (!mmioRead(hmmioIn, databuffer[bufferLoop].lpData, bufferSize)) {
+            qDebug() << "Error in reading the waveformat\n";
+            mmioClose(hmmioIn, 0);
+            exit(-1); //exit(-1);
+        }
+        if (databuffer[bufferLoop].lpData == 0) {
+            return;
+        }
+        waveOutWrite(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
+        Sleep(8000);
+        QFuture<void> future = QtConcurrent::run(this, &WavPlayer::subThread, bufferLoop );
         bufferLoop++;
         if (bufferLoop == BUFFER_QUANTITY) {
             bufferLoop = 0;
@@ -221,16 +233,16 @@ void WavPlayer::stop() {
 }
 
 void WavPlayer::subThread(int bufferLoop) {
-    if (!mmioRead(hmmioIn, databuffer[bufferLoop].lpData, bufferSize)) {
-        qDebug() << "Error in reading the waveformat\n";
-        mmioClose(hmmioIn, 0);
-        exit(-1); //exit(-1);
-    }
-    if (databuffer[bufferLoop].lpData == 0) {
-        return;
-    }
-    waveOutWrite(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
-    Sleep(10000);
+//    if (!mmioRead(hmmioIn, databuffer[bufferLoop].lpData, bufferSize)) {
+//        qDebug() << "Error in reading the waveformat\n";
+//        mmioClose(hmmioIn, 0);
+//        exit(-1); //exit(-1);
+//    }
+//    if (databuffer[bufferLoop].lpData == 0) {
+//        return;
+//    }
+//    waveOutWrite(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
+//    Sleep(10000);
     waveOutUnprepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(databuffer[bufferLoop]));
     memset(databuffer[bufferLoop].lpData, 0, bufferSize);
     err = waveOutPrepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
