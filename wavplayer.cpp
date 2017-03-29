@@ -35,6 +35,7 @@ void WavPlayer::run() {
 }
 
 void WavPlayer::play() {
+    full=1;
 //    USES_CONVERSION;
     CONST int BUFFER_QUANTITY = 5;
 
@@ -184,6 +185,7 @@ databuffer.push_back(tmp);
         if (!mmioRead(hmmioIn, databuffer[bufferLoop].lpData, bufferSize)) {
             qDebug() << "Error in reading the waveformat\n";
             mmioClose(hmmioIn, 0);
+            full=0;
             exit(-1); //exit(-1);
         }
         if (databuffer[bufferLoop].lpData == 0) {
@@ -208,6 +210,7 @@ databuffer.push_back(tmp);
     *mmioClose(HMMIO h, UINT wflags);
     *Close Wav file
     ---------------------------------------------------------------------------------*/
+    full=0;
     mmioClose(hmmioIn, 0);
 
     /*--------------------------------------------------------------------------------
@@ -230,6 +233,14 @@ void WavPlayer::stop() {
     mmioClose(hmmioIn, 0);
     waveOutClose(hAudioOut);
     terminate();
+}
+
+void WavPlayer::pause() {
+    waveOutPause(hAudioOut);
+}
+
+void WavPlayer::resume() {
+    waveOutRestart(hAudioOut);
 }
 
 void WavPlayer::subThread(int bufferLoop) {

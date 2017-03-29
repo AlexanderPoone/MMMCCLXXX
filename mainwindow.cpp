@@ -289,7 +289,7 @@ void MainWindow::startSecTimer() { //play
 void MainWindow::stopSecTimer() { //pause
     secTimer->stop();
     lyricsTimer->stop();
-    setWindowTitle(QStringLiteral("GUI Experiment"));
+    setWindowTitle(QStringLiteral("Peer-to-peer Music Player"));
 }
 
 void MainWindow::moveSeekBar() {
@@ -303,7 +303,7 @@ void MainWindow::stopSlot() {
     wavPlay->stop();
     secTimer->stop();
     lyricsTimer->stop();
-    setWindowTitle(QStringLiteral("GUI Experiment"));
+    setWindowTitle(QStringLiteral("Peer-to-peer Music Player"));
     ui->seekSlider->setValue(0);
     int minUnit=qFloor(secs/60);
     int secUnit=secs-minUnit*60;
@@ -313,7 +313,7 @@ void MainWindow::stopSlot() {
     } else {
         secUnitStr=QStringLiteral("%1").arg(secUnit);
     }
-    ui->seekTag->setText(QStringLiteral("-.--/%1.%2").arg(minUnit).arg(secUnitStr));
+    ui->seekTag->setText(QStringLiteral("-:--/%1:%2").arg(minUnit).arg(secUnitStr));
     now=0;
     ui->lyricsScrollArea->verticalScrollBar()->setValue(0);
 }

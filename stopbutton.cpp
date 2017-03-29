@@ -38,6 +38,6 @@ void StopButton::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
 
 void StopButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     emit stopSignal();
-    qDebug() << "Stop function is yet to be implemented!";
+    qDebug() << "Stop clicked.";
     update();
 }

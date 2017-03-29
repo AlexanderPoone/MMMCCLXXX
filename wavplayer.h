@@ -26,6 +26,8 @@ class WavPlayer : public QThread
 public:
     WavPlayer();
     void stop();
+    void pause();
+    void resume();
 
     //function prototype
     void GetWaveError(MMRESULT err);
@@ -63,12 +65,13 @@ public:
         //LeaveCriticalSection(&waveCriticalSection);
     }
     void run() Q_DECL_OVERRIDE;
-    void play();
     HMMIO hmmioIn;
     HWAVEOUT  hAudioOut;
     std::vector<WAVEHDR> databuffer;
     MMRESULT err;
 private:
+    int full=0;
+    void play();
     QString a;
     LPTSTR path;
 
