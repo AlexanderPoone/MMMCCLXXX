@@ -64,14 +64,17 @@ public:
     }
     void run() Q_DECL_OVERRIDE;
     void play();
+    static HMMIO hmmioIn;
+    static HWAVEOUT  hAudioOut;
+    static std::vector<WAVEHDR> databuffer;
+    static MMRESULT err;
 private:
     QString a;
     LPTSTR path;
-    HMMIO hmmioIn;
-    HWAVEOUT  hAudioOut;
-    std::vector<WAVEHDR> databuffer;
+
     int bufferSize;
-    void subThread();
+    void subThread(int bufferLoop);
+    int counter;
 
 signals:
     void duration(int secs);
