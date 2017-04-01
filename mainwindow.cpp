@@ -198,8 +198,6 @@ void MainWindow::createClients(const QString &ip, const QString &port) {
     client_3->setMessage(QString::fromUtf8("!@#$%"));
     client_3->start();
     server->start();
-    server->start();
-    server->start();
     // Assemble from tidbits when all threads are ready, using signals & slots
 //    connect(client_1, );
 //    connect(client_2, );
