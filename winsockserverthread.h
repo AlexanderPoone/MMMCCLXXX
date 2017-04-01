@@ -14,6 +14,7 @@
 #include <QThread>
 #include <QDebug>
 #include <QLabel>
+#include <QFile>
 
 #pragma comment(lib, "Ws2_32.lib")  //Winsock (P2P)
 
@@ -25,12 +26,17 @@ public:
     void init();
 //    void run() override;
     void run() Q_DECL_OVERRIDE;
+    void resolveLocalAddress();
     void setMessage(QString message);
     void setMessageByPath(QString path);
     void setNextLabelPointer(QLabel *label);
     void setIpLastFourBits(int ip);
     void setPortNumber(int port);
 private:
+    void sendPart();
+    SOCKET ClientSocket;
+    int iSendResult;
+
     QString myip;
     QString myport;
     QLabel *label;

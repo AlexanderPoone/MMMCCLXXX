@@ -42,6 +42,7 @@ private slots:
     void on_lrcButton_clicked();
     void openFile();
     void quitSlot();
+    void pauseSlot();
     void startSecTimer();
     void stopSecTimer();
     void moveSeekBar();

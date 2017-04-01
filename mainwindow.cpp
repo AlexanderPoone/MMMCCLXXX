@@ -18,11 +18,16 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     playingPath=QString("C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\numb.wav");
     QDialog *dialog=new QDialog;
+    dialog->setWindowIcon(QIcon(QStringLiteral(":/lan.png")));
     dialog->setWindowOpacity(0.95);
     dialog->resize(700,400);
     dialog->setWindowTitle(QStringLiteral("First things first"));
+    QLabel *youAreL = new QLabel(QStringLiteral("You are a:"));
+    QRadioButton *selectServer=new QRadioButton(QStringLiteral("Server"));
+    selectServer->setChecked(true);
+    QRadioButton *clientServer=new QRadioButton(QStringLiteral("Client"));
     QFormLayout *form=new QFormLayout;
-    QLabel *addL=new QLabel(QStringLiteral("IP address:"));
+    QLabel *addL=new QLabel(QStringLiteral("Server IP address:"));
     QHBoxLayout *ipRow=new QHBoxLayout;
     QLabel *addL_0 = new QLabel(QStringLiteral("127\t."));
     QLabel *addL_1 = new QLabel(QStringLiteral("0\t."));
@@ -48,6 +53,9 @@ MainWindow::MainWindow(QWidget *parent) :
     //
     //
     //
+
+    form->addRow(youAreL, selectServer);
+    form->addWidget(clientServer);
     form->addRow(addL, ipRow);
     form->addRow(portL, portS);
     form->addWidget(positive);
@@ -102,7 +110,7 @@ MainWindow::MainWindow(QWidget *parent) :
     bindToView(ui->repeatView, ratingBarScene, ratingBarItem);
     bindToView(ui->bulletScreenView, bulletScrScene, bulletScrItem);
     connect(playPauseItem, &PlayPauseButton::playActivated, this, &MainWindow::startSecTimer);
-    connect(playPauseItem, &PlayPauseButton::playDeactivated, this, &MainWindow::stopSecTimer);
+    connect(playPauseItem, &PlayPauseButton::playDeactivated, this, &MainWindow::pauseSlot);
     connect(stopItem, &StopButton::stopSignal, this, &MainWindow::stopSlot);
     connect(previousItem, &PreviousButton::prevSignal, this, &MainWindow::stopSlot);
     connect(nextItem, &NextButton::nextSignal, this, &MainWindow::stopSlot);
@@ -153,6 +161,7 @@ void MainWindow::updateElapsed() {
 
 void MainWindow::createServer() {
     server=new WinSockServerThread;
+    server->resolveLocalAddress();
     connect(server, &WinSockServerThread::connected, this, &MainWindow::createClients);
     server->setIpLastFourBits(addS_3->value());
     server->setPortNumber(portS->value());
@@ -162,6 +171,7 @@ void MainWindow::createServer() {
 
 void MainWindow::createClients(const QString &ip, const QString &port) {
     ui->listening->setText(QStringLiteral("The server is running on IP: %1, port %2. Run the client now.").arg(ip).arg(port));
+//    ui->listening->setText(QStringLiteral("The client is connected to server at %1, port %2.").arg(ip).arg(port));
     // Don't use for-loops here
     QString tmp;
     QFile exampleJSON(QStringLiteral("C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\example.json"));
@@ -273,6 +283,13 @@ void MainWindow::quitSlot() {
 }
 
 void MainWindow::startSecTimer() { //play
+    secTimer->start(1000);
+    lyricsTimer->start(1000-speed*10); //1100-speed*10
+    setWindowTitle(windowTitle()+" 🔊");
+    if (now !=0 ) {
+        wavPlay->resume();
+        return;
+    }
     if (!wavPlay->isRunning()) {
 //        QString a(playingPath);
 //        wchar_t b[54];
@@ -281,9 +298,11 @@ void MainWindow::startSecTimer() { //play
         wavPlay->setPath(playingPath);
         wavPlay->start();
     }
-    secTimer->start(1000);
-    lyricsTimer->start(1000-speed*10); //1100-speed*10
-    setWindowTitle(windowTitle()+" 🔊");
+}
+
+void MainWindow::pauseSlot() {
+    if (now != 0) wavPlay->pause();
+    stopSecTimer();
 }
 
 void MainWindow::stopSecTimer() { //pause

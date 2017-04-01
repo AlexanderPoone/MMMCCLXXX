@@ -180,7 +180,7 @@ databuffer.push_back(tmp);
     ---------------------------------------------------------------------------------*/
     int bufferLoop = 0;
 
-
+    setVolume(50);
     while (1) {
         if (!mmioRead(hmmioIn, databuffer[bufferLoop].lpData, bufferSize)) {
             qDebug() << "Error in reading the waveformat\n";
@@ -192,7 +192,7 @@ databuffer.push_back(tmp);
             return;
         }
         waveOutWrite(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
-        Sleep(8000);
+        Sleep(8000); //Sleep(8000);
         QFuture<void> future = QtConcurrent::run(this, &WavPlayer::subThread, bufferLoop );
         bufferLoop++;
         if (bufferLoop == BUFFER_QUANTITY) {

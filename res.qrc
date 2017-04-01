@@ -20,5 +20,6 @@
         <file>trumpetInstrumental.png</file>
         <file>logo.png</file>
         <file>blackStripes.png</file>
+        <file>lan.png</file>
     </qresource>
 </RCC>
