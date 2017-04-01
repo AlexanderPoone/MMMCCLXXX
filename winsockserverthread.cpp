@@ -185,6 +185,9 @@ void WinSockServerThread::setMessageByPath(QString path) {
     free(sendbuf);
     QFile plainText(path);
     if (!plainText.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+    char *buffer;
+    plainText.read(buffer, 256);
+    qDebug() << buffer;
 
 }
 

@@ -25,9 +25,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QLabel *youAreL = new QLabel(QStringLiteral("You are a:"));
     QRadioButton *selectServer=new QRadioButton(QStringLiteral("Server"));
     selectServer->setChecked(true);
-    QRadioButton *clientServer=new QRadioButton(QStringLiteral("Client"));
+    QRadioButton *selectClient=new QRadioButton(QStringLiteral("Client"));
     QFormLayout *form=new QFormLayout;
-    QLabel *addL=new QLabel(QStringLiteral("Server IP address:"));
+    addL=new QLabel;
     QHBoxLayout *ipRow=new QHBoxLayout;
     QLabel *addL_0 = new QLabel(QStringLiteral("127\t."));
     QLabel *addL_1 = new QLabel(QStringLiteral("0\t."));
@@ -43,6 +43,45 @@ MainWindow::MainWindow(QWidget *parent) :
     portS = new QSpinBox;
     portS->setMinimum(1024);
     portS->setMaximum(49151);
+    QSpacerItem *spacer=new QSpacerItem(0, 20);
+
+    one_addL=new QLabel(QStringLiteral("Server 1's IP address:"));
+    QHBoxLayout *one_ipRow=new QHBoxLayout;
+
+    one_addL_0 = new QLabel(QStringLiteral("127\t."));
+    one_addL_1 = new QLabel(QStringLiteral("0\t."));
+    one_addL_2 = new QLabel(QStringLiteral("0\t."));
+    one_addS_3 = new QSpinBox;
+    one_addS_3->setMinimum(2);
+    one_addS_3->setMaximum(255);
+    one_addS_3->setValue(3);
+    one_ipRow->addWidget(one_addL_0);
+    one_ipRow->addWidget(one_addL_1);
+    one_ipRow->addWidget(one_addL_2);
+    one_ipRow->addWidget(one_addS_3);
+    one_portL=new QLabel(QStringLiteral("Port number:"));
+    one_portS = new QSpinBox;
+    one_portS->setMinimum(1024);
+    one_portS->setMaximum(49151);
+
+    two_addL=new QLabel(QStringLiteral("Server 2's IP address:"));
+    QHBoxLayout *two_ipRow=new QHBoxLayout;
+    two_addL_0 = new QLabel(QStringLiteral("127\t."));
+    two_addL_1 = new QLabel(QStringLiteral("0\t."));
+    two_addL_2 = new QLabel(QStringLiteral("0\t."));
+    two_addS_3 = new QSpinBox;
+    two_addS_3->setMinimum(2);
+    two_addS_3->setMaximum(255);
+    two_addS_3->setValue(4);
+    two_ipRow->addWidget(two_addL_0);
+    two_ipRow->addWidget(two_addL_1);
+    two_ipRow->addWidget(two_addL_2);
+    two_ipRow->addWidget(two_addS_3);
+    two_portL=new QLabel(QStringLiteral("Port number:"));
+    two_portS = new QSpinBox;
+    two_portS->setMinimum(1024);
+    two_portS->setMaximum(49151);
+
     QPushButton *positive=new QPushButton(QStringLiteral("Confirm"));
     //
     //
@@ -55,23 +94,32 @@ MainWindow::MainWindow(QWidget *parent) :
     //
 
     form->addRow(youAreL, selectServer);
-    form->addWidget(clientServer);
+    form->addWidget(selectClient);
     form->addRow(addL, ipRow);
     form->addRow(portL, portS);
+    form->addItem(spacer);
+    form->addRow(one_addL, one_ipRow);
+    form->addRow(one_portL, one_portS);
+    form->addItem(spacer);
+    form->addRow(two_addL, two_ipRow);
+    form->addRow(two_portL, two_portS);
     form->addWidget(positive);
     dialog->setLayout(form);
     dialog->setWindowFlags(Qt::WindowStaysOnTopHint);
     dialog->show();
+    connect(selectServer, &QRadioButton::toggled, this, &MainWindow::serverDialogSlot);
+    connect(selectClient, &QRadioButton::toggled, this, &MainWindow::clientDialogSlot);
+    serverDialogSlot();
     connect(positive, &QPushButton::clicked, this, &MainWindow::createServer);
     connect(positive, &QPushButton::clicked, dialog, &QDialog::close);
     ui->setupUi(this);
     wavPlay=new WavPlayer;
     ui->thisShouldNotExist->hide();
     ui->localMusicToolbox->removeItem(0);
-//    QHBoxLayout *a;
-//    a=(QHBoxLayout *)(ui->tab_albumInfo);
-//    QChartView *b=new QChartView(this);
-//    a->addItem((QLayoutItem *)b);
+    //    QHBoxLayout *a;
+    //    a=(QHBoxLayout *)(ui->tab_albumInfo);
+    //    QChartView *b=new QChartView(this);
+    //    a->addItem((QLayoutItem *)b);
     secTimer=new QTimer(this);
     lyricsTimer=new QTimer(this);
     auto musicLibrary=new MusicLibrary(ui->localMusicToolbox, this);
@@ -84,8 +132,8 @@ MainWindow::MainWindow(QWidget *parent) :
     createSysTray();
     setArtist(QStringLiteral("Linkin Park"));
     setSongTitle(QStringLiteral("Numb"));
-//    setArtist(QStringLiteral("ABBA"));
-//    setSongTitle(QStringLiteral("Chiquitita"));
+    //    setArtist(QStringLiteral("ABBA"));
+    //    setSongTitle(QStringLiteral("Chiquitita"));
     //    setArtist(QStringLiteral("The Carpenters"));
     //    setSongTitle(QStringLiteral("Flat Baroque"));
     //    setArtist(QStringLiteral("Séverine"));
@@ -125,6 +173,42 @@ MainWindow::MainWindow(QWidget *parent) :
     on_volumeSlider_valueChanged(0);
     //Style the groove?
     setAcceptDrops(true);
+}
+
+void MainWindow::serverDialogSlot() {
+    addL->setText(QStringLiteral("This server's IP address:"));
+    one_addL->hide();
+    one_portL->hide();
+    one_portS->hide();
+    one_addL_0->hide();
+    one_addL_1->hide();
+    one_addL_2->hide();
+    one_addS_3->hide();
+    two_addL->hide();
+    two_portL->hide();
+    two_portS->hide();
+    two_addL_0->hide();
+    two_addL_1->hide();
+    two_addL_2->hide();
+    two_addS_3->hide();
+}
+
+void MainWindow::clientDialogSlot() {
+    addL->setText(QStringLiteral("Server 0's IP address:"));
+    one_addL->show();
+    one_portL->show();
+    one_portS->show();
+    one_addL_0->show();
+    one_addL_1->show();
+    one_addL_2->show();
+    one_addS_3->show();
+    two_addL->show();
+    two_portL->show();
+    two_portS->show();
+    two_addL_0->show();
+    two_addL_1->show();
+    two_addL_2->show();
+    two_addS_3->show();
 }
 
 void MainWindow::setBars(int secs) {
@@ -171,7 +255,7 @@ void MainWindow::createServer() {
 
 void MainWindow::createClients(const QString &ip, const QString &port) {
     ui->listening->setText(QStringLiteral("The server is running on IP: %1, port %2. Run the client now.").arg(ip).arg(port));
-//    ui->listening->setText(QStringLiteral("The client is connected to server at %1, port %2.").arg(ip).arg(port));
+    //    ui->listening->setText(QStringLiteral("The client is connected to server at %1, port %2.").arg(ip).arg(port));
     // Don't use for-loops here
     QString tmp;
     QFile exampleJSON(QStringLiteral("C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\example.json"));
@@ -199,14 +283,14 @@ void MainWindow::createClients(const QString &ip, const QString &port) {
     client_3->start();
     server->start();
     // Assemble from tidbits when all threads are ready, using signals & slots
-//    connect(client_1, );
-//    connect(client_2, );
-//    connect(client_3, );
+    //    connect(client_1, );
+    //    connect(client_2, );
+    //    connect(client_3, );
 }
 
 
 void MainWindow::initWavFile(QString fileLocation) {
-//    hmmioIn=new HMMIO();
+    //    hmmioIn=new HMMIO();
 }
 
 void MainWindow::useGeniusAPI() {
@@ -289,10 +373,10 @@ void MainWindow::startSecTimer() { //play
         return;
     }
     if (!wavPlay->isRunning()) {
-//        QString a(playingPath);
-//        wchar_t b[54];
-//        a.toWCharArray(b);
-//        b[53]='\0';
+        //        QString a(playingPath);
+        //        wchar_t b[54];
+        //        a.toWCharArray(b);
+        //        b[53]='\0';
         wavPlay->setPath(playingPath);
         wavPlay->start();
     }
@@ -361,7 +445,7 @@ void MainWindow::on_volumeSlider_valueChanged(int value) {
     Q_UNUSED(value);
     ui->volumeSlider->setToolTip(QStringLiteral("Volume: %1").arg(ui->volumeSlider->value()));
     wavPlay->setVolume(ui->volumeSlider->value());
-//    waveOutSetVolume(HWAVEOUT hwo, DWORD dwVolume);
+    //    waveOutSetVolume(HWAVEOUT hwo, DWORD dwVolume);
     //Volume: between 0xFFFF (255 255) and 0x0000, int qRound(2.55*volumeSlider.value()) << 8;
     //Left two bits: left-channel, right two bits: right-channel
 }

@@ -37,6 +37,8 @@ public:
 
 private slots:
 //    void on_scrollSpeedDial_valueChanged(int value);
+    void serverDialogSlot();
+    void clientDialogSlot();
     void on_volumeSlider_valueChanged(int value);
     void on_sendButton_clicked();
     void on_lrcButton_clicked();
@@ -54,7 +56,11 @@ private slots:
     void onItemClicked(QListWidgetItem *item);
     void onItemDoubleClicked(QListWidgetItem *item);
 private:
-    QSpinBox *addS_3, *portS;
+    QLabel *addL,*one_addL, *one_addL_0, *one_addL_1, *one_addL_2,
+    *two_addL, *one_portL, *two_portL, *two_addL_0, *two_addL_1, *two_addL_2;
+    QSpinBox *addS_3, *portS,
+     *one_addS_3, *one_portS,
+     *two_addS_3, *two_portS;
     QString playingPath;
     int secs, now;
     void updateElapsed();
