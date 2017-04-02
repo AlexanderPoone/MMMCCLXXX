@@ -108,11 +108,11 @@ MainWindow::MainWindow(QWidget *parent) :
     form->addRow(two_portL, two_portS);
     form->addWidget(positive);
     dialog->setLayout(form);
-    dialog->setWindowFlags(Qt::WindowStaysOnTopHint);
+    dialog->setWindowFlags(Qt::WindowStaysOnTopHint | Qt::WindowTitleHint | Qt::WindowMinimizeButtonHint);
     connect(selectServer, &QRadioButton::toggled, this, &MainWindow::serverDialogSlot);
     connect(selectClient, &QRadioButton::toggled, this, &MainWindow::clientDialogSlot);
     serverDialogSlot();
-    connect(positive, &QPushButton::clicked, this, &MainWindow::createServerOrClient);
+    connect(positive, &QPushButton::clicked, this, &MainWindow::createServerOrClients);
     connect(positive, &QPushButton::clicked, dialog, &QDialog::close);
     dialog->show();
     ui->setupUi(this);
@@ -255,11 +255,11 @@ void MainWindow::updateElapsed() {
     ui->seekSlider->setToolTip(combined);
 }
 
-void MainWindow::createServerOrClient() {
-    if (selectServer->isDown()) {
-        createServer();
+void MainWindow::createServerOrClients() {
+    if (selectServer->isChecked()) {
+        this->createServer();
     } else {
-//        createClients();
+        this->createServer();
     }
 }
 
@@ -269,7 +269,6 @@ void MainWindow::createServer() {
     listOfIps.append(QStringLiteral("127.0.0.%1:%2").arg(one_addS_3->value()).arg(one_portS->value()));
     listOfIps.append(QStringLiteral("127.0.0.%1:%2").arg(two_addS_3->value()).arg(two_portS->value()));
     ui->ipListWidget->addItems(listOfIps);
-    connect(ui->ipListWidget, &QListWidget::activated, this, &MainWindow::changePage);
     server=new WinSockServerThread;
     server->resolveLocalAddress();
     //DEBUG BELOW
@@ -286,6 +285,8 @@ void MainWindow::changePage(QModelIndex index) {
 }
 
 void MainWindow::createClients(const QString &ip, const QString &port) {
+//    connect(ui->ipListWidget, &QListWidget::clicked, this, &MainWindow::changePage);
+    connect(ui->ipListWidget, &QListWidget::activated, this, &MainWindow::changePage);
     if (selectServer->isDown()) {
     ui->listening->setText(QStringLiteral("The server is running on IP: %1, port %2. Run the client now.").arg(ip).arg(port));
     } else {

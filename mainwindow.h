@@ -40,7 +40,7 @@ private slots:
     void changePage(QModelIndex index);
     void serverDialogSlot();
     void clientDialogSlot();
-    void createServerOrClient();
+    void createServerOrClients();
     void on_volumeSlider_valueChanged(int value);
     void on_sendButton_clicked();
     void on_lrcButton_clicked();
