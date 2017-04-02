@@ -58,7 +58,6 @@ void WinSockClientThread::init() {
     }
 }
 
-
 void WinSockClientThread::run() {
     // Receiving and Sending Data on the Client
 

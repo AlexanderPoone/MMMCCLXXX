@@ -895,45 +895,162 @@ QToolTip {
         <property name="title">
          <string>Albums on peers</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_7">
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
          <item>
-          <widget class="QScrollArea" name="remoteMusicScrollArea">
+          <widget class="QListWidget" name="ipListWidget">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="styleSheet">
-            <string notr="true">background-image: url(:/popcornClouds.png); color: black</string>
+            <string notr="true">background: #FFFACD; color: black</string>
            </property>
-           <property name="widgetResizable">
-            <bool>true</bool>
+          </widget>
+         </item>
+         <item>
+          <widget class="QStackedWidget" name="stackedWContainer">
+           <property name="styleSheet">
+            <string notr="true"/>
            </property>
-           <widget class="QWidget" name="scrollAreaWidgetContents_4">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>1008</width>
-              <height>448</height>
-             </rect>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_9">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="page">
+            <layout class="QVBoxLayout" name="verticalLayout_7">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
              <item>
-              <widget class="QLabel" name="placeholderLabel">
-               <property name="font">
-                <font>
-                 <family>Book Antiqua</family>
-                 <pointsize>16</pointsize>
-                 <weight>75</weight>
-                 <italic>false</italic>
-                 <bold>true</bold>
-                </font>
-               </property>
+              <widget class="QScrollArea" name="remoteMusicScrollArea1">
                <property name="styleSheet">
-                <string notr="true">background: transparent</string>
+                <string notr="true">background-image: url(:/popcornClouds.png); color: black</string>
                </property>
-               <property name="text">
-                <string>No peers connected yet.</string>
+               <property name="widgetResizable">
+                <bool>true</bool>
                </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
+               <widget class="QWidget" name="scrollAreaWidgetContents_4">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>754</width>
+                  <height>448</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_9">
+                 <item>
+                  <widget class="QLabel" name="placeholderLabel">
+                   <property name="font">
+                    <font>
+                     <family>Book Antiqua</family>
+                     <pointsize>16</pointsize>
+                     <weight>75</weight>
+                     <italic>false</italic>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background: transparent</string>
+                   </property>
+                   <property name="text">
+                    <string>No local music.</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="page_2">
+            <layout class="QVBoxLayout" name="verticalLayout_14">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QScrollArea" name="remoteMusicScrollArea2">
+               <property name="styleSheet">
+                <string notr="true">background-image: url(:/saturday_warmth.png); color: black</string>
                </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="scrollAreaWidgetContents_7">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>754</width>
+                  <height>448</height>
+                 </rect>
+                </property>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="page_3">
+            <layout class="QVBoxLayout" name="verticalLayout_15">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QScrollArea" name="scrollArea">
+               <property name="styleSheet">
+                <string notr="true">background-image: url(:/ice_cubes.png); color: black</string>
+               </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="scrollAreaWidgetContents_8">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>754</width>
+                  <height>448</height>
+                 </rect>
+                </property>
+               </widget>
               </widget>
              </item>
             </layout>
@@ -952,6 +1069,9 @@ QToolTip {
          <string>Local albums</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_6">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QScrollArea" name="localMusicScrollArea">
            <property name="minimumSize">
@@ -980,7 +1100,7 @@ QToolTip {
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>989</width>
+              <width>996</width>
               <height>430</height>
              </rect>
             </property>
@@ -998,7 +1118,7 @@ QToolTip {
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>975</width>
+                  <width>982</width>
                   <height>387</height>
                  </rect>
                 </property>

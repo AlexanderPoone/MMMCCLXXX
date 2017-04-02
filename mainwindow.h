@@ -9,7 +9,7 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QSystemTrayIcon>
-#include <QtCharts>
+#include <QtWidgets>
 #include <windows.h>                //WAV
 #include <winsock2.h>               //Winsock (P2P)
 #include <ws2tcpip.h>               //Winsock (P2P)
@@ -37,8 +37,10 @@ public:
 
 private slots:
 //    void on_scrollSpeedDial_valueChanged(int value);
+    void changePage(QModelIndex index);
     void serverDialogSlot();
     void clientDialogSlot();
+    void createServerOrClient();
     void on_volumeSlider_valueChanged(int value);
     void on_sendButton_clicked();
     void on_lrcButton_clicked();
@@ -61,6 +63,7 @@ private:
     QSpinBox *addS_3, *portS,
      *one_addS_3, *one_portS,
      *two_addS_3, *two_portS;
+    QRadioButton *selectServer, *selectClient;
     QString playingPath;
     int secs, now;
     void updateElapsed();

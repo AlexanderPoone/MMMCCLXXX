@@ -5,7 +5,10 @@
 MusicLibrary::MusicLibrary(QToolBox *toolBox, QWidget *parent) {
     this->toolBox=toolBox;
 
-    QFile exampleJSON(QStringLiteral("C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\example.json"));
+    QDir tmpDir = QDir::currentPath();
+    tmpDir.cdUp();
+    QString jsonPath = tmpDir.absolutePath() + "\\sans_titre\\example.json";
+    QFile exampleJSON(jsonPath);
     if (!exampleJSON.open(QIODevice::ReadOnly | QIODevice::Text)) return;
     QJsonDocument internalDoc=QJsonDocument::fromJson(exampleJSON.readAll());
     QJsonObject internalObj=internalDoc.object();

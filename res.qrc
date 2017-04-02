@@ -21,5 +21,7 @@
         <file>logo.png</file>
         <file>blackStripes.png</file>
         <file>lan.png</file>
+        <file>ice_cubes.png</file>
+        <file>saturday_warmth.png</file>
     </qresource>
 </RCC>

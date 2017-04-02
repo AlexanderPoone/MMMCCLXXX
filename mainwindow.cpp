@@ -11,21 +11,24 @@
 #include "ratingbar.h"
 #include "bulletscreen.h"
 #include "winsockclientthread.h"
+#include "taglib/include/taglib/wavfile.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    playingPath=QString("C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\numb.wav");
+    QDir tmpDir = QDir::currentPath();
+    tmpDir.cdUp();
+    playingPath = tmpDir.absolutePath() + "\\sans_titre\\numb.wav";
     QDialog *dialog=new QDialog;
     dialog->setWindowIcon(QIcon(QStringLiteral(":/lan.png")));
     dialog->setWindowOpacity(0.95);
     dialog->resize(700,400);
     dialog->setWindowTitle(QStringLiteral("First things first"));
     QLabel *youAreL = new QLabel(QStringLiteral("You are a:"));
-    QRadioButton *selectServer=new QRadioButton(QStringLiteral("Server"));
+    selectServer=new QRadioButton(QStringLiteral("Server"));
     selectServer->setChecked(true);
-    QRadioButton *selectClient=new QRadioButton(QStringLiteral("Client"));
+    selectClient=new QRadioButton(QStringLiteral("Client"));
     QFormLayout *form=new QFormLayout;
     addL=new QLabel;
     QHBoxLayout *ipRow=new QHBoxLayout;
@@ -106,12 +109,12 @@ MainWindow::MainWindow(QWidget *parent) :
     form->addWidget(positive);
     dialog->setLayout(form);
     dialog->setWindowFlags(Qt::WindowStaysOnTopHint);
-    dialog->show();
     connect(selectServer, &QRadioButton::toggled, this, &MainWindow::serverDialogSlot);
     connect(selectClient, &QRadioButton::toggled, this, &MainWindow::clientDialogSlot);
     serverDialogSlot();
-    connect(positive, &QPushButton::clicked, this, &MainWindow::createServer);
+    connect(positive, &QPushButton::clicked, this, &MainWindow::createServerOrClient);
     connect(positive, &QPushButton::clicked, dialog, &QDialog::close);
+    dialog->show();
     ui->setupUi(this);
     wavPlay=new WavPlayer;
     ui->thisShouldNotExist->hide();
@@ -176,25 +179,34 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::serverDialogSlot() {
+                                 //Get selectServer->isDown()
+                                 //Get clientServer->isDown()
+                                 //Get addS_3->value()
     addL->setText(QStringLiteral("This server's IP address:"));
+    QFont tmp=addL->font();
+    tmp.setBold(true);
+    addL->setFont(tmp);
     one_addL->hide();
     one_portL->hide();
     one_portS->hide();
     one_addL_0->hide();
     one_addL_1->hide();
     one_addL_2->hide();
-    one_addS_3->hide();
+    one_addS_3->hide();         //Get one_addS_3->value()
     two_addL->hide();
     two_portL->hide();
     two_portS->hide();
     two_addL_0->hide();
     two_addL_1->hide();
     two_addL_2->hide();
-    two_addS_3->hide();
+    two_addS_3->hide();         //Get two_addS_3->value()
 }
 
 void MainWindow::clientDialogSlot() {
     addL->setText(QStringLiteral("Server 0's IP address:"));
+    QFont tmp=addL->font();
+    tmp.setBold(false);
+    addL->setFont(tmp);
     one_addL->show();
     one_portL->show();
     one_portS->show();
@@ -243,19 +255,42 @@ void MainWindow::updateElapsed() {
     ui->seekSlider->setToolTip(combined);
 }
 
+void MainWindow::createServerOrClient() {
+    if (selectServer->isDown()) {
+        createServer();
+    } else {
+//        createClients();
+    }
+}
+
 void MainWindow::createServer() {
+    QStringList listOfIps;
+    listOfIps.append(QStringLiteral("127.0.0.%1:%2").arg(addS_3->value()).arg(portS->value()));
+    listOfIps.append(QStringLiteral("127.0.0.%1:%2").arg(one_addS_3->value()).arg(one_portS->value()));
+    listOfIps.append(QStringLiteral("127.0.0.%1:%2").arg(two_addS_3->value()).arg(two_portS->value()));
+    ui->ipListWidget->addItems(listOfIps);
+    connect(ui->ipListWidget, &QListWidget::activated, this, &MainWindow::changePage);
     server=new WinSockServerThread;
     server->resolveLocalAddress();
+    //DEBUG BELOW
     connect(server, &WinSockServerThread::connected, this, &MainWindow::createClients);
+    //DEBUG ABOVE
     server->setIpLastFourBits(addS_3->value());
     server->setPortNumber(portS->value());
     server->setNextLabelPointer(ui->label);
     server->init();
 }
 
+void MainWindow::changePage(QModelIndex index) {
+    ui->stackedWContainer->setCurrentIndex(index.row());
+}
+
 void MainWindow::createClients(const QString &ip, const QString &port) {
+    if (selectServer->isDown()) {
     ui->listening->setText(QStringLiteral("The server is running on IP: %1, port %2. Run the client now.").arg(ip).arg(port));
-    //    ui->listening->setText(QStringLiteral("The client is connected to server at %1, port %2.").arg(ip).arg(port));
+    } else {
+    ui->listening->setText(QStringLiteral("The client is connected to 3 servers."));
+    }
     // Don't use for-loops here
     QString tmp;
     QFile exampleJSON(QStringLiteral("C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\example.json"));
