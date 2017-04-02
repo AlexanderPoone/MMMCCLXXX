@@ -918,7 +918,7 @@ QToolTip {
             <string notr="true"/>
            </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="page">
             <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -956,25 +956,18 @@ QToolTip {
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_9">
                  <item>
-                  <widget class="QLabel" name="placeholderLabel">
-                   <property name="font">
-                    <font>
-                     <family>Book Antiqua</family>
-                     <pointsize>16</pointsize>
-                     <weight>75</weight>
-                     <italic>false</italic>
-                     <bold>true</bold>
-                    </font>
-                   </property>
+                  <widget class="QToolBox" name="localMusicToolbox_2">
                    <property name="styleSheet">
-                    <string notr="true">background: transparent</string>
+                    <string notr="true">background: aliceblue</string>
                    </property>
-                   <property name="text">
-                    <string>No local music.</string>
+                   <property name="currentIndex">
+                    <number>0</number>
                    </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
+                   <widget class="QWidget" name="page_4">
+                    <attribute name="label">
+                     <string>No remote music found.</string>
+                    </attribute>
+                   </widget>
                   </widget>
                  </item>
                 </layout>
@@ -1014,6 +1007,23 @@ QToolTip {
                   <height>448</height>
                  </rect>
                 </property>
+                <layout class="QVBoxLayout" name="verticalLayout_17">
+                 <item>
+                  <widget class="QToolBox" name="localMusicToolbox_3">
+                   <property name="styleSheet">
+                    <string notr="true">background: aliceblue</string>
+                   </property>
+                   <property name="currentIndex">
+                    <number>0</number>
+                   </property>
+                   <widget class="QWidget" name="page_5">
+                    <attribute name="label">
+                     <string>No remote music found.</string>
+                    </attribute>
+                   </widget>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </widget>
              </item>
@@ -1050,6 +1060,23 @@ QToolTip {
                   <height>448</height>
                  </rect>
                 </property>
+                <layout class="QVBoxLayout" name="verticalLayout_18">
+                 <item>
+                  <widget class="QToolBox" name="localMusicToolbox_4">
+                   <property name="styleSheet">
+                    <string notr="true">background: aliceblue</string>
+                   </property>
+                   <property name="currentIndex">
+                    <number>0</number>
+                   </property>
+                   <widget class="QWidget" name="page_6">
+                    <attribute name="label">
+                     <string>No remote music found.</string>
+                    </attribute>
+                   </widget>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </widget>
              </item>

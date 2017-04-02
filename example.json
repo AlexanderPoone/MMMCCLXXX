@@ -103,6 +103,36 @@
 					"path": "C:\\Users\\Alexandre Poon\\Documents\\f.wav"
 				}
 			]
+		},
+		{
+			"albumTitle": "Flat Baroque",
+			"artist": "The Carpenters",
+			"tracks": [
+				{
+					"songTitle": "Bless the Beasts and Children",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\a.wav"
+				},
+				{
+					"songTitle": "Flat Baroque",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\flat_baroque.wav"
+				},
+				{
+					"songTitle": "I Won't Last a Day Without You",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\c.wav"
+				},
+				{
+					"songTitle": "Crystal Lullaby",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\d.wav"
+				},
+				{
+					"songTitle": "Road Ode",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\e.wav"
+				},
+				{
+					"songTitle": "A Song for You (Reprise)",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\f.wav"
+				}
+			]
 		}
 	]
 }

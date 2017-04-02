@@ -285,7 +285,7 @@ void MainWindow::changePage(QModelIndex index) {
 }
 
 void MainWindow::createClients(const QString &ip, const QString &port) {
-//    connect(ui->ipListWidget, &QListWidget::clicked, this, &MainWindow::changePage);
+    connect(ui->ipListWidget, &QListWidget::clicked, ui->ipListWidget, &QListWidget::activated);
     connect(ui->ipListWidget, &QListWidget::activated, this, &MainWindow::changePage);
     if (selectServer->isDown()) {
     ui->listening->setText(QStringLiteral("The server is running on IP: %1, port %2. Run the client now.").arg(ip).arg(port));
