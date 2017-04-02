@@ -259,16 +259,13 @@ void MainWindow::createServerOrClients() {
     if (selectServer->isChecked()) {
         this->createServer();
     } else {
+        //DEBUG
         this->createServer();
     }
 }
 
 void MainWindow::createServer() {
-    QStringList listOfIps;
-    listOfIps.append(QStringLiteral("127.0.0.%1:%2").arg(addS_3->value()).arg(portS->value()));
-    listOfIps.append(QStringLiteral("127.0.0.%1:%2").arg(one_addS_3->value()).arg(one_portS->value()));
-    listOfIps.append(QStringLiteral("127.0.0.%1:%2").arg(two_addS_3->value()).arg(two_portS->value()));
-    ui->ipListWidget->addItems(listOfIps);
+    ui->listening->setText(QStringLiteral("The server is running on IP: 127.0.0.%1, port %2. Run the client now.").arg(addS_3->value()).arg(portS->value()));
     server=new WinSockServerThread;
     server->resolveLocalAddress();
     //DEBUG BELOW
@@ -284,14 +281,16 @@ void MainWindow::changePage(QModelIndex index) {
     ui->stackedWContainer->setCurrentIndex(index.row());
 }
 
-void MainWindow::createClients(const QString &ip, const QString &port) {
+void MainWindow::createClients() {
+    if (selectClient->isChecked())
+    ui->listening->setText(QStringLiteral("The client is connected to 3 servers."));
+    QStringList listOfIps;
+    listOfIps.append(QStringLiteral("127.0.0.%1:%2").arg(addS_3->value()).arg(portS->value()));
+    listOfIps.append(QStringLiteral("127.0.0.%1:%2").arg(one_addS_3->value()).arg(one_portS->value()));
+    listOfIps.append(QStringLiteral("127.0.0.%1:%2").arg(two_addS_3->value()).arg(two_portS->value()));
+    ui->ipListWidget->addItems(listOfIps);
     connect(ui->ipListWidget, &QListWidget::clicked, ui->ipListWidget, &QListWidget::activated);
     connect(ui->ipListWidget, &QListWidget::activated, this, &MainWindow::changePage);
-    if (selectServer->isDown()) {
-    ui->listening->setText(QStringLiteral("The server is running on IP: %1, port %2. Run the client now.").arg(ip).arg(port));
-    } else {
-    ui->listening->setText(QStringLiteral("The client is connected to 3 servers."));
-    }
     // Don't use for-loops here
     QString tmp;
     QFile exampleJSON(QStringLiteral("C:\\Users\\Alexandre Poon\\Documents\\sans_titre\\example.json"));
