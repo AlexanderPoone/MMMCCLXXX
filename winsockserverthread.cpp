@@ -140,6 +140,14 @@ void WinSockServerThread::run() {
     //    char recvbuf[DEFAULT_BUFLEN];
 
     // Receive until the peer shuts down the connection
+//    strcpy(sendbuf, QString("test").toStdString().c_str());
+//    do {
+//        iSendResult = send(ClientSocket, sendbuf, sizeof(sendbuf), 0);
+//    } while (1);
+
+
+
+
     do {
 
         iResult = recv(ClientSocket, recvbuf, sizeof(recvbuf), 0);

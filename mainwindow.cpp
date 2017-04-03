@@ -11,16 +11,23 @@
 #include "ratingbar.h"
 #include "bulletscreen.h"
 #include "winsockclientthread.h"
-#include "taglib/include/taglib/wavfile.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
     QDir tmpDir = QDir::currentPath();
     tmpDir.cdUp();
     playingPath = tmpDir.absolutePath() + "\\sans_titre\\numb.wav";
     QDialog *dialog=new QDialog;
+
+
+//    TagLib::FileRef f(playingPath.toStdString().c_str());
+//    TagLib::String artist = f.tag()->artist();
+
+
     dialog->setWindowIcon(QIcon(QStringLiteral(":/lan.png")));
     dialog->setWindowOpacity(0.95);
     dialog->resize(700,400);
@@ -329,13 +336,13 @@ void MainWindow::initWavFile(QString fileLocation) {
 }
 
 void MainWindow::useGeniusAPI() {
-    auto gManager=new GeniusManager(ui->lyricsLabel, ui->metadataAlbumArtLabel, ui->metadataArtistPhotoLabel, artist, songTitle);
+    auto gManager=new GeniusManager(ui->lyricsLabel, ui->metadataSongArtLabel, ui->metadataAlbumArtLabel, ui->metadataArtistPhotoLabel, ui->metadataAlbumTitleLabel, ui->metadataReleaseDateLabel, artist, songTitle);
 }
 
 void MainWindow::setArtist(QString artist) {
     if (artist.compare("The Carpenters")==0) artist="Carpenters";
     ui->artistTag->setText(artist);
-    ui->metadataArtistLabel->setText(artist);
+    ui->metadataArtistLabel->setText(QStringLiteral("Artist:\t\t%1").arg(artist));
     this->artist=artist;
 }
 
@@ -496,8 +503,8 @@ void MainWindow::on_sendButton_clicked() {
 void MainWindow::onItemClicked(QListWidgetItem *item) {
     QString title=item->text();
     title.remove(QRegExp(".*\\t"));
-    if (title.length()>15) {
-        title.truncate(15);
+    if (title.length()>17) {
+        title.truncate(17);
         title.append("...");
     }
     setSongTitle(title);

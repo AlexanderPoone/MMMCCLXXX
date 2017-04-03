@@ -5,25 +5,32 @@ static const char *id="NL14RZ5i4tDImb8fPWBMXz1iAG8_86HJeyrllKdfaVkGaSWkYBdZjGpTp
 static const char *secret="1OqgKFHflhdd9kOZpxE-nzt-HKnq6GuoZCXjeUwYyNWNz8tMVMHOBND96pPbm4ajDR7_lO_Hc9rdgSlUJLYvHA";
 
 QLabel* holder;
+QLabel* songArtHolder;
 QLabel* artistPhotoHolder;
 QLabel* albumArtHolder;
+QLabel* albumTitleHolder;
+QLabel* releaseDateHolder;
 QNetworkRequest req;
 QNetworkReply* res;
 QNetworkReply* resDetails;
 QNetworkReply* resLyrics;
 QNetworkReply* resArtistPhoto;
+QNetworkReply* resSongArt;
 QNetworkReply* resAlbumArt;
 QString lyrics;
 
 //TODO: Handle instrumental songs
 //TODO: Handle exceptions
 
-GeniusManager::GeniusManager(QLabel *label, QLabel *artistPhotoL, QLabel *albumArtL, QString artist, QString songTitle)
+GeniusManager::GeniusManager(QLabel *label, QLabel *songArtL, QLabel *artistPhotoL, QLabel *albumArtL, QLabel *albumTitleL, QLabel *releaseDateL, QString artist, QString songTitle)
 {
     QNetworkAccessManager::QNetworkAccessManager();
     holder=label;
+    songArtHolder=songArtL;
     artistPhotoHolder=artistPhotoL;
     albumArtHolder=albumArtL;
+    albumTitleHolder=albumTitleL;
+    releaseDateHolder=releaseDateL;
     holder->setTextFormat(Qt::RichText);
     holder->setText("Loading lyrics...");
     //    QNetworkConfigurationManager mgr;
@@ -56,6 +63,7 @@ void GeniusManager::result() {
     QJsonArray hits = json.object().value("response").toObject().value("hits").toArray();
     QJsonObject result = hits.at(0).toObject().value("result").toObject();
     if (result.isEmpty()) holder->setText("No lyrics available");
+    qDebug() << result;
 //    qDebug() << result.value("header_image_thumbnail_url").toString();
 //    qDebug() << result.value("primary_artist").toObject().value("image_url").toString();
 
@@ -67,20 +75,19 @@ void GeniusManager::result() {
     connect(resLyrics, SIGNAL(finished()), this, SLOT(httpFinished()));
     //    connect(resLyrics, &resLyrics::finished, this, &GeniusManager::resultLyrics);
 
-    QNetworkRequest reqArtistPhoto(QUrl(result.value("header_image_thumbnail_url").toString()));
+    QNetworkRequest reqArtistPhoto(QUrl(result.value("primary_artist").toObject().value("image_url").toString()));
     resArtistPhoto = get(reqArtistPhoto);
     connect(resArtistPhoto, SIGNAL(finished()), this, SLOT(artistPhotoFetched()));
 
-    QNetworkRequest reqAlbumArt(QUrl(result.value("primary_artist").toObject().value("image_url").toString()));
-    resAlbumArt = get(reqAlbumArt);
-    connect(resAlbumArt, SIGNAL(finished()), this, SLOT(albumArtFetched()));
+    QNetworkRequest reqSongArt(QUrl(result.value("header_image_thumbnail_url").toString()));
+    resSongArt = get(reqSongArt);
+    connect(resSongArt, SIGNAL(finished()), this, SLOT(songArtFetched()));
 
     //TODO:
     QUrl songUrl(QStringLiteral("%1%2").arg(base).arg(result.value("api_path").toString()));
-    qDebug() << songUrl;
     req.setUrl(songUrl);
-//    resDetails = get(req);
-//    connect(resDetails, SIGNAL(finished()), this, SLOT(getSongDetails()));
+    resDetails = get(req);
+    connect(resDetails, SIGNAL(finished()), this, SLOT(getSongDetails()));
 }
 
 void GeniusManager::httpFinished() {
@@ -132,13 +139,30 @@ void GeniusManager::artistPhotoFetched() {
     artistPhotoHolder->setPixmap(pixmap);
 }
 
+void GeniusManager::songArtFetched() {
+    QPixmap pixmap;
+    pixmap.loadFromData(resSongArt->readAll());
+    songArtHolder->setPixmap(pixmap);
+}
+
+void GeniusManager::getSongDetails() {
+    QJsonDocument json = QJsonDocument::fromJson(resDetails->readAll());
+    QJsonObject obj = json.object().value("response").toObject().value("song").toObject();
+    QString albumName = obj.value("album").toObject().value("name").toString();
+    albumTitleHolder->setText(QStringLiteral("Album:\t\t%1").arg(albumName));
+    QString releaseDate = obj.value("release_date").toString();
+    releaseDateHolder->setText(QStringLiteral("Release date:\t%1").arg(releaseDate));
+    QNetworkRequest reqAlbumArt(QUrl(obj.value("album").toObject().value("cover_art_url").toString()));
+    resAlbumArt = get(reqAlbumArt);
+    connect(resAlbumArt, SIGNAL(finished()), this, SLOT(albumArtFetched()));
+    // "response" > "song" > "description" > "children" (array) > "children"
+}
+
 void GeniusManager::albumArtFetched() {
     QPixmap pixmap;
     pixmap.loadFromData(resAlbumArt->readAll());
     albumArtHolder->setPixmap(pixmap);
 }
 
-void GeniusManager::getSongDetails() {
-    QJsonDocument json = QJsonDocument::fromJson(res->readAll());
-    qDebug() << json.isEmpty() << json.isNull();
-}
+//metadataAlbumTitleLabel
+//DELETE THE OBJECT?
