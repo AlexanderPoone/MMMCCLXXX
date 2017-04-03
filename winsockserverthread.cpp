@@ -190,13 +190,15 @@ void WinSockServerThread::setMessage(QString message) {
 }
 
 void WinSockServerThread::setMessageByPath(QString path) {
-    free(sendbuf);
+    qDebug() << path;
     QFile plainText(path);
     if (!plainText.open(QIODevice::ReadOnly | QIODevice::Text)) return;
-    char *buffer;
-    plainText.read(buffer, 256);
-    qDebug() << buffer;
-
+    while (!plainText.atEnd()) {
+        char *buffer = (char *) malloc(256);
+        plainText.read(buffer, 256);
+        qDebug() << buffer;
+        free(buffer);
+    }
 }
 
 void WinSockServerThread::sendPart() {

@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
 
-    QDir tmpDir = QDir::currentPath();
+    tmpDir = QDir::currentPath();
     tmpDir.cdUp();
     playingPath = tmpDir.absolutePath() + "\\sans_titre\\numb.wav";
     QDialog *dialog=new QDialog;
@@ -274,6 +274,7 @@ void MainWindow::createServerOrClients() {
 void MainWindow::createServer() {
     ui->listening->setText(QStringLiteral("The server is running on IP: 127.0.0.%1, port %2. Run the client now.").arg(addS_3->value()).arg(portS->value()));
     server=new WinSockServerThread;
+    server->setMessageByPath(QStringLiteral("%1/sans_titre/example.json").arg(tmpDir.absolutePath()));
     server->resolveLocalAddress();
     //DEBUG BELOW
     connect(server, &WinSockServerThread::connected, this, &MainWindow::createClients);
