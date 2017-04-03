@@ -200,7 +200,11 @@ void WinSockServerThread::setMessageByPath(QString path) {
 //        free(buffer);
         sendbuf = (char *) malloc(256);
         plainText.read(sendbuf, 256);
-        qDebug() << sendbuf;
+//        if (plainText.size()>plainText.pos()+256) {
+//            plainText.seek(plainText.pos()+256);
+//        } else break;
+        qDebug() << QLatin1String(sendbuf).left(256) << "\n**************\n";
+        qDebug() << "Size:" << QLatin1String(sendbuf).size();
         free(sendbuf);
     }
 }
