@@ -96,6 +96,7 @@ void WinSockClientThread::run() {
 
     //DEBUG DEBUG DEBUG DEBUG
     char *recvbuf;
+    QString veryLongArrayForJSON;
     //DEBUG DEBUG DEBUG DEBUG
 
     do {
@@ -104,9 +105,11 @@ void WinSockClientThread::run() {
         //DEBUG DEBUG DEBUG DEBUG
 
         iResult = recv(ConnectSocket, recvbuf, 256, 0);
-        if (iResult > 0)
+        if (iResult > 0) { //Exit condition?
             qDebug() << "Client" << threadNumber << "received message:" << QString::fromUtf8(recvbuf).left(256) << "(" << iResult << "bytes)\n\n\n";
-        else if (iResult == 0)
+            veryLongArrayForJSON.append(QString::fromUtf8(recvbuf).left(256));
+            if (iResult < 256) break;
+        } else if (iResult == 0)
             qDebug() << "Connection closed";
         else
             qDebug() << "recv failed: " << WSAGetLastError();
@@ -116,6 +119,10 @@ void WinSockClientThread::run() {
         //DEBUG DEBUG DEBUG DEBUG
 
     } while (1); //DEBUG DEBUG DEBUG DEBUG iResult > 0
+    veryLongArrayForJSON.chop(256-iResult);
+    qDebug() << veryLongArrayForJSON;
+
+
     // // // // // // // // // // // // // // // // // // // //
     // QString done;                                         //
     // emit resultReady(done);                               //

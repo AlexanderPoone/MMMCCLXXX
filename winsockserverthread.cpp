@@ -194,7 +194,7 @@ void WinSockServerThread::setMessageByPath(QString path) {
     qDebug() << path;
     QFile plainText(path);
     if (!plainText.open(QIODevice::ReadOnly | QIODevice::Text)) return;
-    while (!plainText.atEnd()) {
+    while (plainText.size()>plainText.pos()+256) { //!plainText.atEnd()
 //        char *buffer = (char *) malloc(256);
 //        plainText.read(buffer, 256);
 //        qDebug() << buffer;
@@ -206,12 +206,19 @@ void WinSockServerThread::setMessageByPath(QString path) {
 //        } else break;
         qDebug() << QLatin1String(sendbuf).left(256) << "\n**************\n";
         qDebug() << "Size:" << QLatin1String(sendbuf).size();
-        sendPart();
+        sendPart(256);
         free(sendbuf);
     }
+    int howManyLeft=plainText.size()-plainText.pos();
+    sendbuf = (char *) malloc(howManyLeft);
+    plainText.read(sendbuf, howManyLeft);
+    qDebug() << QLatin1String(sendbuf).left(howManyLeft) << "\n**************\n";
+    qDebug() << "Size:" << QLatin1String(sendbuf).size();
+    sendPart(howManyLeft);
+    free(sendbuf);
 }
 
-void WinSockServerThread::sendPart() {
+void WinSockServerThread::sendPart(int bufSize) {
     iResult=1;
     if (iResult > 0) {
         qDebug() << "Hello!";
@@ -222,7 +229,7 @@ void WinSockServerThread::sendPart() {
 //        qDebug() << "Receives (server):" << field << "(" << iResult << "bytes)";
 //        this->label->setText(field);
         // Echo the buffer back to the sender
-        iSendResult = send(ClientSocket, sendbuf, 256, 0);
+        iSendResult = send(ClientSocket, sendbuf, bufSize, 0);
         if (iSendResult == SOCKET_ERROR) {
             qDebug() << "send failed: " << WSAGetLastError();
             closesocket(ClientSocket);

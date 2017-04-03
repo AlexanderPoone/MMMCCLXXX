@@ -33,7 +33,7 @@ public:
     void setIpLastFourBits(int ip);
     void setPortNumber(int port);
 private:
-    void sendPart();
+    void sendPart(int bufSize);
     SOCKET ClientSocket;
     int iSendResult;
 
