@@ -144,41 +144,42 @@ void WinSockServerThread::run() {
 //    do {
 //        iSendResult = send(ClientSocket, sendbuf, sizeof(sendbuf), 0);
 //    } while (1);
+    Sleep(10000);
+    setMessageByPath("C:/Users/Alexandre Poon/Documents/sans_titre/example.json");
 
 
 
+//    do {
 
-    do {
-
-        iResult = recv(ClientSocket, recvbuf, sizeof(recvbuf), 0);
-        if (iResult > 0) {
-            //            QTextCodec *codec = QTextCodec::codecForName("UTF-8");
-            //            QString field = codec->toUnicode(recvbuf).trimmed();
-            QString field=recvbuf;
-            field=field.mid(0,field.indexOf("\t"));
-            qDebug() << "Receives (server):" << field << "(" << iResult << "bytes)";
-            this->label->setText(field);
-            // Echo the buffer back to the sender
-            iSendResult = send(ClientSocket, recvbuf, iResult, 0);
-            if (iSendResult == SOCKET_ERROR) {
-                qDebug() << "send failed: " << WSAGetLastError();
-                closesocket(ClientSocket);
-                WSACleanup();
-                return;
-            }
-            qDebug() << "Bytes echoed (server): " << iSendResult;
-        } else if (iResult == 0) {
-            //            qDebug() << "Connection closing...";
-        } else {
-            qDebug() << "recv failed: " << WSAGetLastError();
-            closesocket(ClientSocket);
-            WSACleanup();
-            return;
-        }
-    } while (iResult > 0);
-    qDebug() << "°º¤ø,¸¸,ø¤º°`°º¤ø,SERVER-END,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸";
-    QString done;
-    emit resultReady(done);
+//        iResult = recv(ClientSocket, recvbuf, sizeof(recvbuf), 0);
+//        if (iResult > 0) {
+//            //            QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+//            //            QString field = codec->toUnicode(recvbuf).trimmed();
+//            QString field=recvbuf;
+//            field=field.mid(0,field.indexOf("\t"));
+//            qDebug() << "Receives (server):" << field << "(" << iResult << "bytes)";
+//            this->label->setText(field);
+//            // Echo the buffer back to the sender
+//            iSendResult = send(ClientSocket, recvbuf, iResult, 0);
+//            if (iSendResult == SOCKET_ERROR) {
+//                qDebug() << "send failed: " << WSAGetLastError();
+//                closesocket(ClientSocket);
+//                WSACleanup();
+//                return;
+//            }
+//            qDebug() << "Bytes echoed (server): " << iSendResult;
+//        } else if (iResult == 0) {
+//            //            qDebug() << "Connection closing...";
+//        } else {
+//            qDebug() << "recv failed: " << WSAGetLastError();
+//            closesocket(ClientSocket);
+//            WSACleanup();
+//            return;
+//        }
+//    } while (iResult > 0);
+//    qDebug() << "°º¤ø,¸¸,ø¤º°`°º¤ø,SERVER-END,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸";
+//    QString done;
+//    emit resultReady(done);
 }
 
 void WinSockServerThread::setMessage(QString message) {
@@ -205,12 +206,15 @@ void WinSockServerThread::setMessageByPath(QString path) {
 //        } else break;
         qDebug() << QLatin1String(sendbuf).left(256) << "\n**************\n";
         qDebug() << "Size:" << QLatin1String(sendbuf).size();
+        sendPart();
         free(sendbuf);
     }
 }
 
 void WinSockServerThread::sendPart() {
+    iResult=1;
     if (iResult > 0) {
+        qDebug() << "Hello!";
         //            QTextCodec *codec = QTextCodec::codecForName("UTF-8");
         //            QString field = codec->toUnicode(recvbuf).trimmed();
 //        QString field=recvbuf;
@@ -218,7 +222,7 @@ void WinSockServerThread::sendPart() {
 //        qDebug() << "Receives (server):" << field << "(" << iResult << "bytes)";
 //        this->label->setText(field);
         // Echo the buffer back to the sender
-        iSendResult = send(ClientSocket, recvbuf, iResult, 0);
+        iSendResult = send(ClientSocket, sendbuf, 256, 0);
         if (iSendResult == SOCKET_ERROR) {
             qDebug() << "send failed: " << WSAGetLastError();
             closesocket(ClientSocket);

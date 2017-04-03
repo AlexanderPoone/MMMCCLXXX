@@ -26,6 +26,7 @@
 #include "winsockserverthread.h"
 #include "wavplayer.h"
 #include <tchar.h>
+#include "playpausebutton.h"
 
 namespace Ui {
 class MainWindow;
@@ -62,6 +63,7 @@ private slots:
     void onItemClicked(QListWidgetItem *item);
     void onItemDoubleClicked(QListWidgetItem *item);
 private:
+    PlayPauseButton *playPauseItem;
     QDir tmpDir;
     QLabel *addL,*one_addL, *one_addL_0, *one_addL_1, *one_addL_2,
     *two_addL, *one_portL, *two_portL, *two_addL_0, *two_addL_1, *two_addL_2;

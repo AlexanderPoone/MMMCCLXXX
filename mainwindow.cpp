@@ -5,7 +5,6 @@
 #include "geniusmanager.h"
 #include "lrchandler.h"
 #include "previousbutton.h"
-#include "playpausebutton.h"
 #include "nextbutton.h"
 #include "stopbutton.h"
 #include "ratingbar.h"
@@ -156,7 +155,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ratingBarScene=new QGraphicsScene(this);
     bulletScrScene=new QGraphicsScene(this);
     PreviousButton *previousItem = new PreviousButton();
-    PlayPauseButton *playPauseItem = new PlayPauseButton;
+    playPauseItem = new PlayPauseButton;
     NextButton *nextItem = new NextButton();
     StopButton *stopItem = new StopButton();
     QGraphicsItem *ratingBarItem = new RatingBar();
@@ -274,7 +273,6 @@ void MainWindow::createServerOrClients() {
 void MainWindow::createServer() {
     ui->listening->setText(QStringLiteral("The server is running on IP: 127.0.0.%1, port %2. Run the client now.").arg(addS_3->value()).arg(portS->value()));
     server=new WinSockServerThread;
-    server->setMessageByPath(QStringLiteral("%1/sans_titre/example.json").arg(tmpDir.absolutePath()));
     server->resolveLocalAddress();
     //DEBUG BELOW
     connect(server, &WinSockServerThread::connected, this, &MainWindow::createClients);
@@ -321,7 +319,6 @@ void MainWindow::createClients() {
     client_3->setIpLastFourBits(addS_3->value());
     client_3->setPortNumber(portS->value());
     client_3->init();
-    client_3->init();
     client_3->setMessage(QString::fromUtf8("!@#$%"));
     client_3->start();
     server->start();
@@ -329,6 +326,7 @@ void MainWindow::createClients() {
     //    connect(client_1, );
     //    connect(client_2, );
     //    connect(client_3, );
+//    server->setMessageByPath(QStringLiteral("%1/sans_titre/example.json").arg(tmpDir.absolutePath()));
 }
 
 
@@ -502,6 +500,8 @@ void MainWindow::on_sendButton_clicked() {
 }
 
 void MainWindow::onItemClicked(QListWidgetItem *item) {
+    stopSlot();
+    playPauseItem->resetSlot();
     QString title=item->text();
     title.remove(QRegExp(".*\\t"));
     if (title.length()>17) {

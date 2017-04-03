@@ -59,49 +59,63 @@ void WinSockClientThread::init() {
 }
 
 void WinSockClientThread::run() {
-    // Receiving and Sending Data on the Client
+//    // Receiving and Sending Data on the Client
 
-//    setMessage(QString::fromUtf8("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。"));
-    int recvbuflen = DEFAULT_BUFLEN;
-    char recvbuf[DEFAULT_BUFLEN];
-//    char *sendbuf = QString("I am a client, short and stout").toLatin1().data();
-//    char *sendbuf = QString("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。").toUtf8().data();
-//    QByteArray tmp=QString::fromUtf8("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。\t").toUtf8();
-//    sendbuf = tmp.data();
-//    qDebug() << "Original msg: " << sendbuf;
+////    setMessage(QString::fromUtf8("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。"));
+//    int recvbuflen = DEFAULT_BUFLEN;
+//    char recvbuf[DEFAULT_BUFLEN];
+////    char *sendbuf = QString("I am a client, short and stout").toLatin1().data();
+////    char *sendbuf = QString("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。").toUtf8().data();
+////    QByteArray tmp=QString::fromUtf8("2017年2月22號，天文學家宣布圍繞 TRAPPIST-1 嘅外行星加多四個。\t").toUtf8();
+////    sendbuf = tmp.data();
+////    qDebug() << "Original msg: " << sendbuf;
 
-    // Send an initial buffer
-    iResult = send(ConnectSocket, sendbuf, (int) strlen(sendbuf), 0); //(int) strlen(sendbuf)
-    if (iResult == SOCKET_ERROR) {
-        qDebug() << "send failed: " << WSAGetLastError();
-        closesocket(ConnectSocket);
-        WSACleanup();
-        return;
-    }
-    qDebug() << "Bytes sent (client):" << iResult;
+//    // Send an initial buffer
+//    iResult = send(ConnectSocket, sendbuf, (int) strlen(sendbuf), 0); //(int) strlen(sendbuf)
+//    if (iResult == SOCKET_ERROR) {
+//        qDebug() << "send failed: " << WSAGetLastError();
+//        closesocket(ConnectSocket);
+//        WSACleanup();
+//        return;
+//    }
+//    qDebug() << "Bytes sent (client):" << iResult;
 
 
-    // Shutdown the connection for sending since no more data will be sent
-    // The client can still use the ConnectSocket for receiving data
-    iResult = shutdown(ConnectSocket, SD_SEND);
-    if (iResult == SOCKET_ERROR) {
-        qDebug() << "shutdown failed: " << WSAGetLastError();
-        closesocket(ConnectSocket);
-        WSACleanup();
-        return;
-    }
+//    // Shutdown the connection for sending since no more data will be sent
+//    // The client can still use the ConnectSocket for receiving data
+//    iResult = shutdown(ConnectSocket, SD_SEND);
+//    if (iResult == SOCKET_ERROR) {
+//        qDebug() << "shutdown failed: " << WSAGetLastError();
+//        closesocket(ConnectSocket);
+//        WSACleanup();
+//        return;
+//    }
 
 
     // Receive data until the server closes the connection
+
+    //DEBUG DEBUG DEBUG DEBUG
+    char *recvbuf;
+    //DEBUG DEBUG DEBUG DEBUG
+
     do {
-        iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
+        //DEBUG DEBUG DEBUG DEBUG
+        recvbuf = (char *) malloc(256);
+        //DEBUG DEBUG DEBUG DEBUG
+
+        iResult = recv(ConnectSocket, recvbuf, 256, 0);
         if (iResult > 0)
-            qDebug() << "Client" << threadNumber << "received message:" << QString::fromUtf8(recvbuf) << "(" << iResult << "bytes)";
+            qDebug() << "Client" << threadNumber << "received message:" << QString::fromUtf8(recvbuf).left(256) << "(" << iResult << "bytes)\n\n\n";
         else if (iResult == 0)
             qDebug() << "Connection closed";
         else
             qDebug() << "recv failed: " << WSAGetLastError();
-    } while (iResult > 0);
+
+        //DEBUG DEBUG DEBUG DEBUG
+        free(recvbuf);
+        //DEBUG DEBUG DEBUG DEBUG
+
+    } while (1); //DEBUG DEBUG DEBUG DEBUG iResult > 0
     // // // // // // // // // // // // // // // // // // // //
     // QString done;                                         //
     // emit resultReady(done);                               //
@@ -109,11 +123,11 @@ void WinSockClientThread::run() {
 }
 
 void WinSockClientThread::setMessage(QString message) {
-    message.append("\t");
-//    QByteArray tmp1=message.toUtf8();
-    sendbuf=(char *) malloc(sizeof(message.toStdString().c_str()));
-    strcpy(sendbuf, message.toStdString().c_str());
-    qDebug() << "Original msg: " << sendbuf << "(" << sizeof(message.toStdString().c_str()) << "bytes)";
+//    message.append("\t");
+////    QByteArray tmp1=message.toUtf8();
+//    sendbuf=(char *) malloc(sizeof(message.toStdString().c_str()));
+//    strcpy(sendbuf, message.toStdString().c_str());
+//    qDebug() << "Original msg: " << sendbuf << "(" << sizeof(message.toStdString().c_str()) << "bytes)";
 }
 
 void WinSockClientThread::setMessageByPath(QString path) {
