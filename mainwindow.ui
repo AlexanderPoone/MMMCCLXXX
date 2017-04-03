@@ -89,7 +89,7 @@ QTabBar::tab:selected {
 }</string>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <property name="movable">
            <bool>true</bool>
@@ -1010,8 +1010,8 @@ QToolTip {
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>100</width>
-                      <height>30</height>
+                      <width>73</width>
+                      <height>54</height>
                      </rect>
                     </property>
                     <attribute name="label">
@@ -1071,8 +1071,8 @@ QToolTip {
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>100</width>
-                      <height>30</height>
+                      <width>73</width>
+                      <height>54</height>
                      </rect>
                     </property>
                     <attribute name="label">

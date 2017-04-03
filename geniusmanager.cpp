@@ -63,7 +63,6 @@ void GeniusManager::result() {
     QJsonArray hits = json.object().value("response").toObject().value("hits").toArray();
     QJsonObject result = hits.at(0).toObject().value("result").toObject();
     if (result.isEmpty()) holder->setText("No lyrics available");
-    qDebug() << result;
 //    qDebug() << result.value("header_image_thumbnail_url").toString();
 //    qDebug() << result.value("primary_artist").toObject().value("image_url").toString();
 
