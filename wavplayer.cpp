@@ -176,7 +176,7 @@ databuffer.push_back(tmp);
     ---------------------------------------------------------------------------------*/
     bufferLoop = 0;
 
-    setVolume(50);
+//    setVolume(50);
     while (1) {
         if (!mmioRead(hmmioIn, databuffer[bufferLoop].lpData, bufferSize)) {
             qDebug() << "Error in reading the waveformat\n";

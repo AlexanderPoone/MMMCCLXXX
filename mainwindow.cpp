@@ -436,6 +436,7 @@ void MainWindow::startSecTimer() { //play
         wavPlay->setPath(playingPath);
         connect(wavPlay, &WavPlayer::duration, this, &MainWindow::setBars);
         wavPlay->start();
+        wavPlay->setVolume(ui->volumeSlider->value());
     }
 }
 
