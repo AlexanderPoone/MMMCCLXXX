@@ -12,6 +12,7 @@ public:
     //TODO: PICKLE ALL THESE
     MusicLibrary(QToolBox *toolBox, QWidget *parent);
 //    MusicLibrary(QGridLayout *container, QWidget *parent);
+    MusicLibrary(QToolBox *toolBox, QString rawJSON, QWidget *parent);
     void scan();
     void createEntry();
     void generateJson();

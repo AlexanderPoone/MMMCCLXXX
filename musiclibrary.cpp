@@ -57,6 +57,63 @@ MusicLibrary::MusicLibrary(QToolBox *toolBox, QWidget *parent) {
     //    QList<QPair>
 }
 
+MusicLibrary::MusicLibrary(QToolBox *toolBox, QString rawJSON, QWidget *parent) {
+    this->toolBox=toolBox;
+//    rawJSON.remove("\t");
+//    QFile file("debug.txt");
+//    if (!file.open(QIODevice::WriteOnly)) return;
+//    QTextStream outputStream(&file);
+//    outputStream << rawJSON;
+//    file.close();
+
+//    qDebug() << rawJSON;
+    QJsonDocument internalDoc=QJsonDocument::fromJson(rawJSON.toUtf8());
+    QJsonObject internalObj=internalDoc.object();
+    qDebug() << "+------------------------------JSON--------------------------+";
+    qDebug() << '|' << "Num of (key, value) pairs:\t" << internalObj.size() << "\t\t|";
+    qDebug() << '|' << "Computer name:\t\t" << internalObj.find(QStringLiteral("computerName")).value().toString() << "\t|";
+    qDebug() << '|' << "IP Adress:\t\t\t" << internalObj.find(QStringLiteral("ip")).value().toString() << "\t|";
+    QJsonArray albums=internalObj.find(QStringLiteral("albums")).value().toArray();
+    int numAlbums=albums.size();
+    qDebug() << '|' << "Num of albums:\t\t" << numAlbums << "\t\t|";
+    for (int i=0; i<numAlbums; i++) {
+        AlbumEntry *entry;
+        entry=new AlbumEntry(parent);
+        connect(entry, &QListWidget::itemClicked, this, &MusicLibrary::onItemClicked);
+        connect(entry, &QListWidget::itemDoubleClicked, this, &MusicLibrary::onItemDoubleClicked);
+        QPixmap pixmap(QStringLiteral("://album%1.jpg").arg(i));
+        entry->setAlbumArt(pixmap);
+        entry->setAlbumTitle(albums[i].toObject().find(QStringLiteral("albumTitle")).value().toString());
+        entry->setArtistName(albums[i].toObject().find(QStringLiteral("artist")).value().toString());
+        entry->setTracks(albums[i].toObject().find(QStringLiteral("tracks")).value().toArray());
+        this->toolBox->addItem(entry,entry->getIcon(),entry->getTitleString());
+        qDebug() << '|' << "Reserved:\t\t" << albums[i].toObject().find(QStringLiteral("albumTitle")).value().toString()<< "\t\t|";
+        qDebug() << '|' << "Reserved:\t\t" << albums[i].toObject().find(QStringLiteral("artist")).value().toString()<< "\t\t|";
+        qDebug() << '|' << "Num of tracks:\t\t" << albums[i].toObject().find(QStringLiteral("tracks")).value().toArray().size()<< "\t\t|";
+//        entry->setToolBoxPosition(this->toolBox->count()-1);
+//        qDebug() << '|' << "Place in ToolBox:\t\t" << entry->getToolBoxPosition();
+        pushed.append(entry);
+        qDebug() << "+-------------------------next entry-------------------------+";
+    }
+
+    pushed.at(0)->hide();
+    //pushed.at(0)->setParent(NULL);
+    toolBox->removeItem(0); //entry->getToolBoxPosition()
+    popped.append(pushed.at(0));
+    pushed.removeAt(0);
+    toolBox->addItem(popped.last(), popped.last()->getIcon(), popped.last()->getTitleString());
+    pushed.append(popped.last());
+    popped.removeLast();
+
+
+
+//    popped.at(0)->show();
+//    toolBox->findChild<QWidget *>()->hide();
+    qDebug() << "+------------------------------------------------------------+";
+
+    //    QList<QPair>
+}
+
 void MusicLibrary::search(QString keyword) {
     qDebug() << "The keyword is " << keyword;
     if (keyword.isEmpty()) {

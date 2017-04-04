@@ -932,7 +932,7 @@ QToolTip {
       <item>
        <widget class="QGroupBox" name="groupBox_2">
         <property name="styleSheet">
-         <string notr="true">QGroupBox {font: bold}</string>
+         <string notr="true">color: white; font: bold; background-color: transparent</string>
         </property>
         <property name="title">
          <string>Albums on peers</string>
@@ -960,7 +960,7 @@ QToolTip {
             <string notr="true"/>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="page">
             <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -982,7 +982,7 @@ QToolTip {
              <item>
               <widget class="QScrollArea" name="remoteMusicScrollArea1">
                <property name="styleSheet">
-                <string notr="true">background-image: url(:/popcornClouds.png); color: black</string>
+                <string notr="true">background-image: url(:/antoinette.png); color: black</string>
                </property>
                <property name="widgetResizable">
                 <bool>true</bool>
@@ -992,15 +992,15 @@ QToolTip {
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>87</width>
-                  <height>92</height>
+                  <width>754</width>
+                  <height>448</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_9">
                  <item>
-                  <widget class="QToolBox" name="localMusicToolbox_2">
+                  <widget class="QToolBox" name="remoteMusicToolbox_1">
                    <property name="styleSheet">
-                    <string notr="true">background: aliceblue</string>
+                    <string notr="true">background: honeydew</string>
                    </property>
                    <property name="currentIndex">
                     <number>0</number>
@@ -1010,8 +1010,8 @@ QToolTip {
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>73</width>
-                      <height>54</height>
+                      <width>740</width>
+                      <height>410</height>
                      </rect>
                     </property>
                     <attribute name="label">
@@ -1053,15 +1053,21 @@ QToolTip {
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>87</width>
-                  <height>92</height>
+                  <width>754</width>
+                  <height>448</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_17">
                  <item>
-                  <widget class="QToolBox" name="localMusicToolbox_3">
+                  <widget class="QToolBox" name="remoteMusicToolbox_2">
+                   <property name="font">
+                    <font>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
                    <property name="styleSheet">
-                    <string notr="true">background: aliceblue</string>
+                    <string notr="true">background: peachPuff</string>
                    </property>
                    <property name="currentIndex">
                     <number>0</number>
@@ -1071,8 +1077,8 @@ QToolTip {
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>73</width>
-                      <height>54</height>
+                      <width>740</width>
+                      <height>410</height>
                      </rect>
                     </property>
                     <attribute name="label">
@@ -1120,9 +1126,15 @@ QToolTip {
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_18">
                  <item>
-                  <widget class="QToolBox" name="localMusicToolbox_4">
+                  <widget class="QToolBox" name="remoteMusicToolbox_3">
+                   <property name="font">
+                    <font>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
                    <property name="styleSheet">
-                    <string notr="true">background: aliceblue</string>
+                    <string notr="true">background: ghostWhite</string>
                    </property>
                    <property name="currentIndex">
                     <number>0</number>
@@ -1156,7 +1168,7 @@ QToolTip {
       <item>
        <widget class="QGroupBox" name="groupBox">
         <property name="styleSheet">
-         <string notr="true">color: white; font: bold</string>
+         <string notr="true">color: white; font: bold; background-color: transparent</string>
         </property>
         <property name="title">
          <string>Local albums</string>

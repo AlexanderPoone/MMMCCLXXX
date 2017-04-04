@@ -144,7 +144,7 @@ void WinSockServerThread::run() {
 //    do {
 //        iSendResult = send(ClientSocket, sendbuf, sizeof(sendbuf), 0);
 //    } while (1);
-    Sleep(10000);
+    Sleep(8000);
     setMessageByPath("C:/Users/Alexandre Poon/Documents/sans_titre/example.json");
 
 
@@ -209,7 +209,7 @@ void WinSockServerThread::setMessageByPath(QString path) {
         sendPart(256);
         free(sendbuf);
     }
-    int howManyLeft=plainText.size()-plainText.pos();
+    int howManyLeft=plainText.size()-plainText.pos()-8;
     sendbuf = (char *) malloc(howManyLeft);
     plainText.read(sendbuf, howManyLeft);
     qDebug() << QLatin1String(sendbuf).left(howManyLeft) << "\n**************\n";

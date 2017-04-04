@@ -62,6 +62,7 @@ private slots:
     void createClients(); //const QString &ip, const QString &port
     void onItemClicked(QListWidgetItem *item);
     void onItemDoubleClicked(QListWidgetItem *item);
+    void onReceiveMusicCatalogue(QString rawJSON);
 private:
     PlayPauseButton *playPauseItem;
     QDir tmpDir;

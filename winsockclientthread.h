@@ -41,6 +41,7 @@ private:
     SOCKET ConnectSocket;
     char *sendbuf;
 signals:
+    void musicCatalogueReceived(QString rawJSON);
     void connected(int threadNumber);
     void resultReady(const QString &s);
 };

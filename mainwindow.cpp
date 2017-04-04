@@ -125,6 +125,9 @@ MainWindow::MainWindow(QWidget *parent) :
     wavPlay=new WavPlayer;
     ui->thisShouldNotExist->hide();
     ui->localMusicToolbox->removeItem(0);
+    ui->remoteMusicToolbox_1->removeItem(0);
+    ui->remoteMusicToolbox_2->removeItem(0);
+    ui->remoteMusicToolbox_3->removeItem(0);
     //    QHBoxLayout *a;
     //    a=(QHBoxLayout *)(ui->tab_albumInfo);
     //    QChartView *b=new QChartView(this);
@@ -182,6 +185,13 @@ MainWindow::MainWindow(QWidget *parent) :
     on_volumeSlider_valueChanged(0);
     //Style the groove?
     setAcceptDrops(true);
+}
+
+void MainWindow::onReceiveMusicCatalogue(QString rawJSON) {
+    qDebug() << rawJSON;
+    //Need cas in the future
+    MusicLibrary *remoteMusicLibrary=new MusicLibrary(ui->remoteMusicToolbox_1, rawJSON, this);
+    connect(ui->searchBox,&QLineEdit::textChanged, remoteMusicLibrary, &MusicLibrary::search);
 }
 
 void MainWindow::serverDialogSlot() {
@@ -308,18 +318,21 @@ void MainWindow::createClients() {
     client_1->setPortNumber(portS->value());
     client_1->init();
     client_1->setMessage(QString::fromUtf8("測試進行中……"));
+    connect(client_1, &WinSockClientThread::musicCatalogueReceived, this, &MainWindow::onReceiveMusicCatalogue);
     client_1->start();
     WinSockClientThread *client_2=new WinSockClientThread(2);
     client_2->setIpLastFourBits(addS_3->value());
     client_2->setPortNumber(portS->value());
     client_2->init();
     client_2->setMessage(QString::fromUtf8("abcdef"));
+    connect(client_2, &WinSockClientThread::musicCatalogueReceived, this, &MainWindow::onReceiveMusicCatalogue);
     client_2->start();
     WinSockClientThread *client_3=new WinSockClientThread(3);
     client_3->setIpLastFourBits(addS_3->value());
     client_3->setPortNumber(portS->value());
     client_3->init();
     client_3->setMessage(QString::fromUtf8("!@#$%"));
+    connect(client_3, &WinSockClientThread::musicCatalogueReceived, this, &MainWindow::onReceiveMusicCatalogue);
     client_3->start();
     server->start();
     // Assemble from tidbits when all threads are ready, using signals & slots

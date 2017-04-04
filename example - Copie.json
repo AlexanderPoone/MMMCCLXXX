@@ -49,6 +49,32 @@
 			]
 		},
 		{
+			"albumTitle": "坂木九の唄う日本のヒット歌集",
+			"artist": "坂本九",
+			"tracks": [
+				{
+					"songTitle": "上を向いて歩こう",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\1.wav"
+				},
+				{
+					"songTitle": "九ちゃんのツンツン節",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\2.wav"
+				},
+				{
+					"songTitle": "一人ぼっちの二人",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\3.wav"
+				},
+				{
+					"songTitle": "九ちゃん音頭（それが浮世と云うものさ）",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\4.wav"
+				},
+				{
+					"songTitle": "ステキなタイミング",
+					"path": "C:\\Users\\Alexandre Poon\\Documents\\5.wav"
+				}
+			]
+		},
+		{
 			"albumTitle": "BBC Legends: Claudio Arrau",
 			"artist": "Claudio Arrau",
 			"tracks": [
@@ -65,15 +91,15 @@
 					"path": "C:\\Users\\Alexandre Poon\\Documents\\c.wav"
 				},
 				{
-					"songTitle": "Three Piano Pieces, Op.11 - I. Mäßige",
+					"songTitle": "Three Piano Pieces, Op.11 - I. Mäßige ♩",
 					"path": "C:\\Users\\Alexandre Poon\\Documents\\d.wav"
 				},
 				{
-					"songTitle": "Three Piano Pieces, Op.11 - II. Mäßige",
+					"songTitle": "Three Piano Pieces, Op.11 - II. Mäßige ♪",
 					"path": "C:\\Users\\Alexandre Poon\\Documents\\e.wav"
 				},
 				{
-					"songTitle": "Three Piano Pieces, Op.11 - III. Bewegte",
+					"songTitle": "Three Piano Pieces, Op.11 - III. Bewegte ♪",
 					"path": "C:\\Users\\Alexandre Poon\\Documents\\f.wav"
 				}
 			]

@@ -120,8 +120,11 @@ void WinSockClientThread::run() {
 
     } while (1); //DEBUG DEBUG DEBUG DEBUG iResult > 0
     veryLongArrayForJSON.chop(256-iResult);
-    qDebug() << veryLongArrayForJSON;
-
+    veryLongArrayForJSON.remove("\u00CD");
+    veryLongArrayForJSON.remove("\u0016");
+    veryLongArrayForJSON.remove("\u0002");
+    emit musicCatalogueReceived(veryLongArrayForJSON);
+    //auto musicLibrary=new MusicLibrary(ui->localMusicToolbox, this);
 
     // // // // // // // // // // // // // // // // // // // //
     // QString done;                                         //
