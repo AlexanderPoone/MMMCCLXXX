@@ -137,7 +137,7 @@ MainWindow::MainWindow(QWidget *parent) :
     lyricsTimer=new QTimer(this);
     auto musicLibrary=new MusicLibrary(ui->localMusicToolbox, this);
     //    setWindowFlags(Qt::FramelessWindowHint);
-    connect(wavPlay, &WavPlayer::duration, this, &MainWindow::setBars);
+//    connect(wavPlay, &WavPlayer::duration, this, &MainWindow::setBars);
 
     connect(musicLibrary, &MusicLibrary::itemClicked, this, &MainWindow::onItemClicked);
     connect(musicLibrary, &MusicLibrary::itemDoubleClicked, this, &MainWindow::onItemDoubleClicked);
@@ -432,7 +432,9 @@ void MainWindow::startSecTimer() { //play
         //        wchar_t b[54];
         //        a.toWCharArray(b);
         //        b[53]='\0';
+        wavPlay=new WavPlayer;
         wavPlay->setPath(playingPath);
+        connect(wavPlay, &WavPlayer::duration, this, &MainWindow::setBars);
         wavPlay->start();
     }
 }

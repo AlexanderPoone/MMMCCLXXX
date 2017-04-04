@@ -8,6 +8,8 @@
 #include <QThread>
 #include <QObject>
 #include <QtDebug>
+#include <QFuture>
+#include <QtConcurrent>
 
 //#include <stdio.h>
 //#include <iostream>
@@ -70,8 +72,10 @@ public:
     std::vector<WAVEHDR> databuffer;
     MMRESULT err;
 private:
-    int full=0;
     void play();
+    int bufferLoop;
+    QMutex mut;
+    int full=0;
     QString a;
     LPTSTR path;
 

@@ -1,8 +1,4 @@
 #include "wavplayer.h"
-#include <QFuture>
-#include <QtConcurrent>
-int bufferLoop;
-QMutex mut;
 
 WavPlayer::WavPlayer() {
 }
@@ -36,7 +32,6 @@ void WavPlayer::run() {
 }
 
 void WavPlayer::play() {
-    full=1;
 //    USES_CONVERSION;
     CONST int BUFFER_QUANTITY = 5;
 
@@ -186,7 +181,6 @@ databuffer.push_back(tmp);
         if (!mmioRead(hmmioIn, databuffer[bufferLoop].lpData, bufferSize)) {
             qDebug() << "Error in reading the waveformat\n";
             mmioClose(hmmioIn, 0);
-            full=0;
             exit(-1); //exit(-1);
         }
         if (databuffer[bufferLoop].lpData == 0) {
@@ -194,7 +188,7 @@ databuffer.push_back(tmp);
         }
         mut.lock();
         waveOutWrite(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
-        Sleep(1000); //Sleep(8000);
+        Sleep(1000); //Please let the second finish first.
         mut.unlock();
         waveOutUnprepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(databuffer[bufferLoop]));
         memset(databuffer[bufferLoop].lpData, 0, bufferSize);
@@ -215,7 +209,6 @@ databuffer.push_back(tmp);
     *mmioClose(HMMIO h, UINT wflags);
     *Close Wav file
     ---------------------------------------------------------------------------------*/
-    full=0;
     mmioClose(hmmioIn, 0);
 
     /*--------------------------------------------------------------------------------
