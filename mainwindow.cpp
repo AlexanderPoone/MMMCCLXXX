@@ -102,6 +102,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //
     //
 
+    //Add check box: self test?
     form->addRow(youAreL, selectServer);
     form->addWidget(selectClient);
     form->addRow(addL, ipRow);
