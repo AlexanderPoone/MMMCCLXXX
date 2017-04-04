@@ -882,7 +882,7 @@ QToolTip {
          <string notr="true">background: transparent</string>
         </property>
         <property name="text">
-         <string>(number of QLabel+QToolBox depends on the number of remote users)</string>
+         <string>Welcome!</string>
         </property>
        </widget>
       </item>
