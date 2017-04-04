@@ -1,7 +1,8 @@
 #include "wavplayer.h"
 #include <QFuture>
 #include <QtConcurrent>
-
+int bufferLoop;
+QMutex mut;
 
 WavPlayer::WavPlayer() {
 }
@@ -156,7 +157,7 @@ databuffer.push_back(tmp);
     *Determine the size of buffer
     ---------------------------------------------------------------------------------*/
     int blockSize = fmtData.nChannels*fmtData.wBitsPerSample;
-    bufferSize = blockSize * fmtData.nSamplesPerSec;
+    bufferSize = blockSize * fmtData.nSamplesPerSec / 8;
     int totalBlocks = dataChunkSize / blockSize;
     emit duration(dataChunk.cksize/fmtData.nAvgBytesPerSec);
 //    int remainder = totalBlocks % BUFFER_QUANTITY;
@@ -178,7 +179,7 @@ databuffer.push_back(tmp);
     *Playback buffer data
     *loop
     ---------------------------------------------------------------------------------*/
-    int bufferLoop = 0;
+    bufferLoop = 0;
 
     setVolume(50);
     while (1) {
@@ -191,9 +192,13 @@ databuffer.push_back(tmp);
         if (databuffer[bufferLoop].lpData == 0) {
             return;
         }
+        mut.lock();
         waveOutWrite(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
-        Sleep(8000); //Sleep(8000);
-        QFuture<void> future = QtConcurrent::run(this, &WavPlayer::subThread, bufferLoop );
+        Sleep(1000); //Sleep(8000);
+        mut.unlock();
+        waveOutUnprepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(databuffer[bufferLoop]));
+        memset(databuffer[bufferLoop].lpData, 0, bufferSize);
+        err = waveOutPrepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
         bufferLoop++;
         if (bufferLoop == BUFFER_QUANTITY) {
             bufferLoop = 0;
@@ -236,10 +241,15 @@ void WavPlayer::stop() {
 }
 
 void WavPlayer::pause() {
+    mut.lock();
+    waveOutUnprepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(databuffer[bufferLoop]));
+    memset(databuffer[bufferLoop].lpData, 0, bufferSize);
+    err = waveOutPrepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
     waveOutPause(hAudioOut);
 }
 
 void WavPlayer::resume() {
+    mut.unlock();
     waveOutRestart(hAudioOut);
 }
 

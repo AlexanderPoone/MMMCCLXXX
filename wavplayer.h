@@ -77,6 +77,7 @@ private:
 
     int bufferSize;
     void subThread(int bufferLoop);
+    void subThread2(int bufferLoop);
     int counter;
 
 signals:
