@@ -29,6 +29,7 @@ public:
     void setMessageByPath(QString path);
     void freeSendbuf();
     void setIpLastFourBits(int ip);
+    void sendPart(int bufSize);
     void setPortNumber(int port);
 private:
     QString myip;
@@ -36,6 +37,7 @@ private:
     int threadNumber;
 
     int iResult;
+    int iSendResult;
     WSADATA wsaData;
     struct addrinfo *result = NULL, *ptr = NULL, hints;
     SOCKET ConnectSocket;

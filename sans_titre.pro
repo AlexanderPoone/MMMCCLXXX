@@ -43,7 +43,9 @@ SOURCES += main.cpp\
     winsockserverthread.cpp \
     winsockclientthread.cpp \
     lrchandler.cpp \
-    wavplayer.cpp
+    wavplayer.cpp \
+    wavdeassembler.cpp \
+    wavassembler.cpp
 
 HEADERS  += mainwindow.h \
     button.h \
@@ -61,7 +63,9 @@ HEADERS  += mainwindow.h \
     winsockserverthread.h \
     winsockclientthread.h \
     lrchandler.h \
-    wavplayer.h
+    wavplayer.h \
+    wavdeassembler.h \
+    wavassembler.h
 
 FORMS    += mainwindow.ui
 

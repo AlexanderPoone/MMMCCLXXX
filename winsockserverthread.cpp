@@ -100,7 +100,7 @@ void WinSockServerThread::init() {
     server.sin_addr.s_addr = inet_addr(buffer);
     server.sin_port = htons(myport.toInt());
     // ↑ TESTING ↑
-    iResult = bind(ListenSocket, (struct sockaddr *)&server, (int)result->ai_addrlen); //result->ai_addr
+    iResult = ::bind(ListenSocket, (struct sockaddr *)&server, (int)result->ai_addrlen); //result->ai_addr
     if (iResult == SOCKET_ERROR) {
         qDebug() << "bind failed with error: " << WSAGetLastError();
         freeaddrinfo(result);
@@ -216,6 +216,31 @@ void WinSockServerThread::setMessageByPath(QString path) {
     qDebug() << "Size:" << QLatin1String(sendbuf).size();
     sendPart(howManyLeft);
     free(sendbuf);
+    do {
+    recvbuf = (char *) malloc(256);
+    iResult = recv(ClientSocket, recvbuf, 256, 0);
+    if (iResult > 0) { //Exit condition?
+        qDebug() << "Server received command:" << QString::fromUtf8(recvbuf).left(iResult) << "(" << iResult << "bytes)\n\n\n";
+        QString wavCrumbsPath=QString::fromUtf8(recvbuf).left(iResult).remove("REQUEST");
+        sendWavCrumbs(wavCrumbsPath);
+        free(recvbuf);
+    } else if (iResult == 0)
+        qDebug() << "Connection closed";
+    else
+        qDebug() << "recv failed: " << WSAGetLastError();
+    } while (1);
+}
+
+void WinSockServerThread::sendWavCrumbs(QString path) {
+    WavDeassembler *wavDeassembler=new WavDeassembler();
+    wavDeassembler->setPath(path);
+    //wavDeassembler->start();
+    //There should be a slot to receive mmioBuffer and send it to clients:
+    connect(wavDeassembler, &WavDeassembler::partitionMade, this, &WinSockServerThread::onPartitionMade);
+}
+
+void WinSockServerThread::onPartitionMade(char *partition) {
+
 }
 
 void WinSockServerThread::sendPart(int bufSize) {

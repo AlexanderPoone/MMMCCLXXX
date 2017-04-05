@@ -132,7 +132,54 @@ void WinSockClientThread::run() {
     // // // // // // // // // // // // // // // // // // // //
 }
 
+void WinSockClientThread::sendPart(int bufSize) {
+    iResult=1;
+    if (iResult > 0) {
+        qDebug() << "Hello!";
+        //            QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+        //            QString field = codec->toUnicode(recvbuf).trimmed();
+//        QString field=recvbuf;
+//        field=field.mid(0,field.indexOf("\t"));
+//        qDebug() << "Receives (server):" << field << "(" << iResult << "bytes)";
+//        this->label->setText(field);
+        // Echo the buffer back to the sender
+        iSendResult = send(ConnectSocket, sendbuf, bufSize, 0);
+        if (iSendResult == SOCKET_ERROR) {
+            qDebug() << "send failed: " << WSAGetLastError();
+            closesocket(ConnectSocket);
+            WSACleanup();
+            return;
+        }
+        qDebug() << "Bytes sent (client command): " << iSendResult;
+    }
+//    iResult=1;
+//    if (iResult > 0) {
+//        qDebug() << "Hello!";
+//        //            QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+//        //            QString field = codec->toUnicode(recvbuf).trimmed();
+////        QString field=recvbuf;
+////        field=field.mid(0,field.indexOf("\t"));
+////        qDebug() << "Receives (server):" << field << "(" << iResult << "bytes)";
+////        this->label->setText(field);
+//        // Echo the buffer back to the sender
+//        iSendResult = send(ClientSocket, sendbuf, bufSize, 0);
+//        if (iSendResult == SOCKET_ERROR) {
+//            qDebug() << "send failed: " << WSAGetLastError();
+//            closesocket(ClientSocket);
+//            WSACleanup();
+//            return;
+//        }
+//        qDebug() << "Bytes sent (server): " << iSendResult;
+//    }
+}
+
 void WinSockClientThread::setMessage(QString message) {
+    int bufSize=message.length();
+    sendbuf = (char *) malloc(bufSize);
+    memcpy(sendbuf, message.toStdString().c_str(), bufSize);
+    sendPart(bufSize);
+    free(sendbuf);
+
 //    message.append("\t");
 ////    QByteArray tmp1=message.toUtf8();
 //    sendbuf=(char *) malloc(sizeof(message.toStdString().c_str()));

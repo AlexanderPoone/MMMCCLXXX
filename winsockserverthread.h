@@ -15,6 +15,7 @@
 #include <QDebug>
 #include <QLabel>
 #include <QFile>
+#include "wavdeassembler.h"
 
 #pragma comment(lib, "Ws2_32.lib")  //Winsock (P2P)
 
@@ -37,10 +38,11 @@ private:
     SOCKET ClientSocket;
     int iSendResult;
 
+    void sendWavCrumbs(QString path);
     QString myip;
     QString myport;
     QLabel *label;
-    char recvbuf[DEFAULT_BUFLEN];
+    char *recvbuf;
     int iResult;
     WSADATA wsaData;
     struct addrinfo *result = NULL, *ptr = NULL, hints;
@@ -50,5 +52,7 @@ private:
 signals:
     void connected(const QString &ip, const QString &port);
     void resultReady(const QString &s);
+private slots:
+    void onPartitionMade(char *partition);
 };
 #endif // WINSOCKSERVERTHREAD_H

@@ -71,7 +71,7 @@ public:
     HWAVEOUT  hAudioOut;
     std::vector<WAVEHDR> databuffer;
     MMRESULT err;
-private:
+protected:
     void play();
     int bufferLoop;
     QMutex mut;

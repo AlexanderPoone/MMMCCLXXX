@@ -24,6 +24,7 @@
 //#pragma comment(lib, "winmm.lib")   //WAV
 #pragma comment(lib, "Ws2_32.lib")  //Winsock (P2P)
 #include "winsockserverthread.h"
+#include "winsockclientthread.h"
 #include "wavplayer.h"
 #include <tchar.h>
 #include "playpausebutton.h"
@@ -62,8 +63,10 @@ private slots:
     void createClients(); //const QString &ip, const QString &port
     void onItemClicked(QListWidgetItem *item);
     void onItemDoubleClicked(QListWidgetItem *item);
+    void onRemoteItemDoubleClicked(QListWidgetItem *item);
     void onReceiveMusicCatalogue(QString rawJSON);
 private:
+    WinSockClientThread *client_1, *client_2, *client_3;
     PlayPauseButton *playPauseItem;
     QDir tmpDir;
     QLabel *addL,*one_addL, *one_addL_0, *one_addL_1, *one_addL_2,

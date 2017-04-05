@@ -9,8 +9,6 @@
 #include "stopbutton.h"
 #include "ratingbar.h"
 #include "bulletscreen.h"
-#include "winsockclientthread.h"
-
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -193,6 +191,7 @@ void MainWindow::onReceiveMusicCatalogue(QString rawJSON) {
     //Need cas in the future
     MusicLibrary *remoteMusicLibrary=new MusicLibrary(ui->remoteMusicToolbox_1, rawJSON, this);
     connect(ui->searchBox,&QLineEdit::textChanged, remoteMusicLibrary, &MusicLibrary::search);
+    connect(remoteMusicLibrary, &MusicLibrary::itemDoubleClicked, this, &MainWindow::onRemoteItemDoubleClicked);
 }
 
 void MainWindow::serverDialogSlot() {
@@ -314,21 +313,21 @@ void MainWindow::createClients() {
     if (exampleJSON.open(QIODevice::ReadOnly | QIODevice::Text)) {
         tmp=exampleJSON.readAll();
     }
-    WinSockClientThread *client_1=new WinSockClientThread(1);
+    client_1=new WinSockClientThread(1);
     client_1->setIpLastFourBits(addS_3->value());
     client_1->setPortNumber(portS->value());
     client_1->init();
     client_1->setMessage(QString::fromUtf8("測試進行中……"));
     connect(client_1, &WinSockClientThread::musicCatalogueReceived, this, &MainWindow::onReceiveMusicCatalogue);
     client_1->start();
-    WinSockClientThread *client_2=new WinSockClientThread(2);
+    client_2=new WinSockClientThread(2);
     client_2->setIpLastFourBits(addS_3->value());
     client_2->setPortNumber(portS->value());
     client_2->init();
     client_2->setMessage(QString::fromUtf8("abcdef"));
     connect(client_2, &WinSockClientThread::musicCatalogueReceived, this, &MainWindow::onReceiveMusicCatalogue);
     client_2->start();
-    WinSockClientThread *client_3=new WinSockClientThread(3);
+    client_3=new WinSockClientThread(3);
     client_3->setIpLastFourBits(addS_3->value());
     client_3->setPortNumber(portS->value());
     client_3->init();
@@ -341,6 +340,15 @@ void MainWindow::createClients() {
     //    connect(client_2, );
     //    connect(client_3, );
 //    server->setMessageByPath(QStringLiteral("%1/sans_titre/example.json").arg(tmpDir.absolutePath()));
+}
+
+void MainWindow::onRemoteItemDoubleClicked(QListWidgetItem *item) {
+//    ui->remoteMusicToolbox_1
+    QString title=item->text();
+    title.remove(QRegExp(".*\\t"));
+    QString command=QString::fromUtf8("REQUEST%1").arg(item->toolTip());
+    client_1->setMessage(command);
+//    qDebug() << "Double clicked!" << command;
 }
 
 
