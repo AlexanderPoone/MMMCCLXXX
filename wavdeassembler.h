@@ -12,7 +12,7 @@ public:
 private:
     void deassemble();
 signals:
-    void partitionMade(char *partition);
+    void partitionMade(char *partition, int bufSize);
 };
 
 #endif // WAVDEASSEMBLER_H
