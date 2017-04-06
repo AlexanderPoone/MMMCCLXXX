@@ -34,11 +34,7 @@ void WavAssembler::assemble() {
     /*--------------------------------------------------------------------------------
         *Determine the size of buffer
         ---------------------------------------------------------------------------------*/
-    int blockSize = fmtData.nChannels*fmtData.wBitsPerSample;
-    bufferSize = blockSize * fmtData.nSamplesPerSec / 8;
-//    int totalBlocks = dataChunkSize / blockSize;
-//    emit duration(dataChunk.cksize/fmtData.nAvgBytesPerSec);
-
+    bufferSize = 176400;
     /*--------------------------------------------------------------------------------
         *waveOutPrepareHeader(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh);
         *Prepare buffer
@@ -57,19 +53,19 @@ void WavAssembler::assemble() {
         *loop
         ---------------------------------------------------------------------------------*/
     bufferLoop = 0;
-    while (1) {
-        mut.lock();
-        waveOutWrite(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
-        Sleep(1000); //Please let the second finish first.
-        mut.unlock();
-        waveOutUnprepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(databuffer[bufferLoop]));
-        memset(databuffer[bufferLoop].lpData, 0, bufferSize);
-        err = waveOutPrepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
-        bufferLoop++;
-        if (bufferLoop == BUFFER_QUANTITY) {
-            bufferLoop = 0;
-        }
-    }
+//    while (1) {
+//        mut.lock();
+//        waveOutWrite(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
+//        Sleep(1000); //Please let the second finish first.
+//        mut.unlock();
+//        waveOutUnprepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(databuffer[bufferLoop]));
+//        memset(databuffer[bufferLoop].lpData, 0, bufferSize);
+//        err = waveOutPrepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
+//        bufferLoop++;
+//        if (bufferLoop == BUFFER_QUANTITY) {
+//            bufferLoop = 0;
+//        }
+//    }
     /*--------------------------------------------------------------------------------
         *mmioClose(HMMIO h, UINT wflags);
         *Close Wav file

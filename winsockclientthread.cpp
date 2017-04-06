@@ -130,6 +130,10 @@ void WinSockClientThread::run() {
     // QString done;                                         //
     // emit resultReady(done);                               //
     // // // // // // // // // // // // // // // // // // // //
+
+
+    WavAssembler *wavAssembler=new WavAssembler();
+//    wavAssembler->start();
 }
 
 void WinSockClientThread::sendPart(int bufSize) {

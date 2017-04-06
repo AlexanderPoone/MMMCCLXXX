@@ -192,6 +192,8 @@ void MainWindow::onReceiveMusicCatalogue(QString rawJSON) {
     MusicLibrary *remoteMusicLibrary=new MusicLibrary(ui->remoteMusicToolbox_1, rawJSON, this);
     connect(ui->searchBox,&QLineEdit::textChanged, remoteMusicLibrary, &MusicLibrary::search);
     connect(remoteMusicLibrary, &MusicLibrary::itemDoubleClicked, this, &MainWindow::onRemoteItemDoubleClicked);
+    connect(remoteMusicLibrary, &MusicLibrary::itemDoubleClicked, this, &MainWindow::stopSlot);
+    connect(remoteMusicLibrary, &MusicLibrary::itemDoubleClicked, playPauseItem, &PlayPauseButton::resetSlot);
 }
 
 void MainWindow::serverDialogSlot() {

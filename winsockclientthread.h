@@ -14,6 +14,7 @@
 #include <QThread>
 #include <QFile>
 #include <QDebug>
+#include "wavassembler.h"
 
 #pragma comment(lib, "Ws2_32.lib")  //Winsock (P2P)
 
