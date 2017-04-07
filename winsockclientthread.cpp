@@ -133,7 +133,23 @@ void WinSockClientThread::run() {
 
 
     WavAssembler *wavAssembler=new WavAssembler();
-//    wavAssembler->start();
+    do {
+        recvbuf = (char *) malloc(1000);
+        iResult = recv(ConnectSocket, recvbuf, 1000, 0);
+//        if (!wavAssembler->isRunning()) wavAssembler->start();
+        wavAssembler->receiveBuffer(recvbuf, iResult);
+        if (iResult > 0) { //Exit condition?
+            qDebug() << "Client" << threadNumber << "received partition:" << QString::fromUtf8(recvbuf).left(iResult) << "(" << iResult << "bytes)\n\n\n";
+        } else if (iResult == 0)
+            qDebug() << "Connection closed";
+        else
+            qDebug() << "recv failed: " << WSAGetLastError();
+
+        //DEBUG DEBUG DEBUG DEBUG
+        free(recvbuf);
+        //DEBUG DEBUG DEBUG DEBUG
+
+    } while (1); //DEBUG DEBUG DEBUG DEBUG iResult > 0
 }
 
 void WinSockClientThread::sendPart(int bufSize) {

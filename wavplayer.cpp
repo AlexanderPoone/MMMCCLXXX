@@ -9,7 +9,7 @@ void WavPlayer::GetWaveError(MMRESULT err) {
         return;
     }else{
         waveOutGetErrorText(err, (LPTSTR)errorMsg, sizeof(errorMsg));
-        qDebug() << "Error in WaveOutOpen:" << errorMsg << endl;
+        qDebug() << "Error in WaveOutOpen:" << errorMsg;
         return;
     }
 }
@@ -69,7 +69,7 @@ databuffer.push_back(tmp);
     *HMMIO mmioOpen(LPSTR filename, LPMMIOINFO info, DWORD flags);
     *Open the a wav file.
     ---------------------------------------------------------------------------------*/
-    if ((WavPlayer::hmmioIn = mmioOpen(path, NULL, MMIO_READ)) == NULL) {
+    if ((hmmioIn = mmioOpen(path, NULL, MMIO_READ)) == NULL) {
         qDebug() << "Error: mmioOpen error";
         return; //exit(-1);
     }

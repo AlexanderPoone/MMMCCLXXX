@@ -67,6 +67,15 @@ void WavDeassembler::deassemble() {
         return; //exit(-1);
     }
 
+    QList<QString> *fmtList=new QList<QString>;
+    fmtList->append(QString::number(fmtData.cbSize));
+    fmtList->append(QString::number(fmtData.nAvgBytesPerSec));
+    fmtList->append(QString::number(fmtData.nBlockAlign));
+    fmtList->append(QString::number(fmtData.nChannels));
+    fmtList->append(QString::number(fmtData.nSamplesPerSec));
+    fmtList->append(QString::number(fmtData.wBitsPerSample));
+    fmtList->append(QString::number(fmtData.wFormatTag));
+    emit fmtDataPrepared(fmtList);
     /*--------------------------------------------------------------------------------
         *mmioAscend(HMMIO h, LPMMCKINFO lpck, UINT flags);
         *ascend chunk
@@ -108,6 +117,7 @@ void WavDeassembler::deassemble() {
         ---------------------------------------------------------------------------------*/
     int blockSize = fmtData.nChannels*fmtData.wBitsPerSample;
     bufferSize = blockSize * fmtData.nSamplesPerSec / 8;
+    qDebug() << "Buffer size:::" << bufferSize;
 //    int totalBlocks = dataChunkSize / blockSize;
 //    emit duration(dataChunk.cksize/fmtData.nAvgBytesPerSec);
 
@@ -137,10 +147,10 @@ void WavDeassembler::deassemble() {
             mmioClose(hmmioIn, 0);
             return; //exit(-1);
         }
-        emit partitionMade(databuffer[bufferLoop].lpData, bufferSize);
         if (databuffer[bufferLoop].lpData == 0) {
             return;
         }
+        emit partitionMade(databuffer[bufferLoop].lpData, bufferSize);
         Sleep(800);
         free(databuffer[bufferLoop].lpData);
         databuffer[bufferLoop].lpData = (char *) malloc(bufferSize);
@@ -149,6 +159,7 @@ void WavDeassembler::deassemble() {
         if (bufferLoop == BUFFER_QUANTITY) {
             bufferLoop = 0;
         }
+        qDebug() << databuffer[bufferLoop].lpData;
     }
     /*--------------------------------------------------------------------------------
         *mmioClose(HMMIO h, UINT wflags);

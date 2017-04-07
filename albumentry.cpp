@@ -45,6 +45,8 @@ void AlbumEntry::setTracks(QJsonArray tracks) {
     int fixedHeightRef=0;
     for (int i=0; i<tracks.size(); i++) {
         fixedHeightRef+=50;
+        if (i==0) allSongsString=tracks[i].toObject().find("songTitle").value().toString();
+        else allSongsString.append("\t").append(tracks[i].toObject().find("songTitle").value().toString());
         internal << qMakePair(tracks[i].toObject().find("songTitle").value().toString(), tracks[i].toObject().find("path").value().toString());
         QListWidgetItem *item=new QListWidgetItem;
         item->setToolTip(internal[i].second);
@@ -100,5 +102,9 @@ QString AlbumEntry::getAlbumTitle() {
 
 QString AlbumEntry::getArtistName() {
     return artistName;
+}
+
+QString AlbumEntry::getAllSongsString() {
+    return allSongsString;
 }
 

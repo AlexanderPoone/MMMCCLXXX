@@ -53,6 +53,7 @@ signals:
     void connected(const QString &ip, const QString &port);
     void resultReady(const QString &s);
 private slots:
+    void onFmtDataExtracted(QList<QString> *fmtList);
     void onPartitionMade(char *partition, int bufSize);
 };
 #endif // WINSOCKSERVERTHREAD_H

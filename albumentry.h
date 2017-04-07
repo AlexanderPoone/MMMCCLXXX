@@ -31,8 +31,10 @@ public:
     QString getTitleString();
     QString getAlbumTitle();
     QString getArtistName();
+    QString getAllSongsString();
 private:
 //    int toolBoxPosition;
+    QString allSongsString;
     QWidget *parent;
     QPixmap albumPixmap;
     QString artistName;

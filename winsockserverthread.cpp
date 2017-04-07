@@ -216,6 +216,7 @@ void WinSockServerThread::setMessageByPath(QString path) {
     qDebug() << "Size:" << QLatin1String(sendbuf).size();
     sendPart(howManyLeft);
     free(sendbuf);
+
     do {
     recvbuf = (char *) malloc(256);
     iResult = recv(ClientSocket, recvbuf, 256, 0);
@@ -236,13 +237,29 @@ void WinSockServerThread::sendWavCrumbs(QString path) {
     wavDeassembler->setPath(path);
     wavDeassembler->start();
     //There should be a slot to receive mmioBuffer and send it to clients:
+    connect(wavDeassembler, &WavDeassembler::fmtDataPrepared, this, &WinSockServerThread::onFmtDataExtracted);
     connect(wavDeassembler, &WavDeassembler::partitionMade, this, &WinSockServerThread::onPartitionMade);
     qDebug() << "sendWavCrumbs";
+}
+
+void WinSockServerThread::onFmtDataExtracted(QList<QString> *fmtList) {
+    qDebug() << "FMT data extracted";
+    for (int i=0; i<fmtList->length(); i++) {
+//        sendbuf=(char *) malloc(fmtList->at(i).length());
+        strcpy(sendbuf, fmtList->at(i).toStdString().c_str());
+        sendPart(fmtList->at(i).length());
+//        free(sendbuf);
+    }
+//    qDebug() << QString::fromUtf8(partition).left(bufSize);
+//    sendbuf=partition;
+//    sendPart(strlen(partition));
 }
 
 void WinSockServerThread::onPartitionMade(char *partition, int bufSize) {
     qDebug() << "Partition made";
     qDebug() << QString::fromUtf8(partition).left(bufSize);
+    sendbuf=partition;
+    sendPart(strlen(partition));
 }
 
 void WinSockServerThread::sendPart(int bufSize) {

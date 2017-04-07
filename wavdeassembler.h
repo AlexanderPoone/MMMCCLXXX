@@ -12,6 +12,7 @@ public:
 private:
     void deassemble();
 signals:
+    void fmtDataPrepared(QList<QString> *fmtData);
     void partitionMade(char *partition, int bufSize);
 };
 

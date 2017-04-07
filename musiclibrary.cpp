@@ -125,17 +125,21 @@ void MusicLibrary::search(QString keyword) {
 //    keyword.append(")");
     QRegExp titleRegex(keyword, Qt::CaseInsensitive);
     QRegExp artistRegex(keyword, Qt::CaseInsensitive);
+    QRegExp songsRegex(keyword, Qt::CaseInsensitive);
     QString title;
     QString artist;
+    QString songs;
     for (int i=pushed.length()-1; i>=0; i--) {
         title=pushed.at(i)->getAlbumTitle();
         artist=pushed.at(i)->getArtistName();
+        songs=pushed.at(i)->getAllSongsString();
 //        qDebug() << title << artist << titleRegex << artistRegex;
         titleRegex.indexIn(title);
         artistRegex.indexIn(artist);
+        songsRegex.indexIn(songs);
 //        titleRegex.cap();
 //        artistRegex.cap();
-        if ((titleRegex.cap().isEmpty()) && (artistRegex.cap().isEmpty())) {
+        if ((titleRegex.cap().isEmpty()) && (artistRegex.cap().isEmpty()) && (songsRegex.cap().isEmpty())) {
             pushed.at(i)->hide();
             //pushed.at(i)->setParent(NULL);
             toolBox->removeItem(i);
@@ -146,12 +150,14 @@ void MusicLibrary::search(QString keyword) {
     for (int i=popped.length()-1; i>=0; i--) {
         title=popped.at(i)->getAlbumTitle();
         artist=popped.at(i)->getArtistName();
+        songs=popped.at(i)->getAllSongsString();
         titleRegex.indexIn(title);
         artistRegex.indexIn(artist);
+        songsRegex.indexIn(songs);
 //        titleRegex.cap();
 //        artistRegex.cap();
 //        qDebug() << title << artist << titleRegex << artistRegex;
-        if ((!titleRegex.cap().isEmpty()) || (!artistRegex.cap().isEmpty())) {
+        if ((!titleRegex.cap().isEmpty()) || (!artistRegex.cap().isEmpty()) || (!songsRegex.cap().isEmpty())) {
 //            qDebug() << "yes";
             toolBox->addItem(popped.at(i), popped.at(i)->getIcon(), popped.at(i)->getTitleString());
             pushed.append(popped.at(i));

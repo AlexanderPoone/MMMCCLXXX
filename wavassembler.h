@@ -11,8 +11,9 @@ public:
     void run() Q_DECL_OVERRIDE;
     void assemble();
 public slots:
-    void receiveBuffer(char *buffer);
+    void receiveBuffer(char *buffer, int bufLen);
 private:
+    WAVEFORMATEX fmtData;
     long int currentPosition;
 };
 
