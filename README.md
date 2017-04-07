@@ -1,6 +1,8 @@
 # 3280
 ![Logo](logo.png "Logo")
 The proper way to write a GUI is to use only 1 or 2 images.
+## Trello page
+[https://trello.com/b/Mb0lOT44/csci3280](https://trello.com/b/Mb0lOT44/csci3280)
 ## For developers
 The GUI will be implemented using Qt.
 
