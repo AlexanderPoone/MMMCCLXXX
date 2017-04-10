@@ -58,6 +58,10 @@ void WinSockClientThread::init() {
     }
 }
 
+void WinSockClientThread::pausePlayback() {
+    wavAssembler->pause();
+}
+
 void WinSockClientThread::run() {
 //    // Receiving and Sending Data on the Client
 
@@ -123,7 +127,7 @@ void WinSockClientThread::run() {
     veryLongArrayForJSON.remove("\u00CD");
     veryLongArrayForJSON.remove("\u0016");
     veryLongArrayForJSON.remove("\u0002");
-    emit musicCatalogueReceived(veryLongArrayForJSON);
+    emit musicCatalogueReceived(veryLongArrayForJSON, this->threadNumber);
     //auto musicLibrary=new MusicLibrary(ui->localMusicToolbox, this);
 
     // // // // // // // // // // // // // // // // // // // //
@@ -132,24 +136,32 @@ void WinSockClientThread::run() {
     // // // // // // // // // // // // // // // // // // // //
 
 
-    WavAssembler *wavAssembler=new WavAssembler();
+    wavAssembler=new WavAssembler();
+    int counter=0, bufSize;
     do {
         recvbuf = (char *) malloc(1000);
         iResult = recv(ConnectSocket, recvbuf, 1000, 0);
 //        if (!wavAssembler->isRunning()) wavAssembler->start();
         wavAssembler->receiveBuffer(recvbuf, iResult);
         if (iResult > 0) { //Exit condition?
-            qDebug() << "Client" << threadNumber << "received partition:" << QString::fromUtf8(recvbuf).left(iResult) << "(" << iResult << "bytes)\n\n\n";
+            qDebug() << "Client" << threadNumber << "received partition:" << QString::fromLatin1(recvbuf, iResult) << "(" << iResult << "bytes)\n\n\n";
         } else if (iResult == 0)
             qDebug() << "Connection closed";
         else
             qDebug() << "recv failed: " << WSAGetLastError();
 
         //DEBUG DEBUG DEBUG DEBUG
+        if (counter==7) bufSize=QString(recvbuf).left(iResult).toInt();
         free(recvbuf);
         //DEBUG DEBUG DEBUG DEBUG
+        counter++;
+    } while (counter<8); //DEBUG DEBUG DEBUG DEBUG iResult > 0
 
-    } while (1); //DEBUG DEBUG DEBUG DEBUG iResult > 0
+    do {
+        recvbuf = (char *) malloc(bufSize);
+        iResult = recv(ConnectSocket, recvbuf, bufSize, 0);
+        wavAssembler->receiveBuffer(recvbuf, iResult);
+    } while (iResult > 0);
 }
 
 void WinSockClientThread::sendPart(int bufSize) {

@@ -10,7 +10,7 @@ class GeniusManager : public QNetworkAccessManager
     Q_OBJECT
 
 public:
-    GeniusManager(QLabel *label, QLabel *songArtL, QLabel *artistPhotoL, QLabel *albumArtL, QLabel *albumTitleL, QLabel *releaseDateL, QString artist, QString songTitle);
+    GeniusManager(QLabel *label, QLabel *songArtL, QLabel *artistPhotoL, QLabel *albumArtL, QLabel *albumTitleL, QLabel *releaseDateL, QLabel *albumInfoL, QString artist, QString songTitle);
 private slots:
     void result();
     void httpFinished();
@@ -18,6 +18,10 @@ private slots:
     void songArtFetched();
     void albumArtFetched();
     void getSongDetails();
+    void getAlbumInfo();
+private:
+    void recursion(QJsonArray array);
+    QString info;
 };
 
 #endif // GENIUSMANAGER_H

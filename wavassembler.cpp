@@ -1,6 +1,7 @@
 #include "wavassembler.h"
 
 QQueue<char *> queue;
+int bufSize;
 int underSeven=0;
 
 WavAssembler::WavAssembler() {
@@ -41,9 +42,18 @@ void WavAssembler::receiveBuffer(char *buffer, int bufLen) {
         fmtData.wFormatTag=static_cast<WORD>(QString(buffer).left(bufLen).toInt());
         underSeven++;
         break;
+    case 7:
+        bufSize=QString(buffer).left(bufLen).toInt();
+        underSeven++;
+        break;
     default:
-        queue.enqueue(buffer);
-        qDebug() << "Length of queue:" << queue.length();
+        char *tmp;
+        tmp=(char *) malloc(bufSize);
+        memcpy(tmp, buffer, bufSize);
+        queue.enqueue(tmp);
+        if (!queue.isEmpty()) {
+            qDebug() << "Length of queue:" << queue.length();
+        }
         if (!isRunning()) start();
         break;
     }
@@ -51,15 +61,6 @@ void WavAssembler::receiveBuffer(char *buffer, int bufLen) {
 }
 
 void WavAssembler::assemble() {
-    qDebug() << fmtData.cbSize;
-    qDebug() << fmtData.nAvgBytesPerSec;
-    qDebug() << fmtData.nBlockAlign;
-    qDebug() << fmtData.nChannels;
-    qDebug() << fmtData.nSamplesPerSec;
-    qDebug() << fmtData.wBitsPerSample;
-    qDebug() << fmtData.wFormatTag;
-
-
     //    USES_CONVERSION;
     CONST int BUFFER_QUANTITY = 5;
 //    WAVEFORMATEX fmtData;
@@ -77,10 +78,20 @@ void WavAssembler::assemble() {
                       (DWORD)NULL, 0, CALLBACK_FUNCTION);
     GetWaveError(err);
 
+    qDebug() << fmtData.cbSize;
+    qDebug() << fmtData.nAvgBytesPerSec;
+    qDebug() << fmtData.nBlockAlign;
+    qDebug() << fmtData.nChannels;
+    qDebug() << fmtData.nSamplesPerSec;
+    qDebug() << fmtData.wBitsPerSample;
+    qDebug() << fmtData.wFormatTag;
     /*--------------------------------------------------------------------------------
         *Determine the size of buffer
         ---------------------------------------------------------------------------------*/
-    bufferSize = 176400;
+    bufferSize=bufSize;
+//    256000, 176400
+//    int blockSize = fmtData.nChannels*fmtData.wBitsPerSample;
+//    bufferSize = blockSize * fmtData.nSamplesPerSec / 8;
     /*--------------------------------------------------------------------------------
         *waveOutPrepareHeader(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh);
         *Prepare buffer
@@ -99,23 +110,36 @@ void WavAssembler::assemble() {
         *loop
         ---------------------------------------------------------------------------------*/
     bufferLoop = 0;
+    setVolume(100);
     while (1) {
-//        if (!queue.isEmpty()) {
+        if (!queue.isEmpty()) {
+//            databuffer[bufferLoop].lpData = (char *) malloc(bufferSize);
+//            char *tmpp;
+//            memcpy(tmpp, queue.dequeue(), bufLenQueue.dequeue());
+//            databuffer[bufferLoop].lpData=tmpp;
+            databuffer[bufferLoop].lpData=queue.dequeue();
+//            memcpy(databuffer[bufferLoop].lpData, queue.dequeue(), bufSize);
+            qDebug() << "Last:" << databuffer[bufferLoop].lpData;
+//            strcpy(databuffer[bufferLoop].lpData, queue.dequeue());
 //            databuffer[bufferLoop].lpData=queue.dequeue();
-//        } else {
-//            continue;
-//        }
-//        mut.lock();
-//        waveOutWrite(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
-//        Sleep(1000); //Please let the second finish first.
-//        mut.unlock();
-//        waveOutUnprepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(databuffer[bufferLoop]));
+
+//            memcpy(databuffer[bufferLoop].lpData, queue.dequeue(), 361);
+//            qDebug() << "No sound" << databuffer[bufferLoop].lpData << "no sounD";
+        } else {
+            continue;
+        }
+        mut.lock();
+        waveOutWrite(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
+        Sleep(1000); //Please let the second finish first.
+        mut.unlock();
+        waveOutUnprepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(databuffer[bufferLoop]));
+
 //        memset(databuffer[bufferLoop].lpData, 0, bufferSize);
-//        err = waveOutPrepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
-//        bufferLoop++;
-//        if (bufferLoop == BUFFER_QUANTITY) {
-//            bufferLoop = 0;
-//        }
+        err = waveOutPrepareHeader(hAudioOut, &databuffer[bufferLoop], sizeof(WAVEHDR));
+        bufferLoop++;
+        if (bufferLoop == BUFFER_QUANTITY) {
+            bufferLoop = 0;
+        }
     }
     /*--------------------------------------------------------------------------------
         *mmioClose(HMMIO h, UINT wflags);

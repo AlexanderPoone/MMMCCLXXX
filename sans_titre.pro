@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network concurrent testlib
+QT       += core gui network concurrent testlib charts multimedia
 #webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -43,9 +43,13 @@ SOURCES += main.cpp\
     winsockserverthread.cpp \
     winsockclientthread.cpp \
     lrchandler.cpp \
+    visualisationwidget.cpp \
     wavplayer.cpp \
     wavdeassembler.cpp \
-    wavassembler.cpp
+    wavassembler.cpp \
+    xyseriesiodevice.cpp \
+    videobutton.cpp \
+    videodialog.cpp
 
 HEADERS  += mainwindow.h \
     button.h \
@@ -63,11 +67,16 @@ HEADERS  += mainwindow.h \
     winsockserverthread.h \
     winsockclientthread.h \
     lrchandler.h \
+    visualisationwidget.h \
     wavplayer.h \
     wavdeassembler.h \
-    wavassembler.h
+    wavassembler.h \
+    xyseriesiodevice.h \
+    videobutton.h \
+    videodialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+            mainwindowC.ui
 
 CONFIG += mobility
 MOBILITY = 

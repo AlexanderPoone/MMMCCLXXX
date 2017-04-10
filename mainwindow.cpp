@@ -9,12 +9,14 @@
 #include "stopbutton.h"
 #include "ratingbar.h"
 #include "bulletscreen.h"
+#include "visualisationwidget.h"
+#include "videobutton.h"
+#include "videodialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-
     tmpDir = QDir::currentPath();
     tmpDir.cdUp();
     playingPath = tmpDir.absolutePath() + "\\sans_titre\\numb.wav";
@@ -121,6 +123,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(positive, &QPushButton::clicked, dialog, &QDialog::close);
     dialog->show();
     ui->setupUi(this);
+    VisualisationWidget *visualisationWidget=new VisualisationWidget;
+    ui->visualisationContainer->addWidget(visualisationWidget);
+//    visualisationWidget->moveToThread(new QThread);
     wavPlay=new WavPlayer;
     ui->thisShouldNotExist->hide();
     ui->localMusicToolbox->removeItem(0);
@@ -156,18 +161,22 @@ MainWindow::MainWindow(QWidget *parent) :
     stopScene=new QGraphicsScene(this);
     ratingBarScene=new QGraphicsScene(this);
     bulletScrScene=new QGraphicsScene(this);
+    videoScene=new QGraphicsScene(this);
     PreviousButton *previousItem = new PreviousButton();
     playPauseItem = new PlayPauseButton;
     NextButton *nextItem = new NextButton();
     StopButton *stopItem = new StopButton();
     QGraphicsItem *ratingBarItem = new RatingBar();
     QGraphicsItem *bulletScrItem = new BulletScreen();
+    VideoButton *videoItem = new VideoButton();
+    VideoDialog *videoDialog = new VideoDialog();
     bindToView(ui->backwardView, previousScene, previousItem);
     bindToView(ui->playPauseView, playPauseScene, playPauseItem);
     bindToView(ui->nextView, nextScene, nextItem);
     bindToView(ui->stopView, stopScene, stopItem);
     bindToView(ui->repeatView, ratingBarScene, ratingBarItem);
     bindToView(ui->bulletScreenView, bulletScrScene, bulletScrItem);
+    bindToView(ui->videoView, videoScene, videoItem);
     connect(playPauseItem, &PlayPauseButton::playActivated, this, &MainWindow::startSecTimer);
     connect(playPauseItem, &PlayPauseButton::playDeactivated, this, &MainWindow::pauseSlot);
     connect(stopItem, &StopButton::stopSignal, this, &MainWindow::stopSlot);
@@ -176,6 +185,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(stopItem, &StopButton::stopSignal, playPauseItem, &PlayPauseButton::resetSlot);
     connect(previousItem, &PreviousButton::prevSignal, playPauseItem, &PlayPauseButton::resetSlot);
     connect(nextItem, &NextButton::nextSignal, playPauseItem, &PlayPauseButton::resetSlot);
+    connect(videoItem, &VideoButton::onClick, videoDialog, &VideoDialog::show);
     connect(secTimer, &QTimer::timeout, this, &MainWindow::moveSeekBar);
     connect(lyricsTimer, &QTimer::timeout, this, &MainWindow::scrollScroller);
     connect(ui->scrollSpeedDial,&QDial::valueChanged,this,&MainWindow::setScrollSpeed);
@@ -186,10 +196,21 @@ MainWindow::MainWindow(QWidget *parent) :
     setAcceptDrops(true);
 }
 
-void MainWindow::onReceiveMusicCatalogue(QString rawJSON) {
+void MainWindow::onReceiveMusicCatalogue(QString rawJSON, int threadNumber) {
     qDebug() << rawJSON;
     //Need cas in the future
-    MusicLibrary *remoteMusicLibrary=new MusicLibrary(ui->remoteMusicToolbox_1, rawJSON, this);
+    MusicLibrary *remoteMusicLibrary;
+    switch (threadNumber) {
+    case 1:
+        remoteMusicLibrary=new MusicLibrary(ui->remoteMusicToolbox_1, rawJSON, this);
+        break;
+    case 2:
+        remoteMusicLibrary=new MusicLibrary(ui->remoteMusicToolbox_2, rawJSON, this);
+        break;
+    case 3:
+        remoteMusicLibrary=new MusicLibrary(ui->remoteMusicToolbox_3, rawJSON, this);
+        break;
+    }
     connect(ui->searchBox,&QLineEdit::textChanged, remoteMusicLibrary, &MusicLibrary::search);
     connect(remoteMusicLibrary, &MusicLibrary::itemDoubleClicked, this, &MainWindow::onRemoteItemDoubleClicked);
     connect(remoteMusicLibrary, &MusicLibrary::itemDoubleClicked, this, &MainWindow::stopSlot);
@@ -345,6 +366,7 @@ void MainWindow::createClients() {
 }
 
 void MainWindow::onRemoteItemDoubleClicked(QListWidgetItem *item) {
+//    connect(playPauseItem, &PlayPauseButton::playActivated, client_1, &WinSockClientThread::pausePlayback);
 //    ui->remoteMusicToolbox_1
     QString title=item->text();
     title.remove(QRegExp(".*\\t"));
@@ -359,7 +381,7 @@ void MainWindow::initWavFile(QString fileLocation) {
 }
 
 void MainWindow::useGeniusAPI() {
-    auto gManager=new GeniusManager(ui->lyricsLabel, ui->metadataSongArtLabel, ui->metadataAlbumArtLabel, ui->metadataArtistPhotoLabel, ui->metadataAlbumTitleLabel, ui->metadataReleaseDateLabel, artist, songTitle);
+    auto gManager=new GeniusManager(ui->lyricsLabel, ui->metadataSongArtLabel, ui->metadataAlbumArtLabel, ui->metadataArtistPhotoLabel, ui->metadataAlbumTitleLabel, ui->metadataReleaseDateLabel, ui->albumInfoL, artist, songTitle);
 }
 
 void MainWindow::setArtist(QString artist) {

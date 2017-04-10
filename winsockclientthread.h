@@ -33,6 +33,7 @@ public:
     void sendPart(int bufSize);
     void setPortNumber(int port);
 private:
+    WavAssembler *wavAssembler;
     QString myip;
     QString myport;
     int threadNumber;
@@ -44,9 +45,11 @@ private:
     SOCKET ConnectSocket;
     char *sendbuf;
 signals:
-    void musicCatalogueReceived(QString rawJSON);
+    void musicCatalogueReceived(QString rawJSON, int threadNumber);
     void connected(int threadNumber);
     void resultReady(const QString &s);
+public slots:
+    void pausePlayback();
 };
 
 #endif // WINSOCKCLIENTTHREAD_H

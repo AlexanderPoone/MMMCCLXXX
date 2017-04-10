@@ -75,6 +75,12 @@ void WavDeassembler::deassemble() {
     fmtList->append(QString::number(fmtData.nSamplesPerSec));
     fmtList->append(QString::number(fmtData.wBitsPerSample));
     fmtList->append(QString::number(fmtData.wFormatTag));
+
+    int blockSize = fmtData.nChannels*fmtData.wBitsPerSample;
+    bufferSize = blockSize * fmtData.nSamplesPerSec / 8;
+    fmtList->append(QString::number(bufferSize));
+    qDebug() << "Buffer size:::" << bufferSize;
+
     emit fmtDataPrepared(fmtList);
     /*--------------------------------------------------------------------------------
         *mmioAscend(HMMIO h, LPMMCKINFO lpck, UINT flags);
@@ -115,9 +121,9 @@ void WavDeassembler::deassemble() {
     /*--------------------------------------------------------------------------------
         *Determine the size of buffer
         ---------------------------------------------------------------------------------*/
-    int blockSize = fmtData.nChannels*fmtData.wBitsPerSample;
-    bufferSize = blockSize * fmtData.nSamplesPerSec / 8;
-    qDebug() << "Buffer size:::" << bufferSize;
+//    int blockSize = fmtData.nChannels*fmtData.wBitsPerSample;
+//    bufferSize = blockSize * fmtData.nSamplesPerSec / 8;
+//    qDebug() << "Buffer size:::" << bufferSize;
 //    int totalBlocks = dataChunkSize / blockSize;
 //    emit duration(dataChunk.cksize/fmtData.nAvgBytesPerSec);
 
@@ -150,7 +156,9 @@ void WavDeassembler::deassemble() {
         if (databuffer[bufferLoop].lpData == 0) {
             return;
         }
-        emit partitionMade(databuffer[bufferLoop].lpData, bufferSize);
+//        Sleep(100);
+        emit partitionMade(databuffer[bufferLoop].lpData);
+//        qDebug() << "First:" << databuffer[bufferLoop].lpData[145678];
         Sleep(800);
         free(databuffer[bufferLoop].lpData);
         databuffer[bufferLoop].lpData = (char *) malloc(bufferSize);
@@ -159,7 +167,6 @@ void WavDeassembler::deassemble() {
         if (bufferLoop == BUFFER_QUANTITY) {
             bufferLoop = 0;
         }
-        qDebug() << databuffer[bufferLoop].lpData;
     }
     /*--------------------------------------------------------------------------------
         *mmioClose(HMMIO h, UINT wflags);

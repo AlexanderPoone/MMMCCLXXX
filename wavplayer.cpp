@@ -1,6 +1,9 @@
 #include "wavplayer.h"
 
+DWORD vol;
+
 WavPlayer::WavPlayer() {
+    setVolume(50);
 }
 
 void WavPlayer::GetWaveError(MMRESULT err) {
@@ -23,7 +26,7 @@ void WavPlayer::setPath(QString path) {
 void WavPlayer::setVolume(int volume) {
     //    waveOutSetVolume(HWAVEOUT hwo, DWORD dwVolume);
     int a=qRound(volume*2.55);
-    DWORD vol= (a << 8) + a;
+    vol= (a << 8) + a;
     waveOutSetVolume(hAudioOut, vol);
 }
 
@@ -147,6 +150,7 @@ databuffer.push_back(tmp);
     err = waveOutOpen(&hAudioOut, WAVE_MAPPER, (WAVEFORMATEX *)&fmtData,
         (DWORD)NULL, 0, CALLBACK_FUNCTION);
     GetWaveError(err);
+    waveOutSetVolume(hAudioOut, vol);
 
     /*--------------------------------------------------------------------------------
     *Determine the size of buffer

@@ -64,7 +64,7 @@ private slots:
     void onItemClicked(QListWidgetItem *item);
     void onItemDoubleClicked(QListWidgetItem *item);
     void onRemoteItemDoubleClicked(QListWidgetItem *item);
-    void onReceiveMusicCatalogue(QString rawJSON);
+    void onReceiveMusicCatalogue(QString rawJSON, int threadNumber);
 private:
     WinSockClientThread *client_1, *client_2, *client_3;
     PlayPauseButton *playPauseItem;
@@ -101,6 +101,7 @@ private:
     QGraphicsScene *stopScene;
     QGraphicsScene *ratingBarScene;
     QGraphicsScene *bulletScrScene;
+    QGraphicsScene *videoScene;
     QTimer *secTimer;
     QTimer *lyricsTimer;
     int speed=10;

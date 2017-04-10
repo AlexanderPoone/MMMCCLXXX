@@ -2,8 +2,10 @@
 
 // Protocol: TCP
 #include "winsockserverthread.h"
-#include <QTextCodec>
+//#include <QTextCodec>
+#include <QtConcurrent>
 
+int bufferSize;
 using namespace std;
 
 WinSockServerThread::WinSockServerThread() {
@@ -121,6 +123,13 @@ void WinSockServerThread::init() {
 }
 
 void WinSockServerThread::run() {
+    session();
+//    QFuture<void> future0 = QtConcurrent::run(this, &WinSockServerThread::session);
+//    QFuture<void> future1 = QtConcurrent::run(this, &WinSockServerThread::session);
+//    QFuture<void> future2 = QtConcurrent::run(this, &WinSockServerThread::session);
+}
+
+void WinSockServerThread::session() {
     // 7. Accept a client socket: "Thank you for calling port 3490."
     ClientSocket = INVALID_SOCKET;
     qDebug() << "All is well";
@@ -134,6 +143,16 @@ void WinSockServerThread::run() {
     }
     qDebug() << "Woah! Don't panic.";
 
+    ClientSocket0 = INVALID_SOCKET;
+    qDebug() << "All is well";
+    //accept() is a blocking function, meaning that it will not finish until it accept()s a connection or an error occurs
+    ClientSocket0 = accept(ListenSocket, NULL, NULL);
+    if (ClientSocket0 == INVALID_SOCKET) {
+        qDebug() << "accept failed: " << WSAGetLastError();
+        closesocket(ListenSocket);
+        WSACleanup();
+        return;
+    }
 
 
     // ***CRITICAL ERROR HERE: Receiving and Sending Data on the Server***
@@ -144,7 +163,7 @@ void WinSockServerThread::run() {
 //    do {
 //        iSendResult = send(ClientSocket, sendbuf, sizeof(sendbuf), 0);
 //    } while (1);
-    Sleep(8000);
+    Sleep(4000);
     setMessageByPath("C:/Users/Alexandre Poon/Documents/sans_titre/example.json");
 
 
@@ -250,16 +269,18 @@ void WinSockServerThread::onFmtDataExtracted(QList<QString> *fmtList) {
         sendPart(fmtList->at(i).length());
 //        free(sendbuf);
     }
+    bufferSize=fmtList->at(7).toInt();
 //    qDebug() << QString::fromUtf8(partition).left(bufSize);
 //    sendbuf=partition;
 //    sendPart(strlen(partition));
 }
 
-void WinSockServerThread::onPartitionMade(char *partition, int bufSize) {
+void WinSockServerThread::onPartitionMade(char *partition) {
     qDebug() << "Partition made";
-    qDebug() << QString::fromUtf8(partition).left(bufSize);
+    qDebug() << "Second:" << QString::fromLatin1(partition);
+//    qDebug() << QString::fromUtf8(partition).left(bufSize);
     sendbuf=partition;
-    sendPart(strlen(partition));
+    sendPart(bufferSize); //strlen(partition)
 }
 
 void WinSockServerThread::sendPart(int bufSize) {
@@ -274,6 +295,7 @@ void WinSockServerThread::sendPart(int bufSize) {
 //        this->label->setText(field);
         // Echo the buffer back to the sender
         iSendResult = send(ClientSocket, sendbuf, bufSize, 0);
+//        iSendResult = send(ClientSocket0, sendbuf, bufSize, 0);
         if (iSendResult == SOCKET_ERROR) {
             qDebug() << "send failed: " << WSAGetLastError();
             closesocket(ClientSocket);

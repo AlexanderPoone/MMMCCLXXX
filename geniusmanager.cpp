@@ -10,6 +10,7 @@ QLabel* artistPhotoHolder;
 QLabel* albumArtHolder;
 QLabel* albumTitleHolder;
 QLabel* releaseDateHolder;
+QLabel* albumInfoHolder;
 QNetworkRequest req;
 QNetworkReply* res;
 QNetworkReply* resDetails;
@@ -17,12 +18,13 @@ QNetworkReply* resLyrics;
 QNetworkReply* resArtistPhoto;
 QNetworkReply* resSongArt;
 QNetworkReply* resAlbumArt;
+QNetworkReply* resAlbum;
 QString lyrics;
 
 //TODO: Handle instrumental songs
 //TODO: Handle exceptions
 
-GeniusManager::GeniusManager(QLabel *label, QLabel *songArtL, QLabel *artistPhotoL, QLabel *albumArtL, QLabel *albumTitleL, QLabel *releaseDateL, QString artist, QString songTitle)
+GeniusManager::GeniusManager(QLabel *label, QLabel *songArtL, QLabel *artistPhotoL, QLabel *albumArtL, QLabel *albumTitleL, QLabel *releaseDateL, QLabel *albumInfoL, QString artist, QString songTitle)
 {
     QNetworkAccessManager::QNetworkAccessManager();
     holder=label;
@@ -31,6 +33,7 @@ GeniusManager::GeniusManager(QLabel *label, QLabel *songArtL, QLabel *artistPhot
     albumArtHolder=albumArtL;
     albumTitleHolder=albumTitleL;
     releaseDateHolder=releaseDateL;
+    albumInfoHolder=albumInfoL;
     holder->setTextFormat(Qt::RichText);
     holder->setText("Loading lyrics...");
     //    QNetworkConfigurationManager mgr;
@@ -155,6 +158,39 @@ void GeniusManager::getSongDetails() {
     resAlbumArt = get(reqAlbumArt);
     connect(resAlbumArt, SIGNAL(finished()), this, SLOT(albumArtFetched()));
     // "response" > "song" > "description" > "children" (array) > "children"
+    if (obj.contains("description")) {
+        QJsonArray recursiveString=obj.value("description").toObject().value("dom").toObject().value("children").toArray();
+        recursion(recursiveString);
+        info.append("<hr>");
+    }
+//    albumInfoHolder->setText(info);
+    QUrl albumUrl(QString("%1%2").arg(base).arg(obj.value("album").toObject().value("api_path").toString()));
+    req.setUrl(albumUrl);
+    resAlbum = get(req);
+    connect(resAlbum, SIGNAL(finished()), this, SLOT(getAlbumInfo()));
+}
+
+void GeniusManager::recursion(QJsonArray array) {
+    for (int i=0; i<array.size(); i++) {
+        if (!info.isEmpty() && info.at(info.size()-1) == '.') {
+            info.append(" ");
+        }
+        if (array.at(i).type() == QJsonValue::Array) {
+            recursion(array.at(i).toArray());
+        } else if (array.at(i).type() == QJsonValue::Object) {
+            if (array.at(i).toObject().contains("children")) {
+                recursion(array.at(i).toObject().value("children").toArray());
+            }
+        } else if (array.at(i).type() == QJsonValue::String) {
+            info.append(array.at(i).toString());
+        }
+    }
+}
+
+void GeniusManager::getAlbumInfo() {
+    QJsonDocument json = QJsonDocument::fromJson(resAlbum->readAll());
+    recursion(json.object().value("response").toObject().value("album").toObject().value("description_annotation").toObject().value("annotations").toArray().at(0).toObject().value("body").toObject().value("dom").toObject().value("children").toArray());
+    albumInfoHolder->setText(info);
 }
 
 void GeniusManager::albumArtFetched() {

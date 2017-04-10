@@ -3,3 +3,7 @@
 music_database.txt
 fonts/
 unused/
+playAudio/
+playVideo/
+stalled/
+taglib/

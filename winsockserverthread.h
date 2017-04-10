@@ -34,8 +34,9 @@ public:
     void setIpLastFourBits(int ip);
     void setPortNumber(int port);
 private:
+    void session();
     void sendPart(int bufSize);
-    SOCKET ClientSocket;
+    SOCKET ClientSocket, ClientSocket0;
     int iSendResult;
 
     void sendWavCrumbs(QString path);
@@ -54,6 +55,6 @@ signals:
     void resultReady(const QString &s);
 private slots:
     void onFmtDataExtracted(QList<QString> *fmtList);
-    void onPartitionMade(char *partition, int bufSize);
+    void onPartitionMade(char *partition);
 };
 #endif // WINSOCKSERVERTHREAD_H
