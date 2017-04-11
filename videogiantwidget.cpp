@@ -75,7 +75,7 @@ VideoGiantWidget::VideoGiantWidget(QWidget *parent)
     fullScreenButton = new QPushButton("Full screen", this);
     fullScreenButton->setCheckable(true);
 
-    colorButton = new QPushButton("Color Options...", this);
+    colorButton = new QPushButton("Color grading", this);
     colorButton->setEnabled(false);
     connect(colorButton, &QPushButton::clicked, this, &VideoGiantWidget::showColorDialog);
 
@@ -320,6 +320,7 @@ void VideoGiantWidget::updateDurationInfo(qint64 currentInfo)
 
 void VideoGiantWidget::showColorDialog()
 {
+    colorDialog->resize(800, colorDialog->height());
     if (!colorDialog) {
         QSlider *brightnessSlider = new QSlider(Qt::Horizontal);
         brightnessSlider->setRange(-100, 100);

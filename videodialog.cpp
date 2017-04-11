@@ -4,6 +4,7 @@
 
 VideoDialog::VideoDialog()
 {
+    setWindowIcon(QIcon(":/jukebox.png"));
     resize(width()+100, 1000);
     setWindowTitle(QStringLiteral("Video Player"));
     setStyleSheet("background-image: url(:/ice_cubes.png);");
@@ -22,7 +23,7 @@ bool VideoDialog::event(QEvent *event) {
         this->setWindowOpacity(1);
         break;
     case QEvent::WindowDeactivate: //QEvent::Leave
-        this->setWindowOpacity(0.8);
+        this->setWindowOpacity(0.9);
         break;
     }
     return true;
