@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network concurrent testlib charts multimedia
+QT       += core gui network concurrent testlib charts multimedia multimediawidgets
 #webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -49,7 +49,12 @@ SOURCES += main.cpp\
     wavassembler.cpp \
     xyseriesiodevice.cpp \
     videobutton.cpp \
-    videodialog.cpp
+    videodialog.cpp \
+    videocentralwidget.cpp \
+    videoplayercontrols.cpp \
+    videogiantwidget.cpp \
+    playlistmodel.cpp
+
 
 HEADERS  += mainwindow.h \
     button.h \
@@ -73,7 +78,11 @@ HEADERS  += mainwindow.h \
     wavassembler.h \
     xyseriesiodevice.h \
     videobutton.h \
-    videodialog.h
+    videodialog.h \
+    videocentralwidget.h \
+    videoplayercontrols.h \
+    videogiantwidget.h \
+    playlistmodel.h
 
 FORMS    += mainwindow.ui \
             mainwindowC.ui

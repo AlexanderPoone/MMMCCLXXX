@@ -8,8 +8,8 @@
 #define TAGLIB_STATIC
 
 #define DEFAULT_PORT "6894"
-#include "taglib/include/taglib/fileref.h"
-#include "taglib/include/taglib/wavfile.h"
+//#include "taglib/include/taglib/fileref.h"
+//#include "taglib/include/taglib/wavfile.h"
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QSystemTrayIcon>

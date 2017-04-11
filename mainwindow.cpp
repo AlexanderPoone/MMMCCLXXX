@@ -372,6 +372,9 @@ void MainWindow::onRemoteItemDoubleClicked(QListWidgetItem *item) {
     title.remove(QRegExp(".*\\t"));
     QString command=QString::fromUtf8("REQUEST%1").arg(item->toolTip());
     client_1->setMessage(command);
+    setSongTitle(title);
+    setArtist(item->statusTip());
+    useGeniusAPI();
 //    qDebug() << "Double clicked!" << command;
 }
 
